@@ -1,0 +1,6 @@
+node_modules
+
+/dist
+# Manual stash
+/stash
+/ts/**/*.js

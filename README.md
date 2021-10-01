@@ -8,6 +8,20 @@ Javascript SDK for building with 2PI Protocol
 
 ### [Docs](https://docs.2pi.network)
 
+# Installation
+
+## Using yarn
+
+```console
+yarn add @2pi-network/sdk
+```
+
+## Using npm
+
+```console
+npm i @2pi-network/sdk
+```
+
 # Usage
 
 Here is a quick look at using the SDK.

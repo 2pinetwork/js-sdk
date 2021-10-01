@@ -93,7 +93,7 @@ On every `vault` instance you can access the following attributes:
 
 ### Public methods
 
-* `constructor(data: {id:, token:, earn:, priceId:, uses:, pool:, symbol:, chainId:, borrow:, tpi:})` refer to "Public attributes" to have a description of each.
+* `constructor({data: {id, token, earn, priceId, uses, pool, symbol, chainId, borrow, tpi}})` refer to "Public attributes" to have a description of each.
 * `signer()` returns the current assigned signer.
 * `async shares()` returns the shares of the current signer.
 * `async allowance()` returns the vault's allowance in wei for the current signer.

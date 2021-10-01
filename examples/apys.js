@@ -1,6 +1,6 @@
 const { Wallet }         = require('ethers')
 const { InfuraProvider } = require('@ethersproject/providers')
-const { Tpi }            = require('@2pi-network/js-sdk')
+const { TwoPi }          = require('@2pi-network/js-sdk')
 
 const projectId        = process.env.INFURA_PROJECT_ID
 const projectSecret    = process.env.INFURA_PROJECT_SECRET
@@ -21,9 +21,9 @@ if (! walletPrivateKey) {
 const chainId  = 80001 // 80001 is Polygon testnet, best known as Mumbai
 const provider = new InfuraProvider('maticmum', { projectId, projectSecret })
 const wallet   = new Wallet(walletPrivateKey, provider)
-const tpi      = new Tpi(chainId, provider, wallet)
+const twoPi    = new TwoPi(chainId, provider, wallet)
 
-tpi.getVaults().forEach(async vault => {
+twoPi.getVaults().forEach(async vault => {
   const apy = await vault.apy() || 0
 
   console.log(`${vault.id}\tAPY ${(apy * 100).toFixed(2)}%`)

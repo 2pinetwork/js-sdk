@@ -5,7 +5,7 @@ import getVaults from './data/vaults'
 
 type Chain = 80001
 
-export default class Tpi {
+export default class TwoPi {
   chainId:  Chain
   provider: Provider
   signer:   Signer
@@ -18,7 +18,7 @@ export default class Tpi {
 
   getVaults(): Array<Vault> {
     return getVaults(this.chainId).map(vault => {
-      vault.tpi = this
+      vault.twoPi = this
 
       return vault
     })

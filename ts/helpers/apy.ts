@@ -1,20 +1,20 @@
 import { BigNumberish } from 'ethers'
 import aaveApy from './aaveApy'
 import curveApy from './curveApy'
-import Tpi from '../tpi'
+import TwoPi from '../twoPi'
 import Vault from '../vault'
 
 export const toCompoundRate = (r: number, n = 365): number => (
   (1 + r / n) ** n - 1
 )
 
-const getApy = async (tpi: Tpi, vault: Vault): Promise<number> => {
+const getApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {
   switch (vault.pool) {
     case 'aave':
-      return await aaveApy(tpi, vault)
+      return await aaveApy(twoPi, vault)
       break
     case 'curve':
-      return await curveApy(tpi, vault)
+      return await curveApy(twoPi, vault)
       break
   }
 }

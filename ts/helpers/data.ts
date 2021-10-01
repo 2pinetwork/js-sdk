@@ -1,10 +1,10 @@
 import { BigNumberish } from 'ethers'
-import Tpi from '../tpi'
+import TwoPi from '../twoPi'
 import Vault from '../vault'
 import getVaultData, { VaultInfo } from '../fetchers/data'
 
-const getData = async (tpi: Tpi, vault: Vault): Promise<VaultInfo> => {
-  return await getVaultData(tpi, vault)
+const getData = async (twoPi: TwoPi, vault: Vault): Promise<VaultInfo> => {
+  return await getVaultData(twoPi, vault)
 }
 
 export default getData

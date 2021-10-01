@@ -1,7 +1,7 @@
 import { BigNumber, BigNumberish, Contract, ethers, Signer } from 'ethers'
 import getApy from './helpers/apy'
 import getData from './helpers/data'
-import Tpi from './tpi'
+import TwoPi from './twoPi'
 import { VaultInfo } from './fetchers/data'
 
 type Borrow           = { depth: number, percentage: number }
@@ -14,7 +14,7 @@ type PublicProperties = 'id'      |
                         'symbol'  |
                         'chainId' |
                         'borrow'  |
-                        'tpi'
+                        'twoPi'
 
 export default class Vault {
   id:      string
@@ -26,7 +26,7 @@ export default class Vault {
   symbol:  string
   chainId: number
   borrow?: Borrow
-  tpi?:    Tpi
+  twoPi?:  TwoPi
 
   constructor(data: Pick<Vault, PublicProperties>) {
     this.id      = data.id
@@ -38,11 +38,11 @@ export default class Vault {
     this.symbol  = data.symbol
     this.chainId = data.chainId
     this.borrow  = data.borrow
-    this.tpi     = data.tpi
+    this.twoPi   = data.twoPi
   }
 
   signer(): Signer | undefined {
-    return this.tpi?.signer
+    return this.twoPi?.signer
   }
 
   async shares(): Promise<BigNumberish | undefined> {
@@ -90,8 +90,8 @@ export default class Vault {
   async deposit(amount: BigNumberish): Promise<undefined> {
     const contract = this.contract()
 
-    if (contract && this.tpi) {
-      const address = await this.tpi.signer.getAddress()
+    if (contract && this.twoPi) {
+      const address = await this.twoPi.signer.getAddress()
 
       if (this.token === 'matic') {
         return contract.depositMATIC().send({ from: address, value: amount })
@@ -104,8 +104,8 @@ export default class Vault {
   async depositAll(): Promise<undefined> {
     const contract = this.contract()
 
-    if (contract && this.tpi) {
-      const address = await this.tpi.signer.getAddress()
+    if (contract && this.twoPi) {
+      const address = await this.twoPi.signer.getAddress()
 
       if (this.token === 'matic') {
         const amount = await this.maxDepositAmount()
@@ -124,8 +124,8 @@ export default class Vault {
   async withdraw(amount: BigNumberish): Promise<undefined> {
     const contract = this.contract()
 
-    if (contract && this.tpi) {
-      const address = await this.tpi.signer.getAddress()
+    if (contract && this.twoPi) {
+      const address = await this.twoPi.signer.getAddress()
 
       return contract.withdraw(amount).send({ from: address })
     }
@@ -134,16 +134,16 @@ export default class Vault {
   async withdrawAll(): Promise<undefined> {
     const contract = this.contract()
 
-    if (contract && this.tpi) {
-      const address = await this.tpi.signer.getAddress()
+    if (contract && this.twoPi) {
+      const address = await this.twoPi.signer.getAddress()
 
       return contract.withdrawAll().send({ from: address })
     }
   }
 
   async apy(): Promise<number | undefined> {
-    if (this.tpi) {
-      return await getApy(this.tpi, this)
+    if (this.twoPi) {
+      return await getApy(this.twoPi, this)
     }
   }
 
@@ -184,7 +184,7 @@ export default class Vault {
   }
 
   protected async maxDepositAmount(): Promise<BigNumber | undefined> {
-    if (this.tpi) {
+    if (this.twoPi) {
       const reserve = BigNumber.from(`${0.025e18}`)
       const balance = await this.balance()
 
@@ -197,8 +197,8 @@ export default class Vault {
   }
 
   private async getData(): Promise<VaultInfo | undefined> {
-    if (this.tpi) {
-      return await getData(this.tpi, this)
+    if (this.twoPi) {
+      return await getData(this.twoPi, this)
     }
   }
 }

@@ -1,8 +1,8 @@
-import Tpi from '../tpi'
+import TwoPi from '../twoPi'
 import Vault from '../vault'
 import { BigNumberish } from 'ethers'
 
-const curveApy = async (tpi: Tpi, vault: Vault): Promise<number> => {
+const curveApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {
   throw Error('To be implemented')
 }
 

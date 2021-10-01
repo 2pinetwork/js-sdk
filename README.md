@@ -27,7 +27,7 @@ Here is a quick look at using the SDK.
 ```js
 const { Wallet }         = require('ethers')
 const { InfuraProvider } = require('@ethersproject/providers')
-const { Tpi }            = require('@2pi-network/js-sdk')
+const { TwoPi }          = require('@2pi-network/js-sdk')
 
 // This is only required when used inside node.
 // Otherwise you can use a wallet via web3 as usual
@@ -40,9 +40,9 @@ const projectSecret = process.env.INFURA_PROJECT_SECRET
 const chainId  = 80001 // 80001 is Polygon testnet, best known as Mumbai
 const provider = new InfuraProvider('maticmum', { projectId, projectSecret })
 const wallet   = new Wallet(walletPrivateKey, provider)
-const tpi      = new Tpi(chainId, provider, wallet)
+const twoPi    = new TwoPi(chainId, provider, wallet)
 
-tpi.getVaults().forEach(async vault => {
+twoPi.getVaults().forEach(async vault => {
   const apy = await vault.apy() || 0
 
   console.log(`${vault.id}\tAPY ${(apy * 100).toFixed(2)}%`)
@@ -50,7 +50,7 @@ tpi.getVaults().forEach(async vault => {
 ```
 
 
-## Tpi instance
+## TwoPi instance
 
 This is the entry point of almost any interaction. You will be asked to provide 3 arguments:
 
@@ -60,7 +60,7 @@ This is the entry point of almost any interaction. You will be asked to provide 
 
 ### Public attributes
 
-On every `tpi` instance you can access the following attributes:
+On every `twoPi` instance you can access the following attributes:
 
 * `chainId`: the chain to be used.
 * `provider`: the RPC provided instance.
@@ -89,11 +89,11 @@ On every `vault` instance you can access the following attributes:
 * `symbol`: string identifying the token symbol name.
 * `chainId`: number identifying the chain in which the vault it is deployed.
 * `borrow`?: optional object containing the borrow depth and percentage used by the vault.
-* `tpi`?: optional instance of the main Tpi object being used. If not provided, deposits, withdraws and any operation that requires a wallet will be ignored.
+* `twoPi`?: optional instance of the main TwoPi object being used. If not provided, deposits, withdraws and any operation that requires a wallet will be ignored.
 
 ### Public methods
 
-* `constructor({data: {id, token, earn, priceId, uses, pool, symbol, chainId, borrow, tpi}})` refer to "Public attributes" to have a description of each.
+* `constructor({data: {id, token, earn, priceId, uses, pool, symbol, chainId, borrow, twoPi}})` refer to "Public attributes" to have a description of each.
 * `signer()` returns the current assigned signer.
 * `async shares()` returns the shares of the current signer.
 * `async allowance()` returns the vault's allowance in wei for the current signer.

@@ -1,7 +1,7 @@
 import { BigNumberish } from 'ethers'
 import { Contract, ContractCall, Provider } from 'ethers-multicall'
 import Batcher, { BatchedCall, toBatchedCalls } from './batcher'
-import Tpi from '../tpi'
+import TwoPi from '../twoPi'
 import Vault from '../vault'
 
 export type VaultInfo = {
@@ -57,11 +57,11 @@ class Fetcher extends Batcher {
 
   protected getPromise(...args: Array<any>): Promise<void> {
     const address: string = args.shift()
-    const tpi: Tpi        = args.shift()
+    const twoPi: TwoPi    = args.shift()
     const vault: Vault    = args.shift()
-    const ethcallProvider = new Provider(tpi.provider, tpi.chainId)
+    const ethcallProvider = new Provider(twoPi.provider, twoPi.chainId)
 
-    const batchedCalls = tpi.getVaults().flatMap(vault => {
+    const batchedCalls = twoPi.getVaults().flatMap(vault => {
       if (vault.pool === 'aave') {
         return callsFor(address, ethcallProvider, vault)
       } else {
@@ -85,10 +85,10 @@ class Fetcher extends Batcher {
     })
   }
 
-  public async getVaultData(tpi: Tpi, vault: Vault): Promise<VaultInfo> {
-    const address = await tpi.signer.getAddress()
+  public async getVaultData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
+    const address = await twoPi.signer.getAddress()
 
-    await this.perform(address, tpi, vault)
+    await this.perform(address, twoPi, vault)
 
     return this.data[vault.id]
   }
@@ -96,8 +96,8 @@ class Fetcher extends Batcher {
 
 const fetcher = new Fetcher()
 
-const getVaultData = async (tpi: Tpi, vault: Vault): Promise<VaultInfo> => {
-  return await fetcher.getVaultData(tpi, vault)
+const getVaultData = async (twoPi: TwoPi, vault: Vault): Promise<VaultInfo> => {
+  return await fetcher.getVaultData(twoPi, vault)
 }
 
 export default getVaultData

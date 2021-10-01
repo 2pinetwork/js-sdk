@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { BigNumberish } from 'ethers'
 import { toCompoundRate } from './apy'
 import getPrices from '../fetchers/prices'
-import Tpi from '../tpi'
+import TwoPi from '../twoPi'
 import Vault from '../vault'
 import getApyData from '../fetchers/apy'
 
@@ -161,9 +161,9 @@ const getMaticPerYear = (
   return { supplyMaticInUsd, borrowMaticInUsd }
 }
 
-const aaveApy = async (tpi: Tpi, vault: Vault): Promise<number> => {
+const aaveApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {
   const prices              = await getPrices(vault.chainId)
-  const info                = await getApyData(tpi, vault)
+  const info                = await getApyData(twoPi, vault)
   const depths              = [vault.borrow?.depth || 0, 0]
   const borrow: {}          = info.distributionBorrow
   const supply: {}          = info.distributionSupply

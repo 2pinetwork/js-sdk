@@ -54,7 +54,7 @@ twoPi.getVaults().forEach(async vault => {
 
 This is the entry point of almost any interaction. You will be asked to provide 3 arguments:
 
-* The chain ID as an integer, for the time being the only supported value is 80001, which identifies Polygon testnet Mumbai.
+* The chain ID as an integer, for the time being the only supported values are 137 and 80001, which identifies Polygon testnet Mumbai.
 * The provider, can be any RCP that supports the selected network.
 * The wallet to be used for every operation that requires it.
 

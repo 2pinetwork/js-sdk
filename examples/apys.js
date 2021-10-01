@@ -1,6 +1,6 @@
 const { Wallet }         = require('ethers')
 const { InfuraProvider } = require('@ethersproject/providers')
-const { Tpi }            = require('@2pi-network/sdk')
+const { Tpi }            = require('@2pi-network/js-sdk')
 
 const projectId        = process.env.INFURA_PROJECT_ID
 const projectSecret    = process.env.INFURA_PROJECT_SECRET

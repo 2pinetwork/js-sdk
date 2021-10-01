@@ -27,7 +27,7 @@ Here is a quick look at using the SDK.
 ```js
 const { Wallet }         = require('ethers')
 const { InfuraProvider } = require('@ethersproject/providers')
-const { Tpi }            = require('@2pi-network/sdk')
+const { Tpi }            = require('@2pi-network/js-sdk')
 
 // This is only required when used inside node.
 // Otherwise you can use a wallet via web3 as usual

@@ -62,9 +62,9 @@ This is the entry point of almost any interaction. You will be asked to provide 
 
 On every `tpi` instance you can access the following attributes:
 
-* chainId: the chain to be used.
-* provider: the RPC provided instance.
-* signer: the signer of any transaction that requires it (usually the user's wallet).
+* `chainId`: the chain to be used.
+* `provider`: the RPC provided instance.
+* `signer`: the signer of any transaction that requires it (usually the user's wallet).
 
 ### Public methods
 
@@ -80,16 +80,16 @@ This class represents a unique vault and can be used to interact and query infor
 
 On every `vault` instance you can access the following attributes:
 
-* id: string with the vault unique identifier (in the form of network-token-pool, for example polygon-dai-aave).
-* token: string identifying the token to be maximized.
-* earn: string identifying what you'll be receiving as a reward.
-* priceId: string identifying which price will be queried on Coingecko.
-* uses: string identifying the protocol being used (can be 'Aave' or 'Curve' at the time being).
-* pool: string identifying the pool being used (can be 'aave' or 'curve' at the time being).
-* symbol: string identifying the token symbol name.
-* chainId: number identifying the chain in which the vault it is deployed.
-* borrow?: optional object containing the borrow depth and percentage used by the vault.
-* tpi?: optional instance of the main Tpi object being used. If not provided, deposits, withdraws and any operation that requires a wallet will be ignored.
+* `id`: string with the vault unique identifier (in the form of network-token-pool, for example polygon-dai-aave).
+* `token`: string identifying the token to be maximized.
+* `earn`: string identifying what you'll be receiving as a reward.
+* `priceId`: string identifying which price will be queried on Coingecko.
+* `uses`: string identifying the protocol being used (can be 'Aave' or 'Curve' at the time being).
+* `pool`: string identifying the pool being used (can be 'aave' or 'curve' at the time being).
+* `symbol`: string identifying the token symbol name.
+* `chainId`: number identifying the chain in which the vault it is deployed.
+* `borrow`?: optional object containing the borrow depth and percentage used by the vault.
+* `tpi`?: optional instance of the main Tpi object being used. If not provided, deposits, withdraws and any operation that requires a wallet will be ignored.
 
 ### Public methods
 

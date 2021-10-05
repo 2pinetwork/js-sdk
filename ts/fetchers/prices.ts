@@ -25,9 +25,15 @@ class Fetcher extends Batcher {
     return axios.get(oracleUrl, {
       params: { ids: priceIds, vs_currencies: currency }
     }).then(result => {
-      for (const token in result.data) {
-        this.prices[token] = result.data[token][currency]
+      const data = result.data as {
+        [key: string]: {
+          [key: string]: number
+        }
       }
+
+      Object.entries(data).forEach(([token, values]) => {
+        this.prices[token] = values[currency]
+      })
 
       this.setRefreshedAt(new Date())
     })

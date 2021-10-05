@@ -1,512 +1,325 @@
-const address = '0x4ffe6f151fd32f32912a429deb00b3a54e36dcb7'
+const address = '0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6'
 const abi     = [
   {
-    'inputs': [
+    'type':'constructor',
+    'stateMutability':'nonpayable',
+    'inputs':[
       {
-        'internalType': 'address',
-        'name': '_token',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'nonpayable',
-    'type': 'constructor'
-  },
-  {
-    'anonymous': false,
-    'inputs': [
-      {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'owner',
-        'type': 'address'
+        'type':'string',
+        'name':'name',
+        'internalType':'string'
       },
       {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'spender',
-        'type': 'address'
+        'type':'string',
+        'name':'symbol',
+        'internalType':'string'
       },
       {
-        'indexed': false,
-        'internalType': 'uint256',
-        'name': 'value',
-        'type': 'uint256'
+        'type':'uint8',
+        'name':'decimals',
+        'internalType':'uint8'
       }
-    ],
-    'name': 'Approval',
-    'type': 'event'
+    ]
   },
   {
-    'anonymous': false,
-    'inputs': [
+    'type':'event',
+    'name':'Approval',
+    'inputs':[
       {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'previousOwner',
-        'type': 'address'
+        'type':'address',
+        'name':'owner',
+        'internalType':'address',
+        'indexed':true
       },
       {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'newOwner',
-        'type': 'address'
-      }
-    ],
-    'name': 'OwnershipTransferred',
-    'type': 'event'
-  },
-  {
-    'anonymous': false,
-    'inputs': [
-      {
-        'indexed': false,
-        'internalType': 'address',
-        'name': 'account',
-        'type': 'address'
-      }
-    ],
-    'name': 'Paused',
-    'type': 'event'
-  },
-  {
-    'anonymous': false,
-    'inputs': [
-      {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'from',
-        'type': 'address'
+        'type':'address',
+        'name':'spender',
+        'internalType':'address',
+        'indexed':true
       },
       {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'to',
-        'type': 'address'
+        'type':'uint256',
+        'name':'value',
+        'internalType':'uint256',
+        'indexed':false
+      }
+    ],
+    'anonymous':false
+  },
+  {
+    'type':'event',
+    'name':'Transfer',
+    'inputs':[
+      {
+        'type':'address',
+        'name':'from',
+        'internalType':'address',
+        'indexed':true
       },
       {
-        'indexed': false,
-        'internalType': 'uint256',
-        'name': 'value',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'Transfer',
-    'type': 'event'
-  },
-  {
-    'anonymous': false,
-    'inputs': [
-      {
-        'indexed': false,
-        'internalType': 'address',
-        'name': 'account',
-        'type': 'address'
-      }
-    ],
-    'name': 'Unpaused',
-    'type': 'event'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'address',
-        'name': 'owner',
-        'type': 'address'
+        'type':'address',
+        'name':'to',
+        'internalType':'address',
+        'indexed':true
       },
       {
-        'internalType': 'address',
-        'name': 'spender',
-        'type': 'address'
+        'type':'uint256',
+        'name':'value',
+        'internalType':'uint256',
+        'indexed':false
       }
     ],
-    'name': 'allowance',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    'anonymous':false
   },
   {
-    'inputs': [
+    'type':'function',
+    'stateMutability':'view',
+    'outputs':[
       {
-        'internalType': 'address',
-        'name': 'spender',
-        'type': 'address'
+        'type':'uint256',
+        'name':'',
+        'internalType':'uint256'
+      }
+    ],
+    'name':'allowance',
+    'inputs':[
+      {
+        'type':'address',
+        'name':'owner',
+        'internalType':'address'
       },
       {
-        'internalType': 'uint256',
-        'name': 'amount',
-        'type': 'uint256'
+        'type':'address',
+        'name':'spender',
+        'internalType':'address'
       }
-    ],
-    'name': 'approve',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
-    ],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    ]
   },
   {
-    'inputs': [],
-    'name': 'available',
-    'outputs': [
+    'type':'function',
+    'stateMutability':'nonpayable',
+    'outputs':[
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
+        'type':'bool',
+        'name':'',
+        'internalType':'bool'
       }
     ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'balance',
-    'outputs': [
+    'name':'approve',
+    'inputs':[
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'address',
-        'name': 'account',
-        'type': 'address'
-      }
-    ],
-    'name': 'balanceOf',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'controller',
-    'outputs': [
-      {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'decimals',
-    'outputs': [
-      {
-        'internalType': 'uint8',
-        'name': '',
-        'type': 'uint8'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'address',
-        'name': 'spender',
-        'type': 'address'
+        'type':'address',
+        'name':'spender',
+        'internalType':'address'
       },
       {
-        'internalType': 'uint256',
-        'name': 'subtractedValue',
-        'type': 'uint256'
+        'type':'uint256',
+        'name':'amount',
+        'internalType':'uint256'
+      }
+    ]
+  },
+  {
+    'type':'function',
+    'stateMutability':'view',
+    'outputs':[
+      {
+        'type':'uint256',
+        'name':'',
+        'internalType':'uint256'
       }
     ],
-    'name': 'decreaseAllowance',
-    'outputs': [
+    'name':'balanceOf',
+    'inputs':[
       {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
+        'type':'address',
+        'name':'account',
+        'internalType':'address'
+      }
+    ]
+  },
+  {
+    'type':'function',
+    'stateMutability':'view',
+    'outputs':[
+      {
+        'type':'uint8',
+        'name':'',
+        'internalType':'uint8'
       }
     ],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    'name':'decimals',
+    'inputs':[
+
+    ]
   },
   {
-    'inputs': [
+    'type':'function',
+    'stateMutability':'nonpayable',
+    'outputs':[
       {
-        'internalType': 'uint256',
-        'name': '_amount',
-        'type': 'uint256'
+        'type':'bool',
+        'name':'',
+        'internalType':'bool'
       }
     ],
-    'name': 'deposit',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'depositAll',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'earn',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'getPricePerFullShare',
-    'outputs': [
+    'name':'decreaseAllowance',
+    'inputs':[
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'address',
-        'name': 'spender',
-        'type': 'address'
+        'type':'address',
+        'name':'spender',
+        'internalType':'address'
       },
       {
-        'internalType': 'uint256',
-        'name': 'addedValue',
-        'type': 'uint256'
+        'type':'uint256',
+        'name':'subtractedValue',
+        'internalType':'uint256'
       }
-    ],
-    'name': 'increaseAllowance',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
-    ],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    ]
   },
   {
-    'inputs': [],
-    'name': 'name',
-    'outputs': [
+    'type':'function',
+    'stateMutability':'nonpayable',
+    'outputs':[
       {
-        'internalType': 'string',
-        'name': '',
-        'type': 'string'
+        'type':'bool',
+        'name':'',
+        'internalType':'bool'
       }
     ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'owner',
-    'outputs': [
+    'name':'increaseAllowance',
+    'inputs':[
       {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'paused',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'renounceOwnership',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'address',
-        'name': '_controller',
-        'type': 'address'
-      }
-    ],
-    'name': 'setController',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'symbol',
-    'outputs': [
-      {
-        'internalType': 'string',
-        'name': '',
-        'type': 'string'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'token',
-    'outputs': [
-      {
-        'internalType': 'contract IERC20',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'totalSupply',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'address',
-        'name': 'recipient',
-        'type': 'address'
+        'type':'address',
+        'name':'spender',
+        'internalType':'address'
       },
       {
-        'internalType': 'uint256',
-        'name': 'amount',
-        'type': 'uint256'
+        'type':'uint256',
+        'name':'addedValue',
+        'internalType':'uint256'
       }
-    ],
-    'name': 'transfer',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
-    ],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    ]
   },
   {
-    'inputs': [
+    'type':'function',
+    'stateMutability':'nonpayable',
+    'outputs':[
       {
-        'internalType': 'address',
-        'name': 'sender',
-        'type': 'address'
+        'type':'bool',
+        'name':'',
+        'internalType':'bool'
+      }
+    ],
+    'name':'mint',
+    'inputs':[
+      {
+        'type':'uint256',
+        'name':'value',
+        'internalType':'uint256'
+      }
+    ]
+  },
+  {
+    'type':'function',
+    'stateMutability':'view',
+    'outputs':[
+      {
+        'type':'string',
+        'name':'',
+        'internalType':'string'
+      }
+    ],
+    'name':'name',
+    'inputs':[
+
+    ]
+  },
+  {
+    'type':'function',
+    'stateMutability':'view',
+    'outputs':[
+      {
+        'type':'string',
+        'name':'',
+        'internalType':'string'
+      }
+    ],
+    'name':'symbol',
+    'inputs':[
+
+    ]
+  },
+  {
+    'type':'function',
+    'stateMutability':'view',
+    'outputs':[
+      {
+        'type':'uint256',
+        'name':'',
+        'internalType':'uint256'
+      }
+    ],
+    'name':'totalSupply',
+    'inputs':[
+
+    ]
+  },
+  {
+    'type':'function',
+    'stateMutability':'nonpayable',
+    'outputs':[
+      {
+        'type':'bool',
+        'name':'',
+        'internalType':'bool'
+      }
+    ],
+    'name':'transfer',
+    'inputs':[
+      {
+        'type':'address',
+        'name':'recipient',
+        'internalType':'address'
       },
       {
-        'internalType': 'address',
-        'name': 'recipient',
-        'type': 'address'
+        'type':'uint256',
+        'name':'amount',
+        'internalType':'uint256'
+      }
+    ]
+  },
+  {
+    'type':'function',
+    'stateMutability':'nonpayable',
+    'outputs':[
+      {
+        'type':'bool',
+        'name':'',
+        'internalType':'bool'
+      }
+    ],
+    'name':'transferFrom',
+    'inputs':[
+      {
+        'type':'address',
+        'name':'sender',
+        'internalType':'address'
       },
       {
-        'internalType': 'uint256',
-        'name': 'amount',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'transferFrom',
-    'outputs': [
+        'type':'address',
+        'name':'recipient',
+        'internalType':'address'
+      },
       {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
+        'type':'uint256',
+        'name':'amount',
+        'internalType':'uint256'
       }
-    ],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'address',
-        'name': 'newOwner',
-        'type': 'address'
-      }
-    ],
-    'name': 'transferOwnership',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_shares',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'withdraw',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'withdrawAll',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    ]
   }
 ]
 
-const aToken = {
-  address: '0x5c2ed810328349100A66B82b78a1791B101C9D61'
-}
+const token = {abi, address}
 
-const debtToken = {
-  address: '0xF664F50631A6f0D72ecdaa0e49b0c019Fa72a8dC'
-}
-
-const vault = { abi, address, aToken, debtToken }
-
-export default vault
+export default token

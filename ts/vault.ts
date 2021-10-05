@@ -1,4 +1,5 @@
 import { BigNumber, BigNumberish, Contract, ethers, Signer } from 'ethers'
+import { tokenInfo, vaultInfo } from './abis'
 import getApy from './helpers/apy'
 import getData from './helpers/data'
 import TwoPi from './twoPi'
@@ -147,21 +148,9 @@ export default class Vault {
     }
   }
 
-  protected contractData() {
-    const path = `./abis/vaults/${this.chainId}/${this.pool}-${this.token}`
-
-    return require(path).default
-  }
-
-  protected tokenData() {
-    const path = `./abis/tokens/${this.chainId}/${this.token}`
-
-    return require(path).default
-  }
-
   protected contract(): Contract | undefined {
     if (this.signer()) {
-      const contractData = this.contractData()
+      const contractData = vaultInfo(this)
 
       return new ethers.Contract(
         contractData.address,
@@ -173,7 +162,7 @@ export default class Vault {
 
   protected tokenContract(): Contract | undefined {
     if (this.signer()) {
-      const tokenData = this.tokenData()
+      const tokenData = tokenInfo(this)
 
       return new ethers.Contract(
         tokenData.address,

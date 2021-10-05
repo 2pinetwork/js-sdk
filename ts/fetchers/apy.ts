@@ -1,5 +1,6 @@
 import { BigNumberish } from 'ethers'
 import { Contract, ContractCall, Provider } from 'ethers-multicall'
+import { poolInfo, tokenInfo, vaultInfo } from '../abis'
 import Batcher, { BatchedCall, toBatchedCalls } from './batcher'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
@@ -9,12 +10,9 @@ type VaultInfo = {
 }
 
 const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> => {
-  const vaultPath     = `../abis/vaults/${vault.chainId}/${vault.pool}-${vault.token}`
-  const tokenPath     = `../abis/tokens/${vault.chainId}/${vault.token}`
-  const poolPath      = `../abis/pools/${vault.chainId}/${vault.pool}`
-  const vaultData     = require(vaultPath).default
-  const tokenData     = require(tokenPath).default
-  const poolData      = require(poolPath).default
+  const vaultData     = vaultInfo(vault)
+  const tokenData     = tokenInfo(vault)
+  const poolData      = poolInfo(vault)
   const vaultContract = new Contract(vaultData.address, vaultData.abi)
 
   let tokenDecimals

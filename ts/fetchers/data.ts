@@ -1,5 +1,6 @@
 import { BigNumberish } from 'ethers'
 import { Contract, ContractCall, Provider } from 'ethers-multicall'
+import { tokenInfo, vaultInfo } from '../abis'
 import Batcher, { BatchedCall, toBatchedCalls } from './batcher'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
@@ -9,12 +10,8 @@ export type VaultInfo = {
 }
 
 const callsFor = (address: string, ethcallProvider: Provider, vault: Vault): Array<BatchedCall> => {
-  const vaultPath     = `../abis/vaults/${vault.chainId}/${vault.pool}-${vault.token}`
-  const tokenPath     = `../abis/tokens/${vault.chainId}/${vault.token}`
-  const poolPath      = `../abis/pools/${vault.chainId}/${vault.pool}`
-  const vaultData     = require(vaultPath).default
-  const tokenData     = require(tokenPath).default
-  const poolData      = require(poolPath).default
+  const vaultData     = vaultInfo(vault)
+  const tokenData     = tokenInfo(vault)
   const vaultContract = new Contract(vaultData.address, vaultData.abi)
 
   let tokenDecimals, balance, allowance
@@ -58,7 +55,6 @@ class Fetcher extends Batcher {
   protected getPromise(...args: Array<any>): Promise<void> {
     const address: string = args.shift()
     const twoPi: TwoPi    = args.shift()
-    const vault: Vault    = args.shift()
     const ethcallProvider = new Provider(twoPi.provider, twoPi.chainId)
 
     const batchedCalls = twoPi.getVaults().flatMap(vault => {
@@ -88,7 +84,7 @@ class Fetcher extends Batcher {
   public async getVaultData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
     const address = await twoPi.signer.getAddress()
 
-    await this.perform(address, twoPi, vault)
+    await this.perform(address, twoPi)
 
     return this.data[vault.id]
   }

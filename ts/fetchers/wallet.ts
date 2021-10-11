@@ -14,29 +14,23 @@ const callsFor = (address: string, ethcallProvider: Provider, vault: Vault): Arr
   const tokenData     = tokenInfo(vault)
   const vaultContract = new Contract(vaultData.address, vaultData.abi)
 
-  let tokenDecimals, balance, allowance
+  let balance, allowance
 
   if (tokenData.abi) {
     const tokenContract = new Contract(tokenData.address, tokenData.abi)
 
-    tokenDecimals = tokenContract.decimals()
-    balance       = tokenContract.balanceOf(address)
-    allowance     = tokenContract.allowance(address, vaultData.address)
+    balance   = tokenContract.balanceOf(address)
+    allowance = tokenContract.allowance(address, vaultData.address)
   } else {
     // MATIC is native so it needs other functions
-    tokenDecimals = vaultContract.decimals() // same decimals
-    balance       = ethcallProvider.getEthBalance(address)
-    allowance     = ethcallProvider.getEthBalance(address) // fake allowance
+    balance   = ethcallProvider.getEthBalance(address)
+    allowance = ethcallProvider.getEthBalance(address) // fake allowance
   }
 
   return toBatchedCalls(vault, [
-    ['tokenDecimals',     tokenDecimals],
-    ['pricePerFullShare', vaultContract.getPricePerFullShare()],
-    ['tvl',               vaultContract.balance()],
-    ['vaultDecimals',     vaultContract.decimals()],
-    ['balance',           balance],
-    ['allowance',         allowance],
-    ['shares',            vaultContract.balanceOf(address)],
+    ['balance',   balance],
+    ['allowance', allowance],
+    ['shares',    vaultContract.balanceOf(address)]
   ])
 }
 
@@ -81,7 +75,9 @@ class Fetcher extends Batcher {
     })
   }
 
-  public async getVaultData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
+  public async getWalletData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
+    if (! twoPi.signer) return Promise.resolve({})
+
     const address = await twoPi.signer.getAddress()
 
     await this.perform(address, twoPi)
@@ -92,8 +88,8 @@ class Fetcher extends Batcher {
 
 const fetcher = new Fetcher()
 
-const getVaultData = async (twoPi: TwoPi, vault: Vault): Promise<VaultInfo> => {
-  return await fetcher.getVaultData(twoPi, vault)
+const getWalletData = async (twoPi: TwoPi, vault: Vault): Promise<VaultInfo> => {
+  return await fetcher.getWalletData(twoPi, vault)
 }
 
-export default getVaultData
+export default getWalletData

@@ -8,9 +8,9 @@ type Chain = 137 | 80001
 export default class TwoPi {
   chainId:  Chain
   provider: Provider
-  signer:   Signer
+  signer?:   Signer
 
-  constructor(chainId: Chain, provider: Provider, signer: Signer) {
+  constructor(chainId: Chain, provider: Provider, signer?: Signer) {
     this.chainId  = chainId
     this.provider = provider
     this.signer   = signer

@@ -1,9 +1,9 @@
 import { BigNumber, BigNumberish, Contract, ethers, Signer } from 'ethers'
 import { tokenInfo, vaultInfo } from './abis'
 import getApy from './helpers/apy'
-import getData from './helpers/data'
+import getPoolData, { VaultInfo } from './fetchers/pool'
+import getWalletData from './fetchers/wallet'
 import TwoPi from './twoPi'
-import { VaultInfo } from './fetchers/data'
 
 type Borrow           = { depth: number, percentage: number }
 type PublicProperties = 'id'      |
@@ -47,43 +47,43 @@ export default class Vault {
   }
 
   async shares(): Promise<BigNumberish | undefined> {
-    const info = await this.getData()
+    const info = await this.getWalletData()
 
     return info?.shares
   }
 
   async allowance(): Promise<BigNumberish | undefined> {
-    const info = await this.getData()
+    const info = await this.getWalletData()
 
     return info?.allowance
   }
 
   async balance(): Promise<BigNumberish | undefined> {
-    const info = await this.getData()
+    const info = await this.getWalletData()
 
     return info?.balance
   }
 
   async decimals(): Promise<BigNumberish | undefined> {
-    const info = await this.getData()
+    const info = await this.getPoolData()
 
     return info?.vaultDecimals
   }
 
   async tokenDecimals(): Promise<BigNumberish | undefined> {
-    const info = await this.getData()
+    const info = await this.getPoolData()
 
     return info?.tokenDecimals
   }
 
   async pricePerFullShare(): Promise<BigNumberish | undefined> {
-    const info = await this.getData()
+    const info = await this.getPoolData()
 
     return info?.pricePerFullShare
   }
 
   async tvl(): Promise<BigNumberish | undefined> {
-    const info = await this.getData()
+    const info = await this.getPoolData()
 
     return info?.tvl
   }
@@ -92,6 +92,10 @@ export default class Vault {
     const contract = this.contract()
 
     if (contract && this.twoPi) {
+      if (! this.twoPi.signer) {
+        return Promise.reject(new Error('Missing signer'))
+      }
+
       const address = await this.twoPi.signer.getAddress()
 
       if (this.token === 'matic') {
@@ -106,6 +110,10 @@ export default class Vault {
     const contract = this.contract()
 
     if (contract && this.twoPi) {
+      if (! this.twoPi.signer) {
+        return Promise.reject(new Error('Missing signer'))
+      }
+
       const address = await this.twoPi.signer.getAddress()
 
       if (this.token === 'matic') {
@@ -126,6 +134,10 @@ export default class Vault {
     const contract = this.contract()
 
     if (contract && this.twoPi) {
+      if (! this.twoPi.signer) {
+        return Promise.reject(new Error('Missing signer'))
+      }
+
       const address = await this.twoPi.signer.getAddress()
 
       return contract.withdraw(amount).send({ from: address })
@@ -136,6 +148,10 @@ export default class Vault {
     const contract = this.contract()
 
     if (contract && this.twoPi) {
+      if (! this.twoPi.signer) {
+        return Promise.reject(new Error('Missing signer'))
+      }
+
       const address = await this.twoPi.signer.getAddress()
 
       return contract.withdrawAll().send({ from: address })
@@ -185,9 +201,15 @@ export default class Vault {
     }
   }
 
-  private async getData(): Promise<VaultInfo | undefined> {
+  private async getPoolData(): Promise<VaultInfo | undefined> {
     if (this.twoPi) {
-      return await getData(this.twoPi, this)
+      return await getPoolData(this.twoPi, this)
+    }
+  }
+
+  private async getWalletData(): Promise<VaultInfo | undefined> {
+    if (this.twoPi) {
+      return await getWalletData(this.twoPi, this)
     }
   }
 }

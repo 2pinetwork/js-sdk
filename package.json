@@ -12,7 +12,7 @@
     "doc": "typedoc",
     "lint": "eslint . --ext .js,.ts",
     "test": "jest",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",

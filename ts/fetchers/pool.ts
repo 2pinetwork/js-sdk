@@ -50,11 +50,7 @@ class Fetcher extends Batcher {
     const ethcallProvider = new Provider(twoPi.provider, twoPi.chainId)
 
     const batchedCalls = twoPi.getVaults().flatMap(vault => {
-      if (vault.pool === 'aave') {
-        return callsFor(ethcallProvider, vault)
-      } else {
-        return []
-      }
+      return callsFor(ethcallProvider, vault)
     })
 
     const calls: Array<ContractCall> = batchedCalls.map((batchedCall): ContractCall => {

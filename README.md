@@ -68,7 +68,7 @@ On every `twoPi` instance you can access the following attributes:
 
 ### Public methods
 
-* `constructor(chainId, provider, signer)` refer to "Public attributes" to have a description of each.
+* `constructor(chainId, provider, signer)` refer to "Public attributes" to get a description of each argument.
 * `getVaults()` it returns an array of Vault instances, initialized with this instance for the selected network.
 
 
@@ -80,6 +80,7 @@ This class represents a unique vault and can be used to interact and query infor
 
 On every `vault` instance you can access the following attributes:
 
+* `twoPi`: instance of the main TwoPi object being used.
 * `id`: string with the vault unique identifier (in the form of network-token-pool, for example polygon-dai-aave).
 * `token`: string identifying the token to be maximized.
 * `earn`: string identifying what you'll be receiving as a reward.
@@ -89,12 +90,12 @@ On every `vault` instance you can access the following attributes:
 * `symbol`: string identifying the token symbol name.
 * `chainId`: number identifying the chain in which the vault it is deployed.
 * `borrow`?: optional object containing the borrow depth and percentage used by the vault.
-* `twoPi`?: optional instance of the main TwoPi object being used. If not provided, deposits, withdraws and any operation that requires a wallet will be ignored.
 
 ### Public methods
 
-* `constructor({data: {id, token, earn, priceId, uses, pool, symbol, chainId, borrow, twoPi}})` refer to "Public attributes" to have a description of each.
+* `constructor(twoPi: TwoPi, data: {id, token, earn, priceId, uses, pool, symbol, chainId, borrow, twoPi})` refer to "Public attributes" to get a description of each argument and attribute.
 * `signer()` returns the current assigned signer.
+* `canSign()` whether the current signer is a read-only signer or not.
 * `async shares()` returns the shares of the current signer.
 * `async allowance()` returns the vault's allowance in wei for the current signer.
 * `async balance()` returns the token balance in wei for the current signer.
@@ -102,6 +103,7 @@ On every `vault` instance you can access the following attributes:
 * `async tokenDecimals()` returns the token decimal places (not to be confused with the vault decimals).
 * `async pricePerFullShare()` returns the vault's current price for every share.
 * `async tvl()` returns the vault's current overall balance.
+* `async approve(amount)` sets amount of tokens in wei as vault allowance over the signer's tokens.
 * `async deposit(amount)` deposits the amount of tokens in wei specified by the argument.
 * `async depositAll()` deposits all the tokens owned by the signer. In case of native tokens (like MATIC) a reserve is taken so the user can afford the transaction gas.
 * `async withdraw(amount)` withdraw and transfer to the signer wallet the amount of tokens in wei specified by the argument.

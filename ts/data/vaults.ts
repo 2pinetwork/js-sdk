@@ -6,6 +6,7 @@ export type VaultData = {
   uses:    'Aave' | 'Curve'
   pool:    'aave' | 'curve'
   symbol:  string
+  pid:     string
   chainId: number
   borrow?: { depth: number, percentage: number }
 }
@@ -20,6 +21,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'DAI',
+      pid:     '1',
       borrow:  { depth: 8, percentage: 0.73 },
       chainId
     },
@@ -32,6 +34,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'MATIC',
+      pid:     '0',
       borrow:  { depth: 8, percentage: 0.48 },
       chainId
     },
@@ -44,6 +47,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'BTC',
+      pid:     '5',
       borrow:  { depth: 8, percentage: 0.68 },
       chainId
     },
@@ -56,6 +60,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'ETH',
+      pid:     '4',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
     },
@@ -68,6 +73,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDC',
+      pid:     '3',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
     },
@@ -80,29 +86,16 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDT',
+      pid:     '2',
       borrow:  { depth: 0, percentage: 0 },
       chainId
     }
   ]
 
-  if (chainId === 137) {
-    vaults.unshift({
-      id:      'polygon-btc-curve',
-      token:   'btc',
-      earn:    'BTC',
-      priceId: 'bitcoin',
-      uses:    'Curve',
-      pool:    'curve',
-      symbol:  'BTC',
-      chainId
-    })
-  }
-
   return vaults
 }
 
 const vaults: { [key: number]: Array<VaultData> } = {
-  137:   polygonVaults(137),
   80001: polygonVaults(80001)
 }
 

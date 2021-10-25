@@ -14,7 +14,7 @@ const callsFor = (address: string, ethcallProvider: Provider, vault: Vault): Arr
   const tokenData     = tokenInfo(vault)
   const vaultContract = new Contract(vaultData.address, vaultData.abi)
 
-  let balance, allowance
+  let balance, allowance, balanceCall, pendingPiTokensCall
 
   if (tokenData.abi) {
     const tokenContract = new Contract(tokenData.address, tokenData.abi)
@@ -27,10 +27,19 @@ const callsFor = (address: string, ethcallProvider: Provider, vault: Vault): Arr
     allowance = ethcallProvider.getEthBalance(address) // fake allowance
   }
 
+  if (vaultContract.pendingPiToken) {
+    balanceCall         = vaultContract.balanceOf(vault.pid, address)
+    pendingPiTokensCall = vaultContract.pendingPiToken(vault.pid)
+  } else {
+    balanceCall         = vaultContract.balanceOf(address)
+    pendingPiTokensCall = vaultContract.balanceOf(address) // _fake_ call
+  }
+
   return toBatchedCalls(vault, [
-    ['balance',   balance],
-    ['allowance', allowance],
-    ['shares',    vaultContract.balanceOf(address)]
+    ['balance',         balance],
+    ['allowance',       allowance],
+    ['shares',          balanceCall],
+    ['pendingPiTokens', pendingPiTokensCall]
   ])
 }
 

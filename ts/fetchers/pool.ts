@@ -22,13 +22,13 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     tokenDecimals = tokenContract.decimals()
   } else {
     // MATIC is native so it needs other functions
-    tokenDecimals = vaultContract.decimals() // same decimals
+    tokenDecimals = vaultContract.decimals(vault.pid) // same decimals
   }
 
   return toBatchedCalls(vault, [
-    ['pricePerFullShare', vaultContract.getPricePerFullShare()],
-    ['vaultDecimals',     vaultContract.decimals()],
-    ['tvl',               vaultContract.balance()],
+    ['pricePerFullShare', vaultContract.getPricePerFullShare(vault.pid)],
+    ['vaultDecimals',     vaultContract.decimals(vault.pid)],
+    ['tvl',               vaultContract.balance(vault.pid)],
     ['tokenDecimals',     tokenDecimals]
   ])
 }

@@ -23,7 +23,7 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     tokenDecimals = tokenContract.decimals()
   } else {
     // MATIC is native so it needs other functions
-    tokenDecimals = vaultContract.decimals() // same decimals
+    tokenDecimals = vaultContract.decimals(vault.pid) // same decimals
   }
 
   const dataProvider                = poolData.dataProvider

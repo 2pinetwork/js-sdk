@@ -4,7 +4,7 @@ import Vault from './vault'
 import { ZERO_ADDRESS } from './data/constants'
 import getVaults from './data/vaults'
 
-type Chain = 137 | 80001
+type Chain = 80001
 
 export default class TwoPi {
   readonly chainId:  Chain

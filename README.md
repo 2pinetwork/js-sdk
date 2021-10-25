@@ -54,7 +54,7 @@ twoPi.getVaults().forEach(async vault => {
 
 This is the entry point of almost any interaction. You will be asked to provide 3 arguments:
 
-* The chain ID as an integer, for the time being the only supported values are 137 and 80001, which identifies Polygon Mainnet and Polygon Mumbai (test net).
+* The chain ID as an integer, for the time being the only supported value is 80001, which identifies Polygon Mumbai (test net).
 * The provider, can be any RCP that supports the selected network.
 * The wallet to be used for every operation that requires it.
 
@@ -99,15 +99,17 @@ On every `vault` instance you can access the following attributes:
 * `async shares()` returns the shares of the current signer.
 * `async allowance()` returns the vault's allowance in wei for the current signer.
 * `async balance()` returns the token balance in wei for the current signer.
+* `async pendingPiTokens()` returns the vault available 2PI tokens to be claimed by the current signer.
 * `async decimals()` returns the vault's decimals (not to be confused with the token decimals).
 * `async tokenDecimals()` returns the token decimal places (not to be confused with the vault decimals).
 * `async pricePerFullShare()` returns the vault's current price for every share.
 * `async tvl()` returns the vault's current overall balance.
 * `async approve(amount)` sets amount of tokens in wei as vault allowance over the signer's tokens.
-* `async deposit(amount)` deposits the amount of tokens in wei specified by the argument.
-* `async depositAll()` deposits all the tokens owned by the signer. In case of native tokens (like MATIC) a reserve is taken so the user can afford the transaction gas.
+* `async deposit(amount, referral)` deposits the amount of tokens in wei specified by the argument. The referral argument is optional and should be a valid address if provided.
+* `async depositAll(referral)` deposits all the tokens owned by the signer. In case of native tokens (like MATIC) a reserve is taken so the user can afford the transaction gas. The referral argument is optional and should be a valid address if provided.
 * `async withdraw(amount)` withdraw and transfer to the signer wallet the amount of tokens in wei specified by the argument.
 * `async withdrawAll()` withdraw all the deposited tokens and transfers them to the signer wallet.
+* `async harvest()` claim all the 2PI tokens rewarded by the vault to the current signer.
 * `async apy()` returns the vault current APY as a multiplier (for example, 10% it is represented as 0.1).
 
 # Let's talk!

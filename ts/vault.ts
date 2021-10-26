@@ -1,5 +1,6 @@
 import { BigNumber, BigNumberish, Contract, Signer, VoidSigner } from 'ethers'
 import { VaultData } from './data/vaults'
+import { ZERO_ADDRESS } from './data/constants'
 import { tokenInfo, vaultInfo } from './abis'
 import getApy from './helpers/apy'
 import getPoolData, { VaultInfo } from './fetchers/pool'
@@ -110,6 +111,7 @@ export default class Vault {
   async deposit(amount: BigNumberish, referral: Referral): Promise<undefined> {
     if (! this.canSign()) throw new Error('Missing signer')
 
+    const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
     const from     = await this.signer().getAddress()
 
@@ -117,17 +119,18 @@ export default class Vault {
       case '2Pi':
         return contract.deposit(amount).send({ from })
       case 'matic':
-        return contract.depositMATIC(this.pid, referral).send({
+        return contract.depositMATIC(this.pid, ref).send({
           from, value: amount
         })
       default:
-        return contract.deposit(this.pid, amount, referral).send({ from })
+        return contract.deposit(this.pid, amount, ref).send({ from })
     }
   }
 
   async depositAll(referral: Referral): Promise<undefined> {
     if (! this.canSign()) throw new Error('Missing signer')
 
+    const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
     const from     = await this.signer().getAddress()
 
@@ -140,12 +143,12 @@ export default class Vault {
 
       if (amount.lte(0)) throw new Error('You need at least 0.025 MATIC')
 
-      return contract.depositMATIC(this.pid, referral).send({
+      return contract.depositMATIC(this.pid, ref).send({
         from, value: amount
       })
     }
 
-    return contract.depositAll(this.pid, referral).send({ from })
+    return contract.depositAll(this.pid, ref).send({ from })
   }
 
   async withdraw(amount: BigNumberish): Promise<undefined> {

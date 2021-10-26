@@ -67,6 +67,12 @@ export default class Vault {
     return info?.pendingPiTokens
   }
 
+  async paidRewards(): Promise<BigNumberish | undefined> {
+    const info = await this.getWalletData()
+
+    return info?.paidRewards
+  }
+
   async decimals(): Promise<BigNumberish | undefined> {
     const info = await this.getPoolData()
 

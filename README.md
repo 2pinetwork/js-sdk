@@ -100,6 +100,7 @@ On every `vault` instance you can access the following attributes:
 * `async allowance()` returns the vault's allowance in wei for the current signer.
 * `async balance()` returns the token balance in wei for the current signer.
 * `async pendingPiTokens()` returns the vault available 2PI tokens to be claimed by the current signer.
+* `async paidRewards()` returns the vault paid 2PI tokens to the current signer.
 * `async decimals()` returns the vault's decimals (not to be confused with the token decimals).
 * `async tokenDecimals()` returns the token decimal places (not to be confused with the vault decimals).
 * `async pricePerFullShare()` returns the vault's current price for every share.

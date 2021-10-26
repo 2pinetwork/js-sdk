@@ -21,7 +21,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'DAI',
-      pid:     '1',
+      pid:     '4',
       borrow:  { depth: 8, percentage: 0.73 },
       chainId
     },
@@ -34,7 +34,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'MATIC',
-      pid:     '0',
+      pid:     '3',
       borrow:  { depth: 8, percentage: 0.48 },
       chainId
     },
@@ -47,7 +47,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'BTC',
-      pid:     '5',
+      pid:     '8',
       borrow:  { depth: 8, percentage: 0.68 },
       chainId
     },
@@ -60,7 +60,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'ETH',
-      pid:     '4',
+      pid:     '7',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
     },
@@ -73,7 +73,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDC',
-      pid:     '3',
+      pid:     '6',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
     },
@@ -86,7 +86,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDT',
-      pid:     '2',
+      pid:     '5',
       borrow:  { depth: 0, percentage: 0 },
       chainId
     }

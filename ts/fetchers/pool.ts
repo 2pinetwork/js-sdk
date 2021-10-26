@@ -14,7 +14,7 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
   const tokenData     = tokenInfo(vault)
   const vaultContract = new Contract(vaultData.address, vaultData.abi)
 
-  let tokenDecimals
+  let tokenDecimals, pricePerFullShare, vaultDecimals, tvl
 
   if (tokenData.abi) {
     const tokenContract = new Contract(tokenData.address, tokenData.abi)
@@ -25,10 +25,20 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     tokenDecimals = vaultContract.decimals(vault.pid) // same decimals
   }
 
+  if (vault.token === '2pi') {
+    pricePerFullShare = vaultContract.getPricePerFullShare()
+    vaultDecimals     = vaultContract.decimals()
+    tvl               = vaultContract.balance()
+  } else {
+    pricePerFullShare = vaultContract.getPricePerFullShare(vault.pid)
+    vaultDecimals     = vaultContract.decimals(vault.pid)
+    tvl               = vaultContract.balance(vault.pid)
+  }
+
   return toBatchedCalls(vault, [
-    ['pricePerFullShare', vaultContract.getPricePerFullShare(vault.pid)],
-    ['vaultDecimals',     vaultContract.decimals(vault.pid)],
-    ['tvl',               vaultContract.balance(vault.pid)],
+    ['pricePerFullShare', pricePerFullShare],
+    ['vaultDecimals',     vaultDecimals],
+    ['tvl',               tvl],
     ['tokenDecimals',     tokenDecimals]
   ])
 }

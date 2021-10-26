@@ -3,8 +3,8 @@ export type VaultData = {
   token:   string
   earn:    string
   priceId: string
-  uses:    'Aave' | 'Curve'
-  pool:    'aave' | 'curve'
+  uses:    'Aave' | 'Curve' | '2pi'
+  pool:    'aave' | 'curve' | '2pi'
   symbol:  string
   pid:     string
   chainId: number
@@ -13,6 +13,19 @@ export type VaultData = {
 
 const polygonVaults = (chainId: number): Array<VaultData> => {
   const vaults: Array<VaultData> = [
+    {
+      id:      'polygon-2pi-maxi',
+      token:   '2pi',
+      earn:    '2PI',
+      priceId: '2pi',
+      uses:    '2pi',
+      pool:    '2pi',
+      symbol:  '2PI',
+      pid:     '-1',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
     {
       id:      'polygon-dai-aave',
       token:   'dai',

@@ -12,6 +12,7 @@ import mumbaiAavePool from './abis/pools/80001/aave'
 // -- TOKENS --
 
 // Polygon testnet (Mumbai)
+import mumbai2piToken from './abis/tokens/80001/2Pi'
 import mumbaiBtcToken from './abis/tokens/80001/btc'
 import mumbaiDaiToken from './abis/tokens/80001/dai'
 import mumbaiEthToken from './abis/tokens/80001/eth'
@@ -25,6 +26,7 @@ import mumbaiUsdtToken from './abis/tokens/80001/usdt'
 
 // Polygon testnet (Mumbai)
 import mumbaiArchimedes from './abis/main/80001/archimedes'
+import mumbai2pi from './abis/main/80001/2Pi'
 
 type AbiLib = {
   [key: number]: {
@@ -40,6 +42,7 @@ const poolAbis: AbiLib = {
 
 const tokenAbis: AbiLib = {
   80001: {
+    '2pi':   mumbai2piToken,
     'btc':   mumbaiBtcToken,
     'dai':   mumbaiDaiToken,
     'eth':   mumbaiEthToken,
@@ -51,6 +54,7 @@ const tokenAbis: AbiLib = {
 
 const vaultAbis: AbiLib = {
   80001: {
+    '2pi-2pi':    mumbai2pi,
     'aave-btc':   mumbaiArchimedes,
     'aave-dai':   mumbaiArchimedes,
     'aave-eth':   mumbaiArchimedes,

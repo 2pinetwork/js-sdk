@@ -15,8 +15,8 @@ export default class Vault {
   readonly token:    string
   readonly earn:     string
   readonly priceId:  string
-  readonly uses:     'Aave' | 'Curve'
-  readonly pool:     'aave' | 'curve'
+  readonly uses:     'Aave' | 'Curve' | '2pi'
+  readonly pool:     'aave' | 'curve' | '2pi'
   readonly symbol:   string
   readonly pid:      string
   readonly chainId:  number

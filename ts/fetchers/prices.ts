@@ -15,7 +15,9 @@ class Fetcher extends Batcher {
     // Refresh every 60 seconds
     super(60 * 1000)
 
-    this.prices = {}
+    this.prices = {
+      '2pi': 0.8 // TODO: remove when listed
+    }
   }
 
   protected getPromise(...args: number[]): Promise<void> {

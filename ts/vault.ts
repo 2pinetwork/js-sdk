@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish, Contract, Signer, VoidSigner } from 'ethers'
+import { BigNumber, BigNumberish, Contract, Signer, Transaction, VoidSigner } from 'ethers'
 import { VaultData } from './data/vaults'
 import { ZERO_ADDRESS } from './data/constants'
 import { tokenInfo, vaultInfo } from './abis'
@@ -98,44 +98,39 @@ export default class Vault {
     return info?.tvl
   }
 
-  async approve(amount: BigNumberish): Promise<undefined> {
+  approve(amount: BigNumberish): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const contract = this.tokenContract()
     const spender  = vaultInfo(this).address
-    const from     = await this.signer().getAddress()
 
-    return contract.approve(spender, amount).send({ from })
+    return contract.approve(spender, amount)
   }
 
-  async deposit(amount: BigNumberish, referral: Referral): Promise<undefined> {
+  deposit(amount: BigNumberish, referral: Referral): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
-    const from     = await this.signer().getAddress()
 
     switch (this.token) {
       case '2Pi':
-        return contract.deposit(amount).send({ from })
+        return contract.deposit(amount)
       case 'matic':
-        return contract.depositMATIC(this.pid, ref).send({
-          from, value: amount
-        })
+        return contract.depositMATIC(this.pid, ref, { value: amount })
       default:
-        return contract.deposit(this.pid, amount, ref).send({ from })
+        return contract.deposit(this.pid, amount, ref)
     }
   }
 
-  async depositAll(referral: Referral): Promise<undefined> {
+  async depositAll(referral: Referral): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
-    const from     = await this.signer().getAddress()
 
     if (this.token === '2Pi') {
-      return contract.depositAll().send({ from })
+      return contract.depositAll()
     } else if (this.token === 'matic') {
       const balance = (await this.balance()) || 0
       const reserve = BigNumber.from(`${0.025e18}`)
@@ -143,54 +138,49 @@ export default class Vault {
 
       if (amount.lte(0)) throw new Error('You need at least 0.025 MATIC')
 
-      return contract.depositMATIC(this.pid, ref).send({
-        from, value: amount
-      })
+      return contract.depositMATIC(this.pid, ref, { value: amount })
     }
 
-    return contract.depositAll(this.pid, ref).send({ from })
+    return contract.depositAll(this.pid, ref)
   }
 
-  async withdraw(amount: BigNumberish): Promise<undefined> {
+  withdraw(amount: BigNumberish): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const contract = this.contract()
-    const from     = await this.signer().getAddress()
 
     if (this.token === '2Pi') {
-      return contract.withdraw(amount).send({ from })
+      return contract.withdraw(amount)
     } else {
-      return contract.withdraw(this.pid, amount).send({ from })
+      return contract.withdraw(this.pid, amount)
     }
   }
 
-  async withdrawAll(): Promise<undefined> {
+  withdrawAll(): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const contract = this.contract()
-    const from     = await this.signer().getAddress()
 
     if (this.token === '2Pi') {
-      return contract.withdrawAll().send({ from })
+      return contract.withdrawAll()
     } else {
-      return contract.withdrawAll(this.pid).send({ from })
+      return contract.withdrawAll(this.pid)
     }
   }
 
-  async harvest(): Promise<undefined> {
+  harvest(): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const contract = this.contract()
-    const from     = await this.signer().getAddress()
 
     if (contract.harvest) {
-      return contract.harvest(this.pid).send({ from })
+      return contract.harvest(this.pid)
     } else {
       throw new Error('There is nothing to harvest on this vault')
     }
   }
 
-  async apy(): Promise<number | undefined> {
+  apy(): Promise<number | undefined> {
     return getApy(this.twoPi, this)
   }
 
@@ -206,11 +196,11 @@ export default class Vault {
     return new Contract(address, abi, this.signer())
   }
 
-  private async getPoolData(): Promise<VaultInfo> {
+  private getPoolData(): Promise<VaultInfo> {
     return getPoolData(this.twoPi, this)
   }
 
-  private async getWalletData(): Promise<VaultInfo> {
+  private getWalletData(): Promise<VaultInfo> {
     return getWalletData(this.twoPi, this)
   }
 }

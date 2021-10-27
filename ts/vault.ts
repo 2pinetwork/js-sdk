@@ -114,7 +114,7 @@ export default class Vault {
     const contract = this.contract()
 
     switch (this.token) {
-      case '2Pi':
+      case '2pi':
         return contract.deposit(amount)
       case 'matic':
         return contract.depositMATIC(this.pid, ref, { value: amount })
@@ -129,7 +129,7 @@ export default class Vault {
     const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
 
-    if (this.token === '2Pi') {
+    if (this.token === '2pi') {
       return contract.depositAll()
     } else if (this.token === 'matic') {
       const balance = (await this.balance()) || 0
@@ -149,7 +149,7 @@ export default class Vault {
 
     const contract = this.contract()
 
-    if (this.token === '2Pi') {
+    if (this.token === '2pi') {
       return contract.withdraw(amount)
     } else {
       return contract.withdraw(this.pid, amount)
@@ -161,7 +161,7 @@ export default class Vault {
 
     const contract = this.contract()
 
-    if (this.token === '2Pi') {
+    if (this.token === '2pi') {
       return contract.withdrawAll()
     } else {
       return contract.withdrawAll(this.pid)

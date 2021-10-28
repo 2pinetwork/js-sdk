@@ -28,6 +28,16 @@ import mumbaiUsdtToken from './abis/tokens/80001/usdt'
 import mumbaiArchimedes from './abis/main/80001/archimedes'
 import mumbai2pi from './abis/main/80001/2Pi'
 
+
+
+// -- CONTROLLERS --
+
+// Polygon testnet (Mumbai)
+import {
+  abi       as mumbaiControllerAbi,
+  addresses as mumbaiControllerAddresses
+} from './abis/main/80001/controller'
+
 type AbiLib = {
   [key: number]: {
     [key: string]: any
@@ -64,6 +74,35 @@ const vaultAbis: AbiLib = {
   }
 }
 
+const controllerAbis: AbiLib = {
+  80001: {
+    'aave-btc':   {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-btc-aave']
+    },
+    'aave-dai':   {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-dai-aave']
+    },
+    'aave-eth':   {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-eth-aave']
+    },
+    'aave-matic':   {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-matic-aave']
+    },
+    'aave-usdc':   {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-usdc-aave']
+    },
+    'aave-usdt':   {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-usdt-aave']
+    }
+  }
+}
+
 export const poolInfo = (vault: Vault) => {
   return poolAbis[vault.chainId][vault.pool]
 }
@@ -82,4 +121,8 @@ export const tokenInfo = (vault: Vault) => {
 
 export const vaultInfo = (vault: Vault) => {
   return vaultAbis[vault.chainId][`${vault.pool}-${vault.token}`]
+}
+
+export const controllerInfo = (vault: Vault) => {
+  return controllerAbis[vault.chainId][`${vault.pool}-${vault.token}`]
 }

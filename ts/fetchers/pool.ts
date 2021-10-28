@@ -1,6 +1,6 @@
 import { BigNumberish } from 'ethers'
 import { Contract, ContractCall, Provider } from 'ethers-multicall'
-import { tokenInfo, vaultInfo } from '../abis'
+import { tokenInfo, vaultInfo, controllerInfo } from '../abis'
 import Batcher, { BatchedCall, toBatchedCalls } from './batcher'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
@@ -10,11 +10,12 @@ export type VaultInfo = {
 }
 
 const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> => {
-  const vaultData     = vaultInfo(vault)
-  const tokenData     = tokenInfo(vault)
-  const vaultContract = new Contract(vaultData.address, vaultData.abi)
+  const vaultData      = vaultInfo(vault)
+  const tokenData      = tokenInfo(vault)
+  const controllerData = controllerInfo(vault)
+  const vaultContract  = new Contract(vaultData.address, vaultData.abi)
 
-  let tokenDecimals, pricePerFullShare, vaultDecimals, tvl
+  let tokenDecimals, pricePerFullShare, vaultDecimals, tvl, withdrawalFee
 
   if (tokenData.abi) {
     const tokenContract = new Contract(tokenData.address, tokenData.abi)
@@ -29,16 +30,21 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     pricePerFullShare = vaultContract.getPricePerFullShare()
     vaultDecimals     = vaultContract.decimals()
     tvl               = vaultContract.balance()
+    withdrawalFee     = vaultContract.balance() // _fake_ value
   } else {
+    const controllerContract = new Contract(controllerData.address, controllerData.abi)
+
     pricePerFullShare = vaultContract.getPricePerFullShare(vault.pid)
     vaultDecimals     = vaultContract.decimals(vault.pid)
     tvl               = vaultContract.balance(vault.pid)
+    withdrawalFee     = controllerContract.withdrawFee()
   }
 
   return toBatchedCalls(vault, [
     ['pricePerFullShare', pricePerFullShare],
     ['vaultDecimals',     vaultDecimals],
     ['tvl',               tvl],
+    ['withdrawalFee',     withdrawalFee],
     ['tokenDecimals',     tokenDecimals]
   ])
 }

@@ -98,6 +98,12 @@ export default class Vault {
     return info?.tvl
   }
 
+  async withdrawalFee(): Promise<BigNumberish | undefined> {
+    const info = await this.getPoolData()
+
+    return this.token === '2pi' ? BigNumber.from(0) : info?.withdrawalFee
+  }
+
   approve(amount: BigNumberish): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 

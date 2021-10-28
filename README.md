@@ -105,6 +105,7 @@ On every `vault` instance you can access the following attributes:
 * `async tokenDecimals()` returns the token decimal places (not to be confused with the vault decimals).
 * `async pricePerFullShare()` returns the vault's current price for every share.
 * `async tvl()` returns the vault's current overall balance.
+* `async withdrawalFee()` returns the vault's current withdrawal fee as a BigNumber using 2 decimal places, so 10 should be interpreted as 0.1%.
 * `async approve(amount)` sets amount of tokens in wei as vault allowance over the signer's tokens.
 * `async deposit(amount, referral)` deposits the amount of tokens in wei specified by the argument. The referral argument is optional and should be a valid address if provided.
 * `async depositAll(referral)` deposits all the tokens owned by the signer. In case of native tokens (like MATIC) a reserve is taken so the user can afford the transaction gas. The referral argument is optional and should be a valid address if provided.

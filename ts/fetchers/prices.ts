@@ -24,21 +24,27 @@ class Fetcher extends Batcher {
     const chainId  = args.find(_ => true) || 80001
     const priceIds = getVaults(chainId).map(vault => vault.priceId).join()
 
-    return axios.get(oracleUrl, {
-      params: { ids: priceIds, vs_currencies: currency }
-    }).then(result => {
-      const data = result.data as {
-        [key: string]: {
-          [key: string]: number
+    if (priceIds) {
+      return axios.get(oracleUrl, {
+        params: { ids: priceIds, vs_currencies: currency }
+      }).then(result => {
+        const data = result.data as {
+          [key: string]: {
+            [key: string]: number
+          }
         }
-      }
 
-      Object.entries(data).forEach(([token, values]) => {
-        this.prices[token] = values[currency]
+        Object.entries(data).forEach(([token, values]) => {
+          this.prices[token] = values[currency]
+        })
+
+        this.setRefreshedAt(new Date())
       })
+    } else {
+      this.prices = { '2pi': 0.8 }
 
-      this.setRefreshedAt(new Date())
-    })
+      return Promise.resolve(undefined)
+    }
   }
 
   public async getPrices(chainId: number) {

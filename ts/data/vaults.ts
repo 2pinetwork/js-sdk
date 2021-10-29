@@ -113,7 +113,7 @@ const vaults: { [key: number]: Array<VaultData> } = {
 }
 
 const getVaults = (chainId: number): Array<VaultData> => {
-  return vaults[chainId]
+  return vaults[chainId] || []
 }
 
 export default getVaults

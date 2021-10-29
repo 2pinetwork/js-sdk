@@ -22,6 +22,15 @@ import mumbaiUsdtToken from './abis/tokens/80001/usdt'
 
 
 
+// -- LPS --
+
+// Polygon testnet (Mumbai)
+import mumbaiEth2piLp from './abis/lps/80001/eth-2pi'
+import mumbaiDai2piLp from './abis/lps/80001/dai-2pi'
+import mumbaiMatic2piLp from './abis/lps/80001/matic-2pi'
+
+
+
 // -- VAULTS --
 
 // Polygon testnet (Mumbai)
@@ -52,25 +61,31 @@ const poolAbis: AbiLib = {
 
 const tokenAbis: AbiLib = {
   80001: {
-    '2pi':   mumbai2piToken,
-    'btc':   mumbaiBtcToken,
-    'dai':   mumbaiDaiToken,
-    'eth':   mumbaiEthToken,
-    'matic': mumbaiMaticToken,
-    'usdc':  mumbaiUsdcToken,
-    'usdt':  mumbaiUsdtToken,
+    '2pi':       mumbai2piToken,
+    'btc':       mumbaiBtcToken,
+    'dai':       mumbaiDaiToken,
+    'eth':       mumbaiEthToken,
+    'matic':     mumbaiMaticToken,
+    'usdc':      mumbaiUsdcToken,
+    'usdt':      mumbaiUsdtToken,
+    'eth-2pi':   mumbaiEth2piLp,
+    'dai-2pi':   mumbaiDai2piLp,
+    'matic-2pi': mumbaiMatic2piLp
   }
 }
 
 const vaultAbis: AbiLib = {
   80001: {
-    '2pi-2pi':    mumbai2pi,
-    'aave-btc':   mumbaiArchimedes,
-    'aave-dai':   mumbaiArchimedes,
-    'aave-eth':   mumbaiArchimedes,
-    'aave-matic': mumbaiArchimedes,
-    'aave-usdc':  mumbaiArchimedes,
-    'aave-usdt':  mumbaiArchimedes
+    '2pi-2pi':         mumbai2pi,
+    'aave-btc':        mumbaiArchimedes,
+    'aave-dai':        mumbaiArchimedes,
+    'aave-eth':        mumbaiArchimedes,
+    'aave-matic':      mumbaiArchimedes,
+    'aave-usdc':       mumbaiArchimedes,
+    'aave-usdt':       mumbaiArchimedes,
+    'sushi-eth-2pi':   mumbaiArchimedes,
+    'sushi-dai-2pi':   mumbaiArchimedes,
+    'sushi-matic-2pi': mumbaiArchimedes
   }
 }
 

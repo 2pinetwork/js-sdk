@@ -16,6 +16,9 @@ const getApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {
     case 'curve':
       return await curveApy(twoPi, vault)
       break
+    case 'sushi':
+      return Promise.resolve(0.15)
+      break
     case '2pi':
       return Promise.resolve(0.1)
       break

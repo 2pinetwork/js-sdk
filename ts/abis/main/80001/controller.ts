@@ -836,12 +836,12 @@ const abi = [
 ]
 
 const addresses = {
-  'polygon-dai-aave':   '0x2269506CAF42001bd236a27AADAEC94C1ED2ba5b',
-  'polygon-matic-aave': '0x24A2a8D7eB6584e1fc548693C058185a1D8543dd',
-  'polygon-btc-aave':   '0xb7FA2ED59406BCc69C3e784baD610AfD5f72906b',
-  'polygon-eth-aave':   '0x0D1a685c8f95126f94078dF7f3BfEFCDb844c8EB',
-  'polygon-usdc-aave':  '0xD98Dfe6bcb85D633C6980Ef1327710EC264B49d2',
-  'polygon-usdt-aave':  '0x8536bb31A7EF67Cf35d5c08FC9bd0bf7B293F657'
+  'polygon-dai-aave':   '0xd67b7349B2EC010D8Adf05de33E3b0aB7822bacb',
+  'polygon-matic-aave': '0x1f843056Dde8969e4199224312d7C18138B38FB7',
+  'polygon-btc-aave':   '0x38C286166A05b1B8e0357ce34D497d34a792a4eA',
+  'polygon-eth-aave':   '0xe79aF10e810B117Bb9FF5d75603C04ce5d86F37d',
+  'polygon-usdc-aave':  '0x1eE84aF249946EC8475d677024D822612B0B9377',
+  'polygon-usdt-aave':  '0xA86e84a89b8793eB34E2Cc3973E2726f62A7Ee35'
 }
 
 export { abi, addresses }

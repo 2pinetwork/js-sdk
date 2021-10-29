@@ -3,8 +3,8 @@ export type VaultData = {
   token:   string
   earn:    string
   priceId: string
-  uses:    'Aave' | 'Curve' | '2pi'
-  pool:    'aave' | 'curve' | '2pi'
+  uses:    'Aave' | 'Curve' | 'Sushi' | '2pi'
+  pool:    'aave' | 'curve' | 'sushi' | '2pi'
   symbol:  string
   pid:     string
   chainId: number
@@ -34,7 +34,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'DAI',
-      pid:     '4',
+      pid:     '1',
       borrow:  { depth: 8, percentage: 0.73 },
       chainId
     },
@@ -47,7 +47,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'MATIC',
-      pid:     '3',
+      pid:     '0',
       borrow:  { depth: 8, percentage: 0.48 },
       chainId
     },
@@ -60,7 +60,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'BTC',
-      pid:     '8',
+      pid:     '5',
       borrow:  { depth: 8, percentage: 0.68 },
       chainId
     },
@@ -73,7 +73,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'ETH',
-      pid:     '7',
+      pid:     '4',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
     },
@@ -86,7 +86,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDC',
-      pid:     '6',
+      pid:     '3',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
     },
@@ -99,7 +99,46 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDT',
-      pid:     '5',
+      pid:     '2',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
+    {
+      id:      'polygon-eth-2pi-aave',
+      token:   'eth-2pi',
+      earn:    'ETH-2PI',
+      priceId: 'eth-2pi',
+      uses:    'Sushi',
+      pool:    'sushi',
+      symbol:  'ETH-2PI',
+      pid:     '7',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
+    {
+      id:      'polygon-dai-2pi-aave',
+      token:   'dai-2pi',
+      earn:    'DAI-2PI',
+      priceId: 'dai-2pi',
+      uses:    'Sushi',
+      pool:    'sushi',
+      symbol:  'DAI-2PI',
+      pid:     '6',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
+    {
+      id:      'polygon-matic-2pi-aave',
+      token:   'matic-2pi',
+      earn:    'MATIC-2PI',
+      priceId: 'matic-2pi',
+      uses:    'Sushi',
+      pool:    'sushi',
+      symbol:  'MATIC-2PI',
+      pid:     '8',
       borrow:  { depth: 0, percentage: 0 },
       chainId
     }

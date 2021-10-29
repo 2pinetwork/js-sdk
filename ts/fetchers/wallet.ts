@@ -29,7 +29,7 @@ const callsFor = (address: string, ethcallProvider: Provider, vault: Vault): Arr
 
   if (vaultContract.pendingPiToken) {
     balanceCall         = vaultContract.balanceOf(vault.pid, address)
-    pendingPiTokensCall = vaultContract.pendingPiToken(vault.pid)
+    pendingPiTokensCall = vaultContract.pendingPiToken(vault.pid, address)
     paidRewardsCall     = vaultContract.paidRewards(vault.pid)
   } else {
     balanceCall         = vaultContract.balanceOf(address)

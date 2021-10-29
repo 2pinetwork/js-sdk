@@ -1,4 +1,4 @@
-const address = '0xF97579312c9263EaB567595D080cCa9A4FDcDe7b'
+const address = '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38'
 const abi     = [
   {
     "inputs": [
@@ -708,6 +708,11 @@ const abi     = [
         "internalType": "uint256",
         "name": "_pid",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
       }
     ],
     "name": "pendingPiToken",

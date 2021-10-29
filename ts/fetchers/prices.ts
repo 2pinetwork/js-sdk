@@ -16,7 +16,11 @@ class Fetcher extends Batcher {
     super(60 * 1000)
 
     this.prices = {
-      '2pi': 0.8 // TODO: remove when listed
+      // TODO: remove all when listed
+      '2pi':       0.8,
+      'eth-2pi':   4000,
+      'dai-2pi':   1.2,
+      'matic-2pi': 2.3
     }
   }
 

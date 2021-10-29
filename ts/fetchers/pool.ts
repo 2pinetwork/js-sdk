@@ -26,18 +26,22 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     tokenDecimals = vaultContract.decimals(vault.pid) // same decimals
   }
 
+  if (controllerData) {
+    const controllerContract = new Contract(controllerData.address, controllerData.abi)
+
+    withdrawalFee = controllerContract.withdrawFee()
+  } else {
+    withdrawalFee = tokenDecimals // _fake_ value
+  }
+
   if (vault.token === '2pi') {
     pricePerFullShare = vaultContract.getPricePerFullShare()
     vaultDecimals     = vaultContract.decimals()
     tvl               = vaultContract.balance()
-    withdrawalFee     = vaultContract.balance() // _fake_ value
   } else {
-    const controllerContract = new Contract(controllerData.address, controllerData.abi)
-
     pricePerFullShare = vaultContract.getPricePerFullShare(vault.pid)
     vaultDecimals     = vaultContract.decimals(vault.pid)
     tvl               = vaultContract.balance(vault.pid)
-    withdrawalFee     = controllerContract.withdrawFee()
   }
 
   return toBatchedCalls(vault, [

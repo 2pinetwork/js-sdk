@@ -91,29 +91,41 @@ const vaultAbis: AbiLib = {
 
 const controllerAbis: AbiLib = {
   80001: {
-    'aave-btc':   {
+    'aave-btc': {
       abi:     mumbaiControllerAbi,
       address: mumbaiControllerAddresses['polygon-btc-aave']
     },
-    'aave-dai':   {
+    'aave-dai': {
       abi:     mumbaiControllerAbi,
       address: mumbaiControllerAddresses['polygon-dai-aave']
     },
-    'aave-eth':   {
+    'aave-eth': {
       abi:     mumbaiControllerAbi,
       address: mumbaiControllerAddresses['polygon-eth-aave']
     },
-    'aave-matic':   {
+    'aave-matic': {
       abi:     mumbaiControllerAbi,
       address: mumbaiControllerAddresses['polygon-matic-aave']
     },
-    'aave-usdc':   {
+    'aave-usdc': {
       abi:     mumbaiControllerAbi,
       address: mumbaiControllerAddresses['polygon-usdc-aave']
     },
-    'aave-usdt':   {
+    'aave-usdt': {
       abi:     mumbaiControllerAbi,
       address: mumbaiControllerAddresses['polygon-usdt-aave']
+    },
+    'sushi-eth-2pi': {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-eth-2pi-sushi']
+    },
+    'sushi-dai-2pi': {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-dai-2pi-sushi']
+    },
+    'sushi-matic-2pi': {
+      abi:     mumbaiControllerAbi,
+      address: mumbaiControllerAddresses['polygon-matic-2pi-sushi']
     }
   }
 }

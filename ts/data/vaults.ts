@@ -105,7 +105,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
     },
 
     {
-      id:      'polygon-eth-2pi-aave',
+      id:      'polygon-eth-2pi-sushi',
       token:   'eth-2pi',
       earn:    'ETH-2PI',
       priceId: 'eth-2pi',
@@ -118,7 +118,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
     },
 
     {
-      id:      'polygon-dai-2pi-aave',
+      id:      'polygon-dai-2pi-sushi',
       token:   'dai-2pi',
       earn:    'DAI-2PI',
       priceId: 'dai-2pi',
@@ -131,7 +131,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
     },
 
     {
-      id:      'polygon-matic-2pi-aave',
+      id:      'polygon-matic-2pi-sushi',
       token:   'matic-2pi',
       earn:    'MATIC-2PI',
       priceId: 'matic-2pi',

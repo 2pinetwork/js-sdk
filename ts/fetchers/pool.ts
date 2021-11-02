@@ -61,6 +61,12 @@ class Fetcher extends Batcher {
     this.data = {}
   }
 
+  public async getPoolData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
+    await this.perform(twoPi)
+
+    return this.data[vault.id]
+  }
+
   protected getPromise(...args: Array<any>): Promise<void> {
     const twoPi: TwoPi    = args.shift()
     const ethcallProvider = new Provider(twoPi.provider, twoPi.chainId)
@@ -70,12 +76,6 @@ class Fetcher extends Batcher {
     })
 
     return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
-  }
-
-  public async getPoolData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
-    await this.perform(twoPi)
-
-    return this.data[vault.id]
   }
 }
 

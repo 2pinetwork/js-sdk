@@ -9,7 +9,7 @@ type VaultInfo = {
   [key: string]: BigNumberish | { [key: string]: BigNumberish }
 }
 
-const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> => {
+const aaveCallsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> => {
   const vaultData     = vaultInfo(vault)
   const tokenData     = vaultTokenInfo(vault)
   const poolData      = poolInfo(vault)
@@ -51,6 +51,12 @@ class Fetcher extends Batcher {
     this.data = {}
   }
 
+  public async getApyData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
+    await this.perform(twoPi, vault)
+
+    return this.data[vault.id]
+  }
+
   protected getPromise(...args: Array<any>): Promise<void> {
     const twoPi: TwoPi    = args.shift()
     const vault: Vault    = args.shift()
@@ -58,19 +64,13 @@ class Fetcher extends Batcher {
 
     const batchedCalls = twoPi.getVaults().flatMap(vault => {
       if (vault.pool === 'aave') {
-        return callsFor(ethcallProvider, vault)
+        return aaveCallsFor(ethcallProvider, vault)
       } else {
         return []
       }
     })
 
     return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
-  }
-
-  public async getApyData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
-    await this.perform(twoPi, vault)
-
-    return this.data[vault.id]
   }
 }
 

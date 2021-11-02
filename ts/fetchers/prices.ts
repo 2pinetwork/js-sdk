@@ -35,6 +35,25 @@ class Fetcher extends Batcher {
     this.prices = {}
   }
 
+  public async getPrices(twoPi: TwoPi) {
+    await this.perform(twoPi)
+
+    return this.prices
+  }
+
+  protected getPromise(...args: TwoPi[]): Promise<void> {
+    const twoPi = args.find(_ => true) as TwoPi
+
+    return (async () => {
+      await this.getGraphPrices(twoPi)
+      await this.getApiPrices(twoPi)
+      // Must be last, it depends on the other prices been set
+      await this.getLpPrices(twoPi)
+
+      this.setRefreshedAt(new Date())
+    })()
+  }
+
   private getGraphPrices(twoPi: TwoPi): Promise<void> {
     return axios.post(graphUrls[twoPi.chainId], {
       query: `{
@@ -109,25 +128,6 @@ class Fetcher extends Batcher {
           .toNumber()
       })
     })()
-  }
-
-  protected getPromise(...args: TwoPi[]): Promise<void> {
-    const twoPi = args.find(_ => true) as TwoPi
-
-    return (async () => {
-      await this.getGraphPrices(twoPi)
-      await this.getApiPrices(twoPi)
-      // Must be last, it depends on the other prices been set
-      await this.getLpPrices(twoPi)
-
-      this.setRefreshedAt(new Date())
-    })()
-  }
-
-  public async getPrices(twoPi: TwoPi) {
-    await this.perform(twoPi)
-
-    return this.prices
   }
 }
 

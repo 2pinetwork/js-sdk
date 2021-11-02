@@ -45,6 +45,12 @@ class Fetcher extends Batcher {
     this.data = {}
   }
 
+  public async getLpData(twoPi: TwoPi): Promise<LpsInfo> {
+    await this.perform(twoPi)
+
+    return this.data
+  }
+
   protected getPromise(...args: Array<any>): Promise<void> {
     const twoPi: TwoPi    = args.shift()
     const ethcallProvider = new Provider(twoPi.provider, twoPi.chainId)
@@ -58,12 +64,6 @@ class Fetcher extends Batcher {
     })
 
     return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
-  }
-
-  public async getLpData(twoPi: TwoPi): Promise<LpsInfo> {
-    await this.perform(twoPi)
-
-    return this.data
   }
 }
 

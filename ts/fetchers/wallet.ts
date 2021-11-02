@@ -58,6 +58,16 @@ class Fetcher extends Batcher {
     this.data = {}
   }
 
+  public async getWalletData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
+    if (! twoPi.signer) return Promise.resolve({})
+
+    const address = await twoPi.signer.getAddress()
+
+    await this.perform(address, twoPi)
+
+    return this.data[vault.id]
+  }
+
   protected getPromise(...args: Array<any>): Promise<void> {
     const address: string = args.shift()
     const twoPi: TwoPi    = args.shift()
@@ -68,16 +78,6 @@ class Fetcher extends Batcher {
     })
 
     return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
-  }
-
-  public async getWalletData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
-    if (! twoPi.signer) return Promise.resolve({})
-
-    const address = await twoPi.signer.getAddress()
-
-    await this.perform(address, twoPi)
-
-    return this.data[vault.id]
   }
 }
 

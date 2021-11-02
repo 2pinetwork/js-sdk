@@ -1,4 +1,4 @@
-import { ContractCall } from 'ethers-multicall'
+import { ContractCall, Provider } from 'ethers-multicall'
 import Vault from '../vault'
 
 export const toBatchedCalls = (vault: Vault, calls: Array<[string, ContractCall]>): Array<BatchedCall> => {
@@ -11,6 +11,12 @@ export type BatchedCall = {
   id:   string
   key:  string
   call: ContractCall
+}
+
+type Data = {
+  [key: string]: {
+    [key: string]: {}
+  }
 }
 
 export default class Batcher {
@@ -42,6 +48,23 @@ export default class Batcher {
     }
 
     return this.promise || Promise.resolve()
+  }
+
+  protected runBatchedCalls(ethcallProvider: Provider, batchedCalls: Array<BatchedCall>, data: Data): Promise<void> {
+    const calls: Array<ContractCall> = batchedCalls.map((batchedCall): ContractCall => {
+      return batchedCall.call
+    })
+
+    return ethcallProvider.all(calls).then(results => {
+      results.forEach((result, i) => {
+        const batchedCall: BatchedCall = batchedCalls[i]
+
+        data[batchedCall.id]                  ||= {}
+        data[batchedCall.id][batchedCall.key]   = result
+      })
+
+      this.setRefreshedAt(new Date())
+    })
   }
 
   private maybeResetPromise() {

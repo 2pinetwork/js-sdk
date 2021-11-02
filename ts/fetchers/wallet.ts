@@ -67,20 +67,7 @@ class Fetcher extends Batcher {
       return callsFor(address, ethcallProvider, vault)
     })
 
-    const calls: Array<ContractCall> = batchedCalls.map((batchedCall): ContractCall => {
-      return batchedCall.call
-    })
-
-    return ethcallProvider.all(calls).then(results => {
-      results.forEach((result, i) => {
-        const batchedCall: BatchedCall = batchedCalls[i]
-
-        this.data[batchedCall.id]                  ||= {}
-        this.data[batchedCall.id][batchedCall.key]   = result
-      })
-
-      this.setRefreshedAt(new Date())
-    })
+    return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
   }
 
   public async getWalletData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {

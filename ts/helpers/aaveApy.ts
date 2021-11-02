@@ -162,7 +162,7 @@ const getMaticPerYear = (
 }
 
 const aaveApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {
-  const prices              = await getPrices(vault.chainId)
+  const prices              = await getPrices(twoPi)
   const info                = await getApyData(twoPi, vault)
   const depths              = [vault.borrow?.depth || 0, 0]
   const borrow: {}          = info.distributionBorrow

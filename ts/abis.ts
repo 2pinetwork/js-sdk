@@ -134,16 +134,12 @@ export const poolInfo = (vault: Vault) => {
   return poolAbis[vault.chainId][vault.pool]
 }
 
-export const tokenInfo = (vault: Vault) => {
-  let tokenId
+export const tokenInfo = (chainId: number, token: string) => {
+  return tokenAbis[chainId][token]
+}
 
-  if (vault.chainId === 80001) {
-    tokenId = vault.token
-  } else {
-    tokenId = `${vault.pool}-${vault.token}`
-  }
-
-  return tokenAbis[vault.chainId][tokenId]
+export const vaultTokenInfo = (vault: Vault) => {
+  return tokenInfo(vault.chainId, vault.token)
 }
 
 export const vaultInfo = (vault: Vault) => {

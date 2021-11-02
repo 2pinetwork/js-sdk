@@ -3,6 +3,7 @@ export type VaultData = {
   token:   string
   earn:    string
   priceId: string
+  oracle:  'api' | 'lps' | 'graph'
   uses:    'Aave' | 'Curve' | 'Sushi' | '2pi'
   pool:    'aave' | 'curve' | 'sushi' | '2pi'
   symbol:  string
@@ -18,6 +19,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   '2pi',
       earn:    '2PI',
       priceId: '2pi',
+      oracle:  'graph',
       uses:    '2pi',
       pool:    '2pi',
       symbol:  '2PI',
@@ -31,6 +33,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'dai',
       earn:    'DAI',
       priceId: 'dai',
+      oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
       symbol:  'DAI',
@@ -44,6 +47,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'matic',
       earn:    'MATIC',
       priceId: 'matic-network',
+      oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
       symbol:  'MATIC',
@@ -57,6 +61,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'btc',
       earn:    'BTC',
       priceId: 'bitcoin',
+      oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
       symbol:  'BTC',
@@ -70,6 +75,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'eth',
       earn:    'ETH',
       priceId: 'ethereum',
+      oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
       symbol:  'ETH',
@@ -83,6 +89,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'usdc',
       earn:    'USDC',
       priceId: 'usd-coin',
+      oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDC',
@@ -96,6 +103,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'usdt',
       earn:    'USDT',
       priceId: 'tether',
+      oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
       symbol:  'USDT',
@@ -109,6 +117,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'eth-2pi',
       earn:    'ETH-2PI',
       priceId: 'eth-2pi',
+      oracle:  'lps',
       uses:    'Sushi',
       pool:    'sushi',
       symbol:  'ETH-2PI',
@@ -122,6 +131,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'dai-2pi',
       earn:    'DAI-2PI',
       priceId: 'dai-2pi',
+      oracle:  'lps',
       uses:    'Sushi',
       pool:    'sushi',
       symbol:  'DAI-2PI',
@@ -135,6 +145,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       token:   'matic-2pi',
       earn:    'MATIC-2PI',
       priceId: 'matic-2pi',
+      oracle:  'lps',
       uses:    'Sushi',
       pool:    'sushi',
       symbol:  'MATIC-2PI',

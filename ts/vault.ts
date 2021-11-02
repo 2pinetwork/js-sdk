@@ -1,7 +1,7 @@
 import { BigNumber, BigNumberish, Contract, Signer, Transaction, VoidSigner } from 'ethers'
 import { VaultData } from './data/vaults'
 import { ZERO_ADDRESS } from './data/constants'
-import { tokenInfo, vaultInfo } from './abis'
+import { vaultTokenInfo, vaultInfo } from './abis'
 import getApy from './helpers/apy'
 import getPoolData, { VaultInfo } from './fetchers/pool'
 import getWalletData from './fetchers/wallet'
@@ -15,6 +15,7 @@ export default class Vault {
   readonly token:    string
   readonly earn:     string
   readonly priceId:  string
+  readonly oracle:   'api' | 'lps' | 'graph'
   readonly uses:     'Aave' | 'Curve' | 'Sushi' | '2pi'
   readonly pool:     'aave' | 'curve' | 'sushi' | '2pi'
   readonly symbol:   string
@@ -28,6 +29,7 @@ export default class Vault {
     this.token   = data.token
     this.earn    = data.earn
     this.priceId = data.priceId
+    this.oracle  = data.oracle
     this.uses    = data.uses
     this.pool    = data.pool
     this.symbol  = data.symbol
@@ -197,7 +199,7 @@ export default class Vault {
   }
 
   protected tokenContract(): Contract {
-    const { address, abi } = tokenInfo(this)
+    const { address, abi } = vaultTokenInfo(this)
 
     return new Contract(address, abi, this.signer())
   }

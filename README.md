@@ -84,10 +84,12 @@ On every `vault` instance you can access the following attributes:
 * `id`: string with the vault unique identifier (in the form of network-token-pool, for example polygon-dai-aave).
 * `token`: string identifying the token to be maximized.
 * `earn`: string identifying what you'll be receiving as a reward.
-* `priceId`: string identifying which price will be queried on Coingecko.
+* `priceId`: string identifying which price will be queried to the oracle.
+* `oracle`: string identifying which oracle will be queried to obtain the token price.
 * `uses`: string identifying the protocol being used (can be 'Aave' or 'Curve' at the time being).
 * `pool`: string identifying the pool being used (can be 'aave' or 'curve' at the time being).
 * `symbol`: string identifying the token symbol name.
+* `pid`: string identifying pool ID on the Archimedes contract.
 * `chainId`: number identifying the chain in which the vault it is deployed.
 * `borrow`?: optional object containing the borrow depth and percentage used by the vault.
 

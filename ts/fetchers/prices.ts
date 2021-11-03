@@ -45,8 +45,11 @@ class Fetcher extends Batcher {
     const twoPi = args.find(_ => true) as TwoPi
 
     return (async () => {
-      await this.getGraphPrices(twoPi)
-      await this.getApiPrices(twoPi)
+      await Promise.all([
+        this.getGraphPrices(twoPi),
+        this.getApiPrices(twoPi)
+      ])
+
       // Must be last, it depends on the other prices been set
       await this.getLpPrices(twoPi)
 
@@ -112,6 +115,10 @@ class Fetcher extends Batcher {
       Object.entries(data).forEach(([vaultId, values]) => {
         const vault              = vaults.find(v => v.id === vaultId) as Vault
         const [ token0, token1 ] = vault.token.split('-').map(t => priceIds[t])
+
+        if (! (token0 && token1)) {
+          throw new Error('LP tokens price ID was not found!')
+        }
 
         const token0UsdBalance = new BigNumber(values.token0Balance.toString())
           .times(this.prices[token0])

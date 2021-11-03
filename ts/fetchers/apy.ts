@@ -1,12 +1,31 @@
+import axios from 'axios'
+import { startOfMinute, subDays } from 'date-fns'
 import { BigNumberish } from 'ethers'
 import { Contract, ContractCall, Provider } from 'ethers-multicall'
 import { poolInfo, vaultTokenInfo, vaultInfo } from '../abis'
 import Batcher, { BatchedCall, toBatchedCalls } from './batcher'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
+import {
+  putSushiApys,
+  sushiGraphQuery,
+  SushiResponse
+} from '../helpers/sushiApy'
 
 type VaultInfo = {
   [key: string]: BigNumberish | { [key: string]: BigNumberish }
+}
+
+const sushiGraphUrls = {
+  // 137:   'https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange',
+  80001: 'https://api.thegraph.com/subgraphs/name/gwydce/mumbai-sushi-exchange'
+}
+
+export const getUtcSecondsFromDayRange = (daysAgo0: number, daysAgo1: number) => {
+  const endDate   = startOfMinute(subDays(Date.now(), daysAgo0))
+  const startDate = startOfMinute(subDays(Date.now(), daysAgo1))
+
+  return [ startDate, endDate ].map(date => Math.floor(Number(date) / 1000))
 }
 
 const aaveCallsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> => {
@@ -52,15 +71,22 @@ class Fetcher extends Batcher {
   }
 
   public async getApyData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
-    await this.perform(twoPi, vault)
+    await this.perform(twoPi)
 
     return this.data[vault.id]
   }
 
-  protected getPromise(...args: Array<any>): Promise<void> {
-    const twoPi: TwoPi    = args.shift()
-    const vault: Vault    = args.shift()
-    const ethcallProvider = new Provider(twoPi.provider, vault.chainId)
+  protected getPromise(...args: Array<any>): Promise<any> {
+    const twoPi: TwoPi = args.shift()
+
+    return Promise.all([
+      this.getAaveApys(twoPi),
+      this.getSushiApys(twoPi)
+    ])
+  }
+
+  private getAaveApys(twoPi: TwoPi): Promise<void> {
+    const ethcallProvider = new Provider(twoPi.provider, twoPi.chainId)
 
     const batchedCalls = twoPi.getVaults().flatMap(vault => {
       if (vault.pool === 'aave') {
@@ -71,6 +97,30 @@ class Fetcher extends Batcher {
     })
 
     return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
+  }
+
+  private async getSushiApys(twoPi: TwoPi): Promise<void> {
+    const url                                  = sushiGraphUrls[twoPi.chainId]
+    const addresses: { [key: string]: string } = {}
+
+    twoPi.getVaults().filter(v => v.pool === 'sushi').forEach(vault => {
+      this.data[vault.id] = { tradingFeeApy: 0 }
+
+      addresses[vaultTokenInfo(vault).address] = vault.id
+    })
+
+    const [ start0, end0 ] = getUtcSecondsFromDayRange(1, 2)
+    const [ start1, end1 ] = getUtcSecondsFromDayRange(3, 4)
+
+    const response0: SushiResponse = await axios.post(url, {
+      query: sushiGraphQuery(Object.keys(addresses), start0, end0)
+    })
+
+    const response1: SushiResponse = await axios.post(url, {
+      query: sushiGraphQuery(Object.keys(addresses), start1, end1)
+    })
+
+    putSushiApys(addresses, response0, response1, this.data)
   }
 }
 

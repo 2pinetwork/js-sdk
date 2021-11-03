@@ -1,6 +1,7 @@
 import { BigNumberish } from 'ethers'
 import aaveApy from './aaveApy'
 import curveApy from './curveApy'
+import sushiApy from './sushiApy'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
 
@@ -17,7 +18,7 @@ const getApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {
       return await curveApy(twoPi, vault)
       break
     case 'sushi':
-      return Promise.resolve(0.15)
+      return await sushiApy(twoPi, vault)
       break
     case '2pi':
       return Promise.resolve(0.1)

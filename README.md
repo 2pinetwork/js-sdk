@@ -82,6 +82,7 @@ On every `vault` instance you can access the following attributes:
 
 * `twoPi`: instance of the main TwoPi object being used.
 * `id`: string with the vault unique identifier (in the form of network-token-pool, for example polygon-dai-aave).
+* `address`: string with the vault main contract address.
 * `token`: string identifying the token to be maximized.
 * `earn`: string identifying what you'll be receiving as a reward.
 * `priceId`: string identifying which price will be queried to the oracle.

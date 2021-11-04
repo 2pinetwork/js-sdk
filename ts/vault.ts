@@ -12,6 +12,7 @@ type Referral = string | undefined
 export default class Vault {
   readonly twoPi:    TwoPi
   readonly id:       string
+  readonly address:  string
   readonly token:    string
   readonly earn:     string
   readonly priceId:  string
@@ -36,6 +37,7 @@ export default class Vault {
     this.pid     = data.pid
     this.chainId = data.chainId
     this.borrow  = data.borrow
+    this.address = vaultInfo(this).address
   }
 
   signer(): Signer {

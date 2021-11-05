@@ -40,6 +40,13 @@ import mumbai2pi from './abis/main/80001/2Pi'
 
 
 
+// -- REFERRAL --
+
+// Polygon testnet (Mumbai)
+import mumbaiReferral from './abis/main/80001/referral'
+
+
+
 // -- CONTROLLERS --
 
 // Polygon testnet (Mumbai)
@@ -56,6 +63,10 @@ type AbiLib = {
 
 const archimedesAbis: AbiLib = {
   80001: mumbaiArchimedes
+}
+
+const referralAbis: AbiLib = {
+  80001: mumbaiReferral
 }
 
 const poolAbis: AbiLib = {
@@ -137,6 +148,10 @@ const controllerAbis: AbiLib = {
 
 export const archimedesInfo = (twoPi: TwoPi) => {
   return archimedesAbis[twoPi.chainId]
+}
+
+export const referralInfo = (twoPi: TwoPi) => {
+  return referralAbis[twoPi.chainId]
 }
 
 export const poolInfo = (vault: Vault) => {

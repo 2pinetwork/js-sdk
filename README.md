@@ -73,6 +73,9 @@ On every `twoPi` instance you can access the following attributes:
 * `getVaults()` it returns an array of Vault instances, initialized with this instance for the selected network.
 * `piTokenPerBlock()` it returns the amount of 2PI tokens per block assigned to liquidity mining.
 * `totalWeighing()` it returns the sum of all the vault weighing, used to know the amount of tokens distributed to a given vault.
+* `referralTotalPaid()` it returns the sum of all the rewards payed to referrals, expressed in PI token weis.
+* `referralsCount()` it returns the amount of referrals for the current signer (if any).
+* `referralsPaid()` it returns the amount of rewards paid to the current signer (if any), expressed in PI token weis.
 
 
 ## Vault instance

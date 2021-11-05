@@ -116,6 +116,7 @@ On every `vault` instance you can access the following attributes:
 * `async withdrawAll()` withdraw all the deposited tokens and transfers them to the signer wallet.
 * `async harvest()` claim all the 2PI tokens rewarded by the vault to the current signer.
 * `async apy()` returns the vault current APY as a multiplier (for example, 10% it is represented as 0.1).
+* `async rewardsApr()` returns the vault current rewards APR as a multiplier (for example, 5% it is represented as 0.05).
 
 # Let's talk!
 

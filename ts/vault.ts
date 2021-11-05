@@ -194,6 +194,10 @@ export default class Vault {
     return getApy(this.twoPi, this)
   }
 
+  rewardsApr(): Promise<number | undefined> {
+    return Promise.resolve(0.06)
+  }
+
   protected contract(): Contract {
     const { address, abi } = vaultInfo(this)
 

@@ -13,7 +13,7 @@ const blocksPerYearFor = (chainId: number) => {
   return SECONDS_PER_YEAR / AVERAGE_BLOCK_MINE_TIME_IN_SECONDS[chainId]
 }
 
-export const getRewardsApr = async (vault: Vault): Promise<number | undefined> => {
+export const getRewardsApy = async (vault: Vault): Promise<number | undefined> => {
   if (vault.token === '2pi') return 0
 
   const twoPi           = vault.twoPi
@@ -37,7 +37,7 @@ export const getRewardsApr = async (vault: Vault): Promise<number | undefined> =
     .times(twoPiPrice)
     .div(new BigNumber(10).pow(twoPiDecimals?.toString() || 0))
 
-  const apr = piTokensInUSD.div(tvlInUSD)
+  const apy = piTokensInUSD.div(tvlInUSD)
 
-  return apr.isFinite() && apr.isPositive() ? apr.toNumber() : 0
+  return apy.isFinite() && apy.isPositive() ? apy.toNumber() : 0
 }

@@ -122,7 +122,7 @@ On every `vault` instance you can access the following attributes:
 * `async withdrawAll()` withdraw all the deposited tokens and transfers them to the signer wallet.
 * `async harvest()` claim all the 2PI tokens rewarded by the vault to the current signer.
 * `async apy()` returns the vault current APY as a multiplier (for example, 10% it is represented as 0.1).
-* `async rewardsApr()` returns the vault current rewards APR as a multiplier (for example, 5% it is represented as 0.05).
+* `async rewardsApy()` returns the vault current rewards APY as a multiplier (for example, 5% it is represented as 0.05).
 * `async weighing()` returns the vault current weighing. This value is used to determine how many 2PI tokens will be assigned during liquidity mining. Relates to twoPi `totalWeighing`, with that you can calculate the portion of tokens given to the vault using `weighing / totalWeighing`.
 
 # Let's talk!

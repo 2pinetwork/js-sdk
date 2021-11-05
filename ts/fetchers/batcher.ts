@@ -1,9 +1,13 @@
 import { ContractCall, Provider } from 'ethers-multicall'
 import Vault from '../vault'
 
-export const toBatchedCalls = (vault: Vault, calls: Array<[string, ContractCall]>): Array<BatchedCall> => {
+type Identifiable = {
+  id: string
+}
+
+export const toBatchedCalls = (identifiable: Identifiable, calls: Array<[string, ContractCall]>): Array<BatchedCall> => {
   return calls.map(([key, call]): BatchedCall => {
-    return { id: vault.id, key, call }
+    return { id: identifiable.id, key, call }
   })
 }
 

@@ -1,3 +1,4 @@
+import TwoPi from './twoPi'
 import Vault from './vault'
 
 
@@ -51,6 +52,10 @@ type AbiLib = {
   [key: number]: {
     [key: string]: any
   }
+}
+
+const archimedesAbis: AbiLib = {
+  80001: mumbaiArchimedes
 }
 
 const poolAbis: AbiLib = {
@@ -128,6 +133,10 @@ const controllerAbis: AbiLib = {
       address: mumbaiControllerAddresses['polygon-matic-2pi-sushi']
     }
   }
+}
+
+export const archimedesInfo = (twoPi: TwoPi) => {
+  return archimedesAbis[twoPi.chainId]
 }
 
 export const poolInfo = (vault: Vault) => {

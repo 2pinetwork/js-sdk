@@ -3,6 +3,7 @@ import { VaultData } from './data/vaults'
 import { ZERO_ADDRESS } from './data/constants'
 import { vaultTokenInfo, vaultInfo } from './abis'
 import getApy from './helpers/apy'
+import { getRewardsApr } from './helpers/rewards'
 import getPoolData, { VaultInfo } from './fetchers/pool'
 import getWalletData from './fetchers/wallet'
 import TwoPi from './twoPi'
@@ -108,6 +109,12 @@ export default class Vault {
     return this.token === '2pi' ? BigNumber.from(0) : info?.withdrawalFee
   }
 
+  async weighing(): Promise<BigNumberish | undefined> {
+    const info = await this.getPoolData() as any
+
+    return this.token === '2pi' ? BigNumber.from(0) : info?.poolInfo?.weighing
+  }
+
   approve(amount: BigNumberish): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
@@ -195,7 +202,7 @@ export default class Vault {
   }
 
   rewardsApr(): Promise<number | undefined> {
-    return Promise.resolve(0.06)
+    return getRewardsApr(this)
   }
 
   protected contract(): Contract {

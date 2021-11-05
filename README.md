@@ -62,6 +62,7 @@ This is the entry point of almost any interaction. You will be asked to provide 
 
 On every `twoPi` instance you can access the following attributes:
 
+* `id`: string with this instance identification, it contains the fixed string "twoPi" together with the `chainId` attribute, separated by an hyphen.
 * `chainId`: the chain to be used.
 * `provider`: the RPC provided instance.
 * `signer`: the signer of any transaction that requires it (usually the user's wallet).
@@ -70,6 +71,8 @@ On every `twoPi` instance you can access the following attributes:
 
 * `constructor(chainId, provider, signer)` refer to "Public attributes" to get a description of each argument.
 * `getVaults()` it returns an array of Vault instances, initialized with this instance for the selected network.
+* `piTokenPerBlock()` it returns the amount of 2PI tokens per block assigned to liquidity mining.
+* `totalWeighing()` it returns the sum of all the vault weighing, used to know the amount of tokens distributed to a given vault.
 
 
 ## Vault instance
@@ -117,6 +120,7 @@ On every `vault` instance you can access the following attributes:
 * `async harvest()` claim all the 2PI tokens rewarded by the vault to the current signer.
 * `async apy()` returns the vault current APY as a multiplier (for example, 10% it is represented as 0.1).
 * `async rewardsApr()` returns the vault current rewards APR as a multiplier (for example, 5% it is represented as 0.05).
+* `async weighing()` returns the vault current weighing. This value is used to determine how many 2PI tokens will be assigned during liquidity mining. Relates to twoPi `totalWeighing`, with that you can calculate the portion of tokens given to the vault using `weighing / totalWeighing`.
 
 # Let's talk!
 

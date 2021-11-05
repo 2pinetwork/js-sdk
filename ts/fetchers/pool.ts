@@ -15,7 +15,7 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
   const controllerData = controllerInfo(vault)
   const vaultContract  = new Contract(vaultData.address, vaultData.abi)
 
-  let tokenDecimals, pricePerFullShare, vaultDecimals, tvl, withdrawalFee
+  let tokenDecimals, poolInfo, pricePerFullShare, vaultDecimals, tvl, withdrawalFee
 
   if (tokenData.abi) {
     const tokenContract = new Contract(tokenData.address, tokenData.abi)
@@ -31,6 +31,7 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     vaultDecimals     = vaultContract.decimals()
     tvl               = vaultContract.balance()
     withdrawalFee     = tokenDecimals // _fake_ value
+    poolInfo          = tokenDecimals // _fake_ value
   } else {
     const controllerContract = new Contract(controllerData.address, controllerData.abi)
 
@@ -38,6 +39,7 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     vaultDecimals     = vaultContract.decimals(vault.pid)
     tvl               = vaultContract.balance(vault.pid)
     withdrawalFee     = controllerContract.withdrawFee()
+    poolInfo          = vaultContract.poolInfo(vault.pid)
   }
 
   return toBatchedCalls(vault, [
@@ -45,7 +47,8 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     ['vaultDecimals',     vaultDecimals],
     ['tvl',               tvl],
     ['withdrawalFee',     withdrawalFee],
-    ['tokenDecimals',     tokenDecimals]
+    ['tokenDecimals',     tokenDecimals],
+    ['poolInfo',          poolInfo]
   ])
 }
 

@@ -55,11 +55,27 @@ import {
   addresses as mumbaiControllerAddresses
 } from './abis/main/80001/controller'
 
+// -- STRATEGIES --
+
+// Polygon testnet (Mumbai)
+import {
+  abi       as mumbaiStrategyAbi,
+  addresses as mumbaiStrategyAddresses
+} from './abis/main/80001/strategy'
+
+
+
+// -- TYPES --
+
 type AbiLib = {
   [key: number]: {
     [key: string]: any
   }
 }
+
+
+
+// -- HELPERS --
 
 const archimedesAbis: AbiLib = {
   80001: mumbaiArchimedes
@@ -146,6 +162,47 @@ const controllerAbis: AbiLib = {
   }
 }
 
+const strategyAbis: AbiLib = {
+  80001: {
+    'aave-btc': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-btc-aave']
+    },
+    'aave-dai': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-dai-aave']
+    },
+    'aave-eth': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-eth-aave']
+    },
+    'aave-matic': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-matic-aave']
+    },
+    'aave-usdc': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-usdc-aave']
+    },
+    'aave-usdt': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-usdt-aave']
+    },
+    'sushi-eth-2pi': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-eth-2pi-sushi']
+    },
+    'sushi-dai-2pi': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-dai-2pi-sushi']
+    },
+    'sushi-matic-2pi': {
+      abi:     mumbaiStrategyAbi,
+      address: mumbaiStrategyAddresses['polygon-matic-2pi-sushi']
+    }
+  }
+}
+
 export const archimedesInfo = (twoPi: TwoPi) => {
   return archimedesAbis[twoPi.chainId]
 }
@@ -172,4 +229,8 @@ export const vaultInfo = (vault: Vault) => {
 
 export const controllerInfo = (vault: Vault) => {
   return controllerAbis[vault.chainId][`${vault.pool}-${vault.token}`]
+}
+
+export const strategyInfo = (vault: Vault) => {
+  return strategyAbis[vault.chainId][`${vault.pool}-${vault.token}`]
 }

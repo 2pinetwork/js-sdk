@@ -115,6 +115,25 @@ export default class Vault {
     return this.token === '2pi' ? BigNumber.from(0) : info?.poolInfo?.weighing
   }
 
+  async depositCap(): Promise<BigNumberish | undefined> {
+    const info = await this.getPoolData()
+
+    return this.token === '2pi' ? BigNumber.from(0) : info?.depositCap
+  }
+
+  async availableDeposit(): Promise<BigNumberish | undefined> {
+    const info = await this.getPoolData()
+    const max  = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+
+    return this.token === '2pi' ? BigNumber.from(max) : info?.availableDeposit
+  }
+
+  async paused(): Promise<boolean | undefined> {
+    const info = await this.getPoolData() as any
+
+    return this.token === '2pi' ? false : info?.paused
+  }
+
   approve(amount: BigNumberish): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 

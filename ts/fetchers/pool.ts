@@ -1,9 +1,14 @@
 import { BigNumberish } from 'ethers'
 import { Contract, ContractCall, Provider } from 'ethers-multicall'
-import { controllerInfo, vaultTokenInfo, vaultInfo } from '../abis'
 import Batcher, { BatchedCall, toBatchedCalls } from './batcher'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
+import {
+  controllerInfo,
+  strategyInfo,
+  vaultTokenInfo,
+  vaultInfo
+} from '../abis'
 
 export type VaultInfo = {
   [key: string]: BigNumberish
@@ -13,9 +18,18 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
   const vaultData      = vaultInfo(vault)
   const tokenData      = vaultTokenInfo(vault)
   const controllerData = controllerInfo(vault)
+  const strategyData   = strategyInfo(vault)
   const vaultContract  = new Contract(vaultData.address, vaultData.abi)
 
-  let tokenDecimals, poolInfo, pricePerFullShare, vaultDecimals, tvl, withdrawalFee
+  let tokenDecimals,
+      poolInfo,
+      pricePerFullShare,
+      vaultDecimals,
+      tvl,
+      withdrawalFee,
+      depositCap,
+      availableDeposit,
+      paused
 
   if (tokenData.abi) {
     const tokenContract = new Contract(tokenData.address, tokenData.abi)
@@ -32,14 +46,21 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     tvl               = vaultContract.balance()
     withdrawalFee     = tokenDecimals // _fake_ value
     poolInfo          = tokenDecimals // _fake_ value
+    depositCap        = tokenDecimals // _fake_ value
+    availableDeposit  = tokenDecimals // _fake_ value
+    paused            = tokenDecimals // _fake_ value
   } else {
     const controllerContract = new Contract(controllerData.address, controllerData.abi)
+    const strategyContract   = new Contract(strategyData.address, strategyData.abi)
 
     pricePerFullShare = vaultContract.getPricePerFullShare(vault.pid)
     vaultDecimals     = vaultContract.decimals(vault.pid)
     tvl               = vaultContract.balance(vault.pid)
     withdrawalFee     = controllerContract.withdrawFee()
     poolInfo          = vaultContract.poolInfo(vault.pid)
+    depositCap        = controllerContract.depositCap()
+    availableDeposit  = controllerContract.availableDeposit()
+    paused            = strategyContract.paused()
   }
 
   return toBatchedCalls(vault, [
@@ -48,6 +69,9 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     ['tvl',               tvl],
     ['withdrawalFee',     withdrawalFee],
     ['tokenDecimals',     tokenDecimals],
+    ['depositCap',        depositCap],
+    ['availableDeposit',  availableDeposit],
+    ['paused',            paused],
     ['poolInfo',          poolInfo]
   ])
 }

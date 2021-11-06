@@ -124,6 +124,9 @@ On every `vault` instance you can access the following attributes:
 * `async apy()` returns the vault current APY as a multiplier (for example, 10% it is represented as 0.1).
 * `async rewardsApy()` returns the vault current rewards APY as a multiplier (for example, 5% it is represented as 0.05).
 * `async weighing()` returns the vault current weighing. This value is used to determine how many 2PI tokens will be assigned during liquidity mining. Relates to twoPi `totalWeighing`, with that you can calculate the portion of tokens given to the vault using `weighing / totalWeighing`.
+* `async depositCap()` returns the vault current deposit cap (in wei using same decimals as want token). 0 means unlimited.
+* `async availableDeposit()` returns the vault current maximum amount allowed to be deposited (in wei using same decimals as want token).
+* `async paused()` returns true if the vault is paused (which means it does not accept deposits for the time being).
 
 # Let's talk!
 

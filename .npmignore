@@ -2,6 +2,8 @@
 .eslintignore
 .eslintrc.js
 
+getabi.sh
+
 /ts/
 /stash/
 /tsconfig.json

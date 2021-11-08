@@ -37,7 +37,7 @@ export const getRewardsApr = async (vault: Vault): Promise<number | undefined> =
     .times(twoPiPrice)
     .div(new BigNumber(10).pow(twoPiDecimals?.toString() || 0))
 
-  const apy = dailyPiTokensInUSD.times(365).div(tvlInUSD)
+  const apr = dailyPiTokensInUSD.times(365).div(tvlInUSD)
 
-  return apy.isFinite() && apy.isPositive() ? apy.toNumber() : 0
+  return apr.isFinite() && apr.isPositive() ? apr.toNumber() : 0
 }

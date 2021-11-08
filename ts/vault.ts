@@ -3,7 +3,7 @@ import { VaultData } from './data/vaults'
 import { ZERO_ADDRESS } from './data/constants'
 import { vaultTokenInfo, vaultInfo } from './abis'
 import getApy from './helpers/apy'
-import { getRewardsApy } from './helpers/rewards'
+import { getRewardsApr } from './helpers/rewards'
 import getPoolData, { VaultInfo } from './fetchers/pool'
 import getWalletData from './fetchers/wallet'
 import TwoPi from './twoPi'
@@ -220,8 +220,8 @@ export default class Vault {
     return getApy(this.twoPi, this)
   }
 
-  rewardsApy(): Promise<number | undefined> {
-    return getRewardsApy(this)
+  rewardsApr(): Promise<number | undefined> {
+    return getRewardsApr(this)
   }
 
   protected contract(): Contract {

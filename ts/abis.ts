@@ -47,6 +47,13 @@ import mumbaiReferral from './abis/main/80001/referral'
 
 
 
+// -- ZAP --
+
+// Polygon testnet (Mumbai)
+import mumbaiZap from './abis/main/80001/zap'
+
+
+
 // -- CONTROLLERS --
 
 // Polygon testnet (Mumbai)
@@ -83,6 +90,10 @@ const archimedesAbis: AbiLib = {
 
 const referralAbis: AbiLib = {
   80001: mumbaiReferral
+}
+
+const zapAbis: AbiLib = {
+  80001: mumbaiZap
 }
 
 const poolAbis: AbiLib = {
@@ -211,8 +222,23 @@ export const referralInfo = (twoPi: TwoPi) => {
   return referralAbis[twoPi.chainId]
 }
 
+export const zapInfo = (twoPi: TwoPi) => {
+  return zapAbis[twoPi.chainId]
+}
+
 export const poolInfo = (vault: Vault) => {
   return poolAbis[vault.chainId][vault.pool]
+}
+
+export const tokenAddresses = (chainId: number) => {
+  const abis   = tokenAbis[chainId]
+  const result = new Map()
+
+  for (const [token, data] of Object.entries(abis)) {
+    result.set(token, data.address)
+  }
+
+  return result
 }
 
 export const tokenInfo = (chainId: number, token: string) => {

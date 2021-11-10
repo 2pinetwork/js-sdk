@@ -128,6 +128,23 @@ On every `vault` instance you can access the following attributes:
 * `async availableDeposit()` returns the vault current maximum amount allowed to be deposited (in wei using same decimals as want token).
 * `async paused()` returns true if the vault is paused (which means it does not accept deposits for the time being).
 
+## Zap instance
+
+This class is used to swap and build LPs from single tokens. Basically a fancy and convenient wrapper so we can _omit_ going to an external exchange.
+
+### Public attributes
+
+On every `zap` instance you can access the following attributes:
+
+* `twoPi`: instance of the main TwoPi object being used.
+
+### Public methods
+
+* `constructor(twoPi: TwoPi)` refer to "Public attributes" to get a description of each argument and attribute.
+* `tokenAddresses()` returns the current supported tokens as a map with `tokenId` as keys and `tokenAddress` values.
+* `async zapIn(from, to, amount)` swap `from` tokens for `to` tokens (both as addresses) by `amount` (expressed on wei using `from` units). If `to` address points to an LP, it will be automatically created and "balanced" on equal parts. If `to` is a simple token, it behaves like a usual swap.
+* `async zapOut(from, amount)` split `from` LP token back to the "original" tokens, `amount` is expressed using the LP units in wei. It only works on LPs.
+
 # Let's talk!
 
 * [Join our #devs](https://discord.gg/fyc42N2d) channel on Discord!

@@ -14,11 +14,11 @@ const blocksPerDayFor = (chainId: number) => {
 }
 
 export const getRewardsApr = async (vault: Vault): Promise<number | undefined> => {
-  if (vault.token === '2pi') return 0
+  if (vault.isPowerVault()) return 0
 
   const twoPi           = vault.twoPi
   const blocksPerDay    = blocksPerDayFor(vault.chainId)
-  const twoPiVault      = twoPi.getVaults().find(v => v.token === '2pi') as Vault
+  const twoPiVault      = twoPi.getVaults().find(v => v.token.name === '2pi') as Vault
   const twoPiDecimals   = await twoPiVault.tokenDecimals()
   const twoPiPrice      = await getPrice(twoPiVault)
   const piTokenPerBlock = await twoPi.piTokenPerBlock()

@@ -1,3 +1,5 @@
+import { JsonFragment, Fragment } from '@ethersproject/abi'
+import Token from './token'
 import TwoPi from './twoPi'
 import Vault from './vault'
 
@@ -74,9 +76,11 @@ import {
 
 // -- TYPES --
 
+export type Abi = string[] | Fragment[] | JsonFragment[]
+
 type AbiLib = {
   [key: number]: {
-    [key: string]: any
+    [key: string]: Abi | any
   }
 }
 
@@ -241,8 +245,8 @@ export const tokenAddresses = (chainId: number) => {
   return result
 }
 
-export const tokenInfo = (chainId: number, token: string) => {
-  return tokenAbis[chainId][token]
+export const tokenInfo = (chainId: number, token: Token) => {
+  return tokenAbis[chainId][token.name]
 }
 
 export const vaultTokenInfo = (vault: Vault) => {
@@ -250,13 +254,13 @@ export const vaultTokenInfo = (vault: Vault) => {
 }
 
 export const vaultInfo = (vault: Vault) => {
-  return vaultAbis[vault.chainId][`${vault.pool}-${vault.token}`]
+  return vaultAbis[vault.chainId][`${vault.pool}-${vault.token.name}`]
 }
 
 export const controllerInfo = (vault: Vault) => {
-  return controllerAbis[vault.chainId][`${vault.pool}-${vault.token}`]
+  return controllerAbis[vault.chainId][`${vault.pool}-${vault.token.name}`]
 }
 
 export const strategyInfo = (vault: Vault) => {
-  return strategyAbis[vault.chainId][`${vault.pool}-${vault.token}`]
+  return strategyAbis[vault.chainId][`${vault.pool}-${vault.token.name}`]
 }

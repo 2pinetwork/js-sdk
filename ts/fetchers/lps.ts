@@ -1,6 +1,6 @@
 import { BigNumberish } from 'ethers'
 import { Contract, ContractCall, Provider } from 'ethers-multicall'
-import { tokenInfo, vaultTokenInfo } from '../abis'
+import { Abi, tokenInfo, vaultTokenInfo } from '../abis'
 import Batcher, { BatchedCall, toBatchedCalls } from './batcher'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
@@ -15,12 +15,10 @@ type LpsInfo = {
 
 const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> => {
   const lpTokenData                = vaultTokenInfo(vault)
-  const [ token0Data, token1Data ] = vault.token.split('-').map(tokenName => {
-    return tokenInfo(vault.chainId, tokenName)
-  })
+  const [ token0Data, token1Data ] = vault.token.abiInfo()
 
-  const token0Abi       = token0Data.abi || token0Data.wabi
-  const token1Abi       = token1Data.abi || token1Data.wabi
+  const token0Abi       = token0Data.abi || token0Data.wabi as Abi
+  const token1Abi       = token1Data.abi || token1Data.wabi as Abi
   const lpTokenContract = new Contract(lpTokenData.address, lpTokenData.abi)
   const token0Contract  = new Contract(token0Data.address, token0Abi)
   const token1Contract  = new Contract(token1Data.address, token1Abi)

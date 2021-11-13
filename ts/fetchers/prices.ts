@@ -114,7 +114,7 @@ class Fetcher extends Batcher {
 
       Object.entries(data).forEach(([vaultId, values]) => {
         const vault              = vaults.find(v => v.id === vaultId) as Vault
-        const [ token0, token1 ] = vault.token.split('-').map(t => priceIds[t])
+        const [ token0, token1 ] = vault.token.names().map(t => priceIds[t])
 
         if (! (token0 && token1)) {
           throw new Error('LP tokens price ID was not found!')

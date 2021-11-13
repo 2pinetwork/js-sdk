@@ -6,7 +6,6 @@ export type VaultData = {
   oracle:  'api' | 'lps' | 'graph'
   uses:    'Aave' | 'Curve' | 'Sushi' | '2pi'
   pool:    'aave' | 'curve' | 'sushi' | '2pi'
-  symbol:  string
   pid:     string
   chainId: number
   borrow?: { depth: number, percentage: number }
@@ -22,7 +21,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'graph',
       uses:    '2pi',
       pool:    '2pi',
-      symbol:  '2PI',
       pid:     '-1',
       borrow:  { depth: 0, percentage: 0 },
       chainId
@@ -36,7 +34,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
-      symbol:  'DAI',
       pid:     '1',
       borrow:  { depth: 8, percentage: 0.73 },
       chainId
@@ -50,7 +47,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
-      symbol:  'MATIC',
       pid:     '0',
       borrow:  { depth: 8, percentage: 0.48 },
       chainId
@@ -64,7 +60,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
-      symbol:  'BTC',
       pid:     '5',
       borrow:  { depth: 8, percentage: 0.68 },
       chainId
@@ -78,7 +73,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
-      symbol:  'ETH',
       pid:     '4',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
@@ -92,7 +86,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
-      symbol:  'USDC',
       pid:     '3',
       borrow:  { depth: 8, percentage: 0.78 },
       chainId
@@ -106,7 +99,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'api',
       uses:    'Aave',
       pool:    'aave',
-      symbol:  'USDT',
       pid:     '2',
       borrow:  { depth: 0, percentage: 0 },
       chainId
@@ -120,7 +112,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'lps',
       uses:    'Sushi',
       pool:    'sushi',
-      symbol:  'ETH-2PI',
       pid:     '7',
       borrow:  { depth: 0, percentage: 0 },
       chainId
@@ -134,7 +125,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'lps',
       uses:    'Sushi',
       pool:    'sushi',
-      symbol:  'DAI-2PI',
       pid:     '6',
       borrow:  { depth: 0, percentage: 0 },
       chainId
@@ -148,7 +138,6 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
       oracle:  'lps',
       uses:    'Sushi',
       pool:    'sushi',
-      symbol:  'MATIC-2PI',
       pid:     '8',
       borrow:  { depth: 0, percentage: 0 },
       chainId

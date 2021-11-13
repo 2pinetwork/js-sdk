@@ -40,7 +40,7 @@ const callsFor = (ethcallProvider: Provider, vault: Vault): Array<BatchedCall> =
     tokenDecimals = vaultContract.decimals(vault.pid) // same decimals
   }
 
-  if (vault.token === '2pi') {
+  if (vault.isPowerVault()) {
     pricePerFullShare = vaultContract.getPricePerFullShare()
     vaultDecimals     = vaultContract.decimals()
     tvl               = vaultContract.balance()

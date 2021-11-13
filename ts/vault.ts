@@ -1,12 +1,13 @@
 import { BigNumber, BigNumberish, Contract, Signer, Transaction, VoidSigner } from 'ethers'
 import { VaultData } from './data/vaults'
-import { ZERO_ADDRESS } from './data/constants'
-import { vaultTokenInfo, vaultInfo } from './abis'
+import { MAX_NUMBER, ZERO_ADDRESS } from './data/constants'
+import { Abi, vaultTokenInfo, vaultInfo } from './abis'
 import getApy from './helpers/apy'
 import { getRewardsApr } from './helpers/rewards'
 import getPoolData, { VaultInfo } from './fetchers/pool'
 import getWalletData from './fetchers/wallet'
 import TwoPi from './twoPi'
+import Token from './token'
 
 type Referral = string | undefined
 
@@ -14,13 +15,12 @@ export default class Vault {
   readonly twoPi:    TwoPi
   readonly id:       string
   readonly address:  string
-  readonly token:    string
+  readonly token:    Token
   readonly earn:     string
   readonly priceId:  string
   readonly oracle:   'api' | 'lps' | 'graph'
   readonly uses:     'Aave' | 'Curve' | 'Sushi' | '2pi'
   readonly pool:     'aave' | 'curve' | 'sushi' | '2pi'
-  readonly symbol:   string
   readonly pid:      string
   readonly chainId:  number
   readonly borrow?:  { depth: number, percentage: number }
@@ -28,16 +28,15 @@ export default class Vault {
   constructor(twoPi: TwoPi, data: VaultData) {
     this.twoPi   = twoPi
     this.id      = data.id
-    this.token   = data.token
     this.earn    = data.earn
     this.priceId = data.priceId
     this.oracle  = data.oracle
     this.uses    = data.uses
     this.pool    = data.pool
-    this.symbol  = data.symbol
     this.pid     = data.pid
     this.chainId = data.chainId
     this.borrow  = data.borrow
+    this.token   = new Token({ name: data.token, chainId: data.chainId })
     this.address = vaultInfo(this).address
   }
 
@@ -47,6 +46,10 @@ export default class Vault {
 
   canSign(): boolean {
     return !(this.signer() instanceof VoidSigner)
+  }
+
+  isPowerVault(): boolean {
+    return this.token.name === '2pi'
   }
 
   async shares(): Promise<BigNumberish | undefined> {
@@ -106,32 +109,35 @@ export default class Vault {
   async withdrawalFee(): Promise<BigNumberish | undefined> {
     const info = await this.getPoolData()
 
-    return this.token === '2pi' ? BigNumber.from(0) : info?.withdrawalFee
+    return this.token.name === '2pi' ? BigNumber.from(0) : info?.withdrawalFee
   }
 
   async weighing(): Promise<BigNumberish | undefined> {
     const info = await this.getPoolData() as any
 
-    return this.token === '2pi' ? BigNumber.from(0) : info?.poolInfo?.weighing
+    return this.token.name === '2pi' ? BigNumber.from(0) : info?.poolInfo?.weighing
   }
 
   async depositCap(): Promise<BigNumberish | undefined> {
     const info = await this.getPoolData()
 
-    return this.token === '2pi' ? BigNumber.from(0) : info?.depositCap
+    return this.token.name === '2pi' ? BigNumber.from(0) : info?.depositCap
   }
 
   async availableDeposit(): Promise<BigNumberish | undefined> {
     const info = await this.getPoolData()
-    const max  = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
 
-    return this.token === '2pi' ? BigNumber.from(max) : info?.availableDeposit
+    if (this.token.name === '2pi') {
+      return BigNumber.from(MAX_NUMBER)
+    } else {
+      return info?.availableDeposit
+    }
   }
 
   async paused(): Promise<boolean | undefined> {
     const info = await this.getPoolData() as any
 
-    return this.token === '2pi' ? false : info?.paused
+    return this.token.name === '2pi' ? false : info?.paused
   }
 
   approve(amount: BigNumberish): Promise<Transaction> {
@@ -149,7 +155,7 @@ export default class Vault {
     const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
 
-    switch (this.token) {
+    switch (this.token.name) {
       case '2pi':
         return contract.deposit(amount)
       case 'matic':
@@ -165,9 +171,9 @@ export default class Vault {
     const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
 
-    if (this.token === '2pi') {
+    if (this.token.name === '2pi') {
       return contract.depositAll()
-    } else if (this.token === 'matic') {
+    } else if (this.token.name === 'matic') {
       const balance = (await this.balance()) || 0
       const reserve = BigNumber.from(`${0.025e18}`)
       const amount  = BigNumber.from(balance).sub(reserve)
@@ -185,7 +191,7 @@ export default class Vault {
 
     const contract = this.contract()
 
-    if (this.token === '2pi') {
+    if (this.token.name === '2pi') {
       return contract.withdraw(amount)
     } else {
       return contract.withdraw(this.pid, amount)
@@ -197,7 +203,7 @@ export default class Vault {
 
     const contract = this.contract()
 
-    if (this.token === '2pi') {
+    if (this.token.name === '2pi') {
       return contract.withdrawAll()
     } else {
       return contract.withdrawAll(this.pid)

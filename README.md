@@ -49,6 +49,21 @@ twoPi.getVaults().forEach(async vault => {
 })
 ```
 
+# Public classes
+
+* [TwoPi](#twopi-instance)
+  * [Attributes](#twopi-public-attributes)
+  * [Methods](#twopi-public-methods)
+* [Vault](#vault-instance)
+  * [Attributes](#vault-public-attributes)
+  * [Methods](#vault-public-methods)
+* [Token](#token-instance)
+  * [Attributes](#token-public-attributes)
+  * [Methods](#token-public-methods)
+* [Zap](#zap-instance)
+  * [Attributes](#zap-public-attributes)
+  * [Methods](#zap-public-methods)
+
 
 ## TwoPi instance
 
@@ -58,7 +73,7 @@ This is the entry point of almost any interaction. You will be asked to provide 
 * The provider, can be any RCP that supports the selected network.
 * The wallet to be used for every operation that requires it.
 
-### Public attributes {#two-pi-public-attributes}
+### TwoPi public attributes
 
 On every `twoPi` instance you can access the following attributes:
 
@@ -67,9 +82,9 @@ On every `twoPi` instance you can access the following attributes:
 * `provider`: the RPC provided instance.
 * `signer`: the signer of any transaction that requires it (usually the user's wallet).
 
-### Public methods
+### TwoPi public methods
 
-* `constructor(chainId, provider, signer)` refer to ["Public attributes"](#two-pi-public-attributes) to get a description of each argument.
+* `constructor(chainId, provider, signer)` refer to [TwoPi public attributes](#twopi-public-attributes) to get a description of each argument.
 * `getVaults()` it returns an array of Vault instances, initialized with this instance for the selected network.
 * `piTokenPerBlock()` it returns the amount of 2PI tokens per block assigned to liquidity mining.
 * `totalWeighing()` it returns the sum of all the vault weighing, used to know the amount of tokens distributed to a given vault.
@@ -82,7 +97,7 @@ On every `twoPi` instance you can access the following attributes:
 
 This class represents a unique vault and can be used to interact and query information.
 
-### Public attributes {#vault-public-attributes}
+### Vault public attributes
 
 On every `vault` instance you can access the following attributes:
 
@@ -99,9 +114,9 @@ On every `vault` instance you can access the following attributes:
 * `chainId`: number identifying the chain in which the vault it is deployed.
 * `borrow`?: optional object containing the borrow depth and percentage used by the vault.
 
-### Public methods
+### Vault public methods
 
-* `constructor(twoPi: TwoPi, data: {id, token, earn, priceId, uses, pool, symbol, chainId, borrow, twoPi})` refer to ["Public attributes"](#vault-public-attributes) to get a description of each argument and attribute.
+* `constructor(twoPi: TwoPi, data: {id, token, earn, priceId, uses, pool, symbol, chainId, borrow, twoPi})` refer to [Vault public attributes](#vault-public-attributes) to get a description of each argument and attribute.
 * `signer()` returns the current assigned signer.
 * `canSign()` whether the current signer is a read-only signer or not.
 * `isPowerVault()` returns true only for 2PI vault (since it is a _special_ vault, with no strategy nor transfers to other protocols).
@@ -133,7 +148,7 @@ On every `vault` instance you can access the following attributes:
 
 This class represents a unique token and can be used to interact and query information.
 
-### Public attributes {#token-public-attributes}
+### Token public attributes
 
 On every `token` instance you can access the following attributes:
 
@@ -142,9 +157,9 @@ On every `token` instance you can access the following attributes:
 * `chainId`: number identifying the chain in which the vault it is deployed.
 * `type`: string identifying the token type, can be `token` (means a single token) or `lp`.
 
-### Public methods
+### Token public methods
 
-* `constructor(data: {name, chainId})` refer to ["Public attributes"](#token-public-attributes) to get a description of each argument and attribute.
+* `constructor(data: {name, chainId})` refer to [Token public attributes](#token-public-attributes) to get a description of each argument and attribute.
 * `abiInfo()` returns an array of objects with `{address, abi, wabi}` for each individual token (just one when single token and multiple when LP). The `address` attribute contains the contract address, the `abi` and `wabi` attributes contains the ABI data for that token. Only one of both is guaranteed to be defined, `abi` represents the "direct" ABI and `wabi` represents the wrapper ABI. For example, in case of native tokens like "Matic", `abi` will be undefined and `wabi` will contain the "WMATIC" ABI.
 * `addLiquidityUrl()` returns a string with the URL of an exchange that will allow adding liquidity to the current token (useful mostly for LPs).
 * `names()` returns an array of strings with each individual token name. In case of single tokens is the same as `[token.name]`.
@@ -155,15 +170,15 @@ On every `token` instance you can access the following attributes:
 
 This class is used to swap and build LPs from single tokens. Basically a fancy and convenient wrapper so we can _omit_ going to an external exchange.
 
-### Public attributes {#zap-public-attributes}
+### Zap public attributes
 
 On every `zap` instance you can access the following attributes:
 
 * `twoPi`: instance of the main TwoPi object being used.
 
-### Public methods
+### Zap public methods
 
-* `constructor(twoPi: TwoPi)` refer to ["Public attributes"](#zap-public-attributes) to get a description of each argument and attribute.
+* `constructor(twoPi: TwoPi)` refer to [Zap public attributes](#zap-public-attributes) to get a description of each argument and attribute.
 * `tokenAddresses()` returns the current supported tokens as a map with `tokenId` as keys and `tokenAddress` values.
 * `async zapIn(from, to, amount)` swap `from` tokens for `to` tokens (both as addresses) by `amount` (expressed on wei using `from` units). If `to` address points to an LP, it will be automatically created and "balanced" on equal parts. If `to` is a simple token, it behaves like a usual swap.
 * `async zapOut(from, amount)` split `from` LP token back to the "original" tokens, `amount` is expressed using the LP units in wei. It only works on LPs.

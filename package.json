@@ -1,6 +1,6 @@
 {
   "name": "@2pi-network/js-sdk",
-  "version": "0.2.0-beta.21",
+  "version": "0.2.0-beta.22",
   "author": "2PI",
   "main": "./dist/index.js",
   "homepage": "https://github.com/2pinetwork/sdk",
@@ -23,10 +23,10 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.7",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.2.0",
-    "typedoc": "^0.22.8",
+    "typedoc": "^0.22.9",
     "typescript": "^4.4.4"
   },
   "dependencies": {

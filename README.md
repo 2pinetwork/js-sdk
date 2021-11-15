@@ -182,6 +182,7 @@ On every `zap` instance you can access the following attributes:
 * `tokenAddresses()` returns the current supported tokens as a map with `tokenId` as keys and `tokenAddress` values.
 * `async zapIn(from, to, amount)` swap `from` tokens for `to` tokens (both as addresses) by `amount` (expressed on wei using `from` units). If `to` address points to an LP, it will be automatically created and "balanced" on equal parts. If `to` is a simple token, it behaves like a usual swap.
 * `async zapOut(from, amount)` split `from` LP token back to the "original" tokens, `amount` is expressed using the LP units in wei. It only works on LPs.
+* `async estimateReceiveTokens(from, to, amount)` estimates the amount of tokens to be received in case of confirming the swap of `amount` tokens `from` to tokens `to`.
 
 # Let's talk!
 

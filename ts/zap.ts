@@ -34,6 +34,12 @@ export default class Zap {
     return contract.zapOut(from, amount)
   }
 
+  async estimateReceiveTokens(from: string, to: string, amount: BigNumberish): Promise<BigNumberish> {
+    const contract = this.contract()
+
+    return await contract.estimateReceiveTokens(from, to, amount)
+  }
+
   private signer(): Signer {
     return this.twoPi.signer
   }

@@ -1,4 +1,4 @@
-const address = '0x2ABD73a83ea59695142e90351405Ada67dEC090E'
+const address = '0xc9370894E51979aA37Ac907e3261Ad6340c8a6db'
 const abi     = [
   {
     "anonymous": false,
@@ -128,6 +128,35 @@ const abi     = [
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "estimateReceiveTokens",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -378,10 +407,6 @@ const abi     = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
   }
 ]
 

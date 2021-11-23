@@ -10,17 +10,23 @@ import getLpData from './lps'
 const currency  = 'usd'
 const oracleUrl = 'https://api.coingecko.com/api/v3/simple/price'
 const graphUrls = {
+  43113: 'https://api.thegraph.com/subgraphs/name/gwydce/fuji-pi',
   80001: 'https://api.thegraph.com/subgraphs/name/gwydce/mumbai-pi'
 }
 
 const priceIds: { [token: string]: string }  = {
   '2pi': '2pi',
+  avax:  'avalanche-2',
   dai:   'dai',
   matic: 'matic-network',
   btc:   'bitcoin',
   eth:   'ethereum',
   usdc:  'usd-coin',
   usdt:  'tether'
+}
+
+const extraApiPriceIds: { [chainId: number]: Array<string> } = {
+  43113: ['dai']
 }
 
 class Fetcher extends Batcher {
@@ -80,7 +86,9 @@ class Fetcher extends Batcher {
       return vault.oracle === 'api'
     }).map(vault => {
       return vault.priceId
-    }).join()
+    }).concat(
+      extraApiPriceIds[twoPi.chainId] || []
+    ).join()
 
     return axios.get(oracleUrl, {
       params: { ids: priceIds, vs_currencies: currency }
@@ -138,9 +146,9 @@ class Fetcher extends Batcher {
   }
 }
 
-const fetcher = new Fetcher()
-
 const getPrices = async (twoPi: TwoPi): Promise<{[key: string]: number}> => {
+  const fetcher = Fetcher.getInstance(`prices-${twoPi.chainId}`)
+
   return await fetcher.getPrices(twoPi)
 }
 

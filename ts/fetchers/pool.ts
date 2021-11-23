@@ -106,9 +106,9 @@ class Fetcher extends Batcher {
   }
 }
 
-const fetcher = new Fetcher()
-
 const getPoolData = async (twoPi: TwoPi, vault: Vault): Promise<VaultInfo> => {
+  const fetcher = Fetcher.getInstance(`pool-${twoPi.chainId}`)
+
   return await fetcher.getPoolData(twoPi, vault)
 }
 

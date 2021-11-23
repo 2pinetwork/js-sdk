@@ -61,13 +61,17 @@ class Fetcher extends Batcher {
       }
     })
 
-    return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
+    if (batchedCalls.length) {
+      return this.runBatchedCalls(ethcallProvider, batchedCalls, this.data)
+    } else {
+      return Promise.resolve()
+    }
   }
 }
 
-const fetcher = new Fetcher()
-
 const getLpData = async (twoPi: TwoPi): Promise<LpsInfo> => {
+  const fetcher = Fetcher.getInstance(`lps-${twoPi.chainId}`)
+
   return await fetcher.getLpData(twoPi)
 }
 

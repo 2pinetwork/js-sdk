@@ -275,6 +275,4 @@ const wabi    = [
   }
 ]
 
-const token = {abi, wabi, address}
-
-export default token
+export default { abi, wabi, address }

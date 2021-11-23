@@ -2,8 +2,9 @@ import BigNumber from 'bignumber.js'
 import TwoPi from '../twoPi'
 import Vault from '../vault'
 import getApyData from '../fetchers/apy'
+import { aprToYearlyApy } from '../helpers/apy'
 
-type DayData = {
+type SushiDayData = {
   id:         string
   volumeUSD:  string
   reserveUSD: string
@@ -12,7 +13,7 @@ type DayData = {
 export type SushiResponse = {
   data: {
     data: {
-      pairs: Array<{ dayData: Array<DayData> }>
+      pairs: Array<{ dayData: Array<SushiDayData> }>
     }
   }
 }
@@ -24,8 +25,6 @@ const zip = (arrays: Array<Array<any>>): Array<any> => {
     return arrays.map(array => array[i])
   })
 }
-
-const apy = (apr: number): number => (1 + apr / 365) ** 365 - 1
 
 export const sushiGraphQuery = (addresses: Array<string>, startTimestamp: number, endTimestamp: number) => {
   return `{
@@ -69,7 +68,7 @@ export const putSushiApys = (
           .dividedBy(reserve)
           .toNumber()
 
-        const tradingFeeApy = apy(tradingFeeApr)
+        const tradingFeeApy = aprToYearlyApy(tradingFeeApr)
 
         data[addresses[address]] = { tradingFeeApy }
       }

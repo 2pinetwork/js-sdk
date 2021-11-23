@@ -52,11 +52,14 @@ const getVaultApy = (
     vault.borrow?.percentage || 0
   )
 
-  const totalMatic          = leveragedSupplyMatic.plus(leveragedBorrowMatic)
-  const totalMaticAfterFees = totalMatic.times(1 - PERFORMANCE_FEE).toNumber()
-  const compoundedMatic     = toCompoundRate(totalMaticAfterFees, BASE_HPY)
+  const totalMatic      = leveragedSupplyMatic.plus(leveragedBorrowMatic)
+  const compoundedMatic = toCompoundRate(totalMatic.toNumber(), BASE_HPY)
 
-  return leveragedSupplyBase.minus(leveragedBorrowBase).plus(compoundedMatic).toNumber()
+  return leveragedSupplyBase
+    .minus(leveragedBorrowBase)
+    .plus(compoundedMatic)
+    .times(1 - PERFORMANCE_FEE)
+    .toNumber()
 }
 
 const getVaultData = (
@@ -107,25 +110,26 @@ const getLeveragedApys = (
   const percentage = new BigNumber(borrowPercent)
 
   // Always the supply will be the original supply percentage
-  let leveragedSupplyBase  = supplyBase
-  let leveragedSupplyMatic = supplyMatic
+  let leveragedSupplyBase  = new BigNumber(0)
+  let leveragedSupplyMatic = new BigNumber(0)
   let leveragedBorrowBase  = new BigNumber(0)
   let leveragedBorrowMatic = new BigNumber(0)
 
-  for (let i = 1; i <= depth; i++) {
-    const borrowPercentExp = percentage.pow(i)
-
+  for (let i = 0; i <= depth; i++) {
     leveragedSupplyBase = leveragedSupplyBase.plus(
-      supplyBase.times(borrowPercentExp)
+      supplyBase.times(percentage.pow(i))
     )
     leveragedSupplyMatic = leveragedSupplyMatic.plus(
-      supplyMatic.times(borrowPercentExp)
+      supplyMatic.times(percentage.pow(i))
     )
+  }
+
+  for (let i = 1; i <= depth; i++) {
     leveragedBorrowBase = leveragedBorrowBase.plus(
-      borrowBase.times(borrowPercentExp)
+      borrowBase.times(percentage.pow(i))
     )
     leveragedBorrowMatic = leveragedBorrowMatic.plus(
-      borrowMatic.times(borrowPercentExp)
+      borrowMatic.times(percentage.pow(i))
     )
   }
 

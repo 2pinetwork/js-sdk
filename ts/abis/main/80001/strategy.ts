@@ -1105,12 +1105,12 @@ const abi = [
 ]
 
 const addresses = {
-  'polygon-dai-aave':        '0x52B5aDd46699D655E107d4F3e24B303202085D6F',
-  'polygon-matic-aave':      '0x8Bb65B5d9c35d5B3ff1D64546cB91DF3dBe60461',
-  'polygon-btc-aave':        '0x4131ED450EA738E621EE6Bfbcc8e3bFC3E63d73A',
-  'polygon-eth-aave':        '0x58d3a7c6Ed3DFf2270d99B40bE7Ed6FC6912a043',
-  'polygon-usdc-aave':       '0xf4A1f1EDF2682a6A8815eb4Ed0E65C8AfD9B6061',
-  'polygon-usdt-aave':       '0x0D9f82f6b9D2CE863737ceB2310D41d1448Bf4C0',
+  'polygon-dai-aave':        '0x9bc3f1E3f211CF57D6DaEc9Ed34256aD5c69Cc91',
+  'polygon-matic-aave':      '0xc70f1D4Fa9A6aA463Ce7290c90b80B06A7C38113',
+  'polygon-btc-aave':        '0x057c030e480f899868f972d416fa284bed110ce2',
+  'polygon-eth-aave':        '0x4F03940e21AdD5c9b85fAFBd9681BDb95Ec7F494',
+  'polygon-usdc-aave':       '0xaC7708FEB69111b3e70DCB94113E8c536D201dE1',
+  'polygon-usdt-aave':       '0x79648554f6deC39Fd95E65179139ac0504A28ccF',
   'polygon-eth-2pi-sushi':   '0xe4e936a259116902C6aEEF33103F22e4cb403bB9',
   'polygon-dai-2pi-sushi':   '0xc37e25C2251203e942A4980142a7a4Cb32602348',
   'polygon-matic-2pi-sushi': '0xaEd112F4c82C29250b77df8B5E3d49d40782CEAb'

@@ -26,8 +26,12 @@ export const getRewardsApr = async (vault: Vault): Promise<number | undefined> =
   const totalWeighing   = await twoPi.totalWeighing()
   const weighing        = await vault.weighing()
   const tvl             = await vault.tvl()
+  const tokenDecimals   = await vault.tokenDecimals()
   const price           = await getPrice(vault)
-  const tvlInUSD        = new BigNumber(tvl?.toString() || 0).times(price)
+
+  const tvlInUSD = new BigNumber(tvl?.toString() || 0)
+    .div(new BigNumber(10).pow(tokenDecimals?.toString() || 0))
+    .times(price)
 
   const piTokensPerDay = new BigNumber(piTokenPerBlock?.toString() || 0)
     .times(blocksPerDay)

@@ -10,6 +10,9 @@ import Vault from './vault'
 // Polygon testnet (Mumbai)
 import mumbaiAavePool from './abis/pools/80001/aave'
 
+// Avalanche testnet (Fuji)
+import fujiAavePool from './abis/pools/43113/aave'
+
 
 
 // -- TOKENS --
@@ -23,6 +26,13 @@ import mumbaiMaticToken from './abis/tokens/80001/matic'
 import mumbaiUsdcToken from './abis/tokens/80001/usdc'
 import mumbaiUsdtToken from './abis/tokens/80001/usdt'
 
+// Avalanche testnet (Fuji)
+import fuji2piToken from './abis/tokens/43113/2Pi'
+import fujiBtcToken from './abis/tokens/43113/btc'
+import fujiDaiToken from './abis/tokens/43113/dai'
+import fujiEthToken from './abis/tokens/43113/eth'
+import fujiAvaxToken from './abis/tokens/43113/avax'
+
 
 
 // -- LPS --
@@ -32,6 +42,12 @@ import mumbaiEth2piLp from './abis/lps/80001/eth-2pi'
 import mumbaiDai2piLp from './abis/lps/80001/dai-2pi'
 import mumbaiMatic2piLp from './abis/lps/80001/matic-2pi'
 
+// Avalanche testnet (Fuji)
+import fujiBtc2piLp from './abis/lps/43113/btc-2pi'
+import fujiEth2piLp from './abis/lps/43113/eth-2pi'
+import fujiDai2piLp from './abis/lps/43113/dai-2pi'
+import fujiAvax2piLp from './abis/lps/43113/avax-2pi'
+
 
 
 // -- VAULTS --
@@ -40,6 +56,10 @@ import mumbaiMatic2piLp from './abis/lps/80001/matic-2pi'
 import mumbaiArchimedes from './abis/main/80001/archimedes'
 import mumbai2pi from './abis/main/80001/2Pi'
 
+// Avalanche testnet (Fuji)
+import fujiArchimedes from './abis/main/43113/archimedes'
+import fuji2pi from './abis/main/43113/2Pi'
+
 
 
 // -- REFERRAL --
@@ -47,12 +67,18 @@ import mumbai2pi from './abis/main/80001/2Pi'
 // Polygon testnet (Mumbai)
 import mumbaiReferral from './abis/main/80001/referral'
 
+// Avalanche testnet (Fuji)
+import fujiReferral from './abis/main/43113/referral'
+
 
 
 // -- ZAP --
 
 // Polygon testnet (Mumbai)
 import mumbaiZap from './abis/main/80001/zap'
+
+// Polygon testnet (Fuji)
+import fujiZap from './abis/main/43113/zap'
 
 
 
@@ -64,6 +90,14 @@ import {
   addresses as mumbaiControllerAddresses
 } from './abis/main/80001/controller'
 
+// Avalanche testnet (Fuji)
+import {
+  abi       as fujiControllerAbi,
+  addresses as fujiControllerAddresses
+} from './abis/main/43113/controller'
+
+
+
 // -- STRATEGIES --
 
 // Polygon testnet (Mumbai)
@@ -71,6 +105,12 @@ import {
   abi       as mumbaiStrategyAbi,
   addresses as mumbaiStrategyAddresses
 } from './abis/main/80001/strategy'
+
+// Avalanche testnet (Fuji)
+import {
+  abi       as fujiStrategyAbi,
+  addresses as fujiStrategyAddresses
+} from './abis/main/43113/strategy'
 
 
 
@@ -89,24 +129,41 @@ type AbiLib = {
 // -- HELPERS --
 
 const archimedesAbis: AbiLib = {
+  43113: fujiArchimedes,
   80001: mumbaiArchimedes
 }
 
 const referralAbis: AbiLib = {
+  43113: fujiReferral,
   80001: mumbaiReferral
 }
 
 const zapAbis: AbiLib = {
+  43113: fujiZap,
   80001: mumbaiZap
 }
 
 const poolAbis: AbiLib = {
+  43113: {
+    'aave': fujiAavePool
+  },
   80001: {
     'aave': mumbaiAavePool
   }
 }
 
 const tokenAbis: AbiLib = {
+  43113: {
+    '2pi':      fuji2piToken,
+    'avax':     fujiAvaxToken,
+    'btc':      fujiBtcToken,
+    'dai':      fujiDaiToken,
+    'eth':      fujiEthToken,
+    'avax-2pi': fujiAvax2piLp,
+    'btc-2pi':  fujiBtc2piLp,
+    'eth-2pi':  fujiEth2piLp,
+    'dai-2pi':  fujiDai2piLp
+  },
   80001: {
     '2pi':       mumbai2piToken,
     'btc':       mumbaiBtcToken,
@@ -122,6 +179,16 @@ const tokenAbis: AbiLib = {
 }
 
 const vaultAbis: AbiLib = {
+  43113: {
+    '2pi-2pi':           fuji2pi,
+    'aave-btc':          fujiArchimedes,
+    'aave-eth':          fujiArchimedes,
+    'aave-avax':         fujiArchimedes,
+    'pangolin-avax-2pi': fujiArchimedes,
+    'pangolin-btc-2pi':  fujiArchimedes,
+    'pangolin-eth-2pi':  fujiArchimedes,
+    'pangolin-dai-2pi':  fujiArchimedes
+  },
   80001: {
     '2pi-2pi':         mumbai2pi,
     'aave-btc':        mumbaiArchimedes,
@@ -137,6 +204,36 @@ const vaultAbis: AbiLib = {
 }
 
 const controllerAbis: AbiLib = {
+  43113: {
+    'aave-avax': {
+      abi:     fujiControllerAbi,
+      address: fujiControllerAddresses['avalanche-avax-aave']
+    },
+    'aave-btc': {
+      abi:     fujiControllerAbi,
+      address: fujiControllerAddresses['avalanche-btc-aave']
+    },
+    'aave-eth': {
+      abi:     fujiControllerAbi,
+      address: fujiControllerAddresses['avalanche-eth-aave']
+    },
+    'pangolin-avax-2pi': {
+      abi:     fujiControllerAbi,
+      address: fujiControllerAddresses['avalanche-avax-2pi-pangolin']
+    },
+    'pangolin-btc-2pi': {
+      abi:     fujiControllerAbi,
+      address: fujiControllerAddresses['avalanche-btc-2pi-pangolin']
+    },
+    'pangolin-eth-2pi': {
+      abi:     fujiControllerAbi,
+      address: fujiControllerAddresses['avalanche-eth-2pi-pangolin']
+    },
+    'pangolin-dai-2pi': {
+      abi:     fujiControllerAbi,
+      address: fujiControllerAddresses['avalanche-dai-2pi-pangolin']
+    }
+  },
   80001: {
     'aave-btc': {
       abi:     mumbaiControllerAbi,
@@ -178,6 +275,36 @@ const controllerAbis: AbiLib = {
 }
 
 const strategyAbis: AbiLib = {
+  43113: {
+    'aave-avax': {
+      abi:     fujiStrategyAbi,
+      address: fujiStrategyAddresses['avalanche-avax-aave']
+    },
+    'aave-btc': {
+      abi:     fujiStrategyAbi,
+      address: fujiStrategyAddresses['avalanche-btc-aave']
+    },
+    'aave-eth': {
+      abi:     fujiStrategyAbi,
+      address: fujiStrategyAddresses['avalanche-eth-aave']
+    },
+    'pangolin-avax-2pi': {
+      abi:     fujiStrategyAbi,
+      address: fujiStrategyAddresses['avalanche-avax-2pi-pangolin']
+    },
+    'pangolin-btc-2pi': {
+      abi:     fujiStrategyAbi,
+      address: fujiStrategyAddresses['avalanche-btc-2pi-pangolin']
+    },
+    'pangolin-eth-2pi': {
+      abi:     fujiStrategyAbi,
+      address: fujiStrategyAddresses['avalanche-eth-2pi-pangolin']
+    },
+    'pangolin-dai-2pi': {
+      abi:     fujiStrategyAbi,
+      address: fujiStrategyAddresses['avalanche-dai-2pi-pangolin']
+    }
+  },
   80001: {
     'aave-btc': {
       abi:     mumbaiStrategyAbi,

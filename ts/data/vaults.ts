@@ -4,8 +4,8 @@ export type VaultData = {
   earn:    string
   priceId: string
   oracle:  'api' | 'lps' | 'graph'
-  uses:    'Aave' | 'Curve' | 'Sushi' | '2pi'
-  pool:    'aave' | 'curve' | 'sushi' | '2pi'
+  uses:    'Aave' | 'Curve' | 'Sushi' | 'Pangolin' | '2pi'
+  pool:    'aave' | 'curve' | 'sushi' | 'pangolin' | '2pi'
   pid:     string
   chainId: number
   borrow?: { depth: number, percentage: number }
@@ -147,7 +147,118 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
   return vaults
 }
 
+const avalancheVaults = (chainId: number): Array<VaultData> => {
+  const vaults: Array<VaultData> = [
+    {
+      id:      'avalanche-2pi-maxi',
+      token:   '2pi',
+      earn:    '2PI',
+      priceId: '2pi',
+      oracle:  'graph',
+      uses:    '2pi',
+      pool:    '2pi',
+      pid:     '-1',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
+    {
+      id:      'avalanche-avax-aave',
+      token:   'avax',
+      earn:    'AVAX',
+      priceId: 'avalanche-2',
+      oracle:  'api',
+      uses:    'Aave',
+      pool:    'aave',
+      pid:     '0',
+      borrow:  { depth: 8, percentage: 0.48 },
+      chainId
+    },
+
+    {
+      id:      'avalanche-btc-aave',
+      token:   'btc',
+      earn:    'BTC',
+      priceId: 'bitcoin',
+      oracle:  'api',
+      uses:    'Aave',
+      pool:    'aave',
+      pid:     '2',
+      borrow:  { depth: 8, percentage: 0.68 },
+      chainId
+    },
+
+    {
+      id:      'avalanche-eth-aave',
+      token:   'eth',
+      earn:    'ETH',
+      priceId: 'ethereum',
+      oracle:  'api',
+      uses:    'Aave',
+      pool:    'aave',
+      pid:     '1',
+      borrow:  { depth: 8, percentage: 0.78 },
+      chainId
+    },
+
+    {
+      id:      'avalanche-avax-2pi-pangolin',
+      token:   'avax-2pi',
+      earn:    'AVAX-2PI',
+      priceId: 'avax-2pi',
+      oracle:  'lps',
+      uses:    'Pangolin',
+      pool:    'pangolin',
+      pid:     '3',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
+    {
+      id:      'avalanche-btc-2pi-pangolin',
+      token:   'btc-2pi',
+      earn:    'BTC-2PI',
+      priceId: 'btc-2pi',
+      oracle:  'lps',
+      uses:    'Pangolin',
+      pool:    'pangolin',
+      pid:     '5',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
+    {
+      id:      'avalanche-eth-2pi-pangolin',
+      token:   'eth-2pi',
+      earn:    'ETH-2PI',
+      priceId: 'eth-2pi',
+      oracle:  'lps',
+      uses:    'Pangolin',
+      pool:    'pangolin',
+      pid:     '4',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
+
+    {
+      id:      'avalanche-dai-2pi-pangolin',
+      token:   'dai-2pi',
+      earn:    'DAI-2PI',
+      priceId: 'dai-2pi',
+      oracle:  'lps',
+      uses:    'Pangolin',
+      pool:    'pangolin',
+      pid:     '6',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    }
+  ]
+
+  return vaults
+}
+
 const vaults: { [key: number]: Array<VaultData> } = {
+  43113: avalancheVaults(43113),
   80001: polygonVaults(80001)
 }
 

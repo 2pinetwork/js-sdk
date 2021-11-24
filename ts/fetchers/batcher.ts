@@ -1,14 +1,8 @@
-import { ContractCall, Provider } from 'ethers-multicall'
+import { ContractCall, Provider, setMulticallAddress } from 'ethers-multicall'
 import Vault from '../vault'
 
 type Identifiable = {
   id: string
-}
-
-export const toBatchedCalls = (identifiable: Identifiable, calls: Array<[string, ContractCall]>): Array<BatchedCall> => {
-  return calls.map(([key, call]): BatchedCall => {
-    return { id: identifiable.id, key, call }
-  })
 }
 
 export type BatchedCall = {
@@ -23,6 +17,14 @@ type Data = {
   }
 }
 
+const batchers: { [key: string]: any } = {}
+
+export const toBatchedCalls = (identifiable: Identifiable, calls: Array<[string, ContractCall]>): Array<BatchedCall> => {
+  return calls.map(([key, call]): BatchedCall => {
+    return { id: identifiable.id, key, call }
+  })
+}
+
 export default class Batcher {
   private promise:      Promise<void> | null
   private refreshedAt:  Date | null
@@ -32,6 +34,17 @@ export default class Batcher {
     this.promise      = null
     this.refreshedAt  = null
     this.refreshEvery = refreshEvery
+
+    // TODO: remove when included on ethers-multicall
+    setMulticallAddress(43113, '0xD4FE9297023b845FdC94B3E4958C7Dd13Bd1A0af')
+  }
+
+  static getInstance(key: string) {
+    if (! batchers[key]) {
+      batchers[key] = new this
+    }
+
+    return batchers[key]
   }
 
   protected getPromise(...args: Array<any>): Promise<void> {

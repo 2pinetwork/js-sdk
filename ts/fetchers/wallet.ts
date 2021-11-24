@@ -59,8 +59,6 @@ class Fetcher extends Batcher {
   }
 
   public async getWalletData(twoPi: TwoPi, vault: Vault): Promise<VaultInfo> {
-    if (! twoPi.signer) return Promise.resolve({})
-
     const address = await twoPi.signer.getAddress()
 
     await this.perform(address, twoPi)
@@ -81,9 +79,9 @@ class Fetcher extends Batcher {
   }
 }
 
-const fetcher = new Fetcher()
-
 const getWalletData = async (twoPi: TwoPi, vault: Vault): Promise<VaultInfo> => {
+  const fetcher = Fetcher.getInstance(`wallet-${twoPi.chainId}`)
+
   return await fetcher.getWalletData(twoPi, vault)
 }
 

@@ -6,6 +6,7 @@ import { getPrice } from '../fetchers/prices'
 const SECONDS_PER_DAY = 24 * 60 * 60
 
 const AVERAGE_BLOCK_MINE_TIME_IN_SECONDS: { [key: number]: number } = {
+  43113: 2.0, // This is discouraged, but we have to "guess" and this is the closest value
   80001: 2.1
 }
 

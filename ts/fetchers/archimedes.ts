@@ -45,9 +45,9 @@ class Fetcher extends Batcher {
   }
 }
 
-const fetcher = new Fetcher()
-
 const getArchimedesData = async (twoPi: TwoPi): Promise<ArchimedesInfo> => {
+  const fetcher = Fetcher.getInstance(`archimedes-${twoPi.chainId}`)
+
   return await fetcher.getArchimedesData(twoPi)
 }
 

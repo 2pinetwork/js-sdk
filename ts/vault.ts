@@ -19,8 +19,8 @@ export default class Vault {
   readonly earn:     string
   readonly priceId:  string
   readonly oracle:   'api' | 'lps' | 'graph'
-  readonly uses:     'Aave' | 'Curve' | 'Sushi' | '2pi'
-  readonly pool:     'aave' | 'curve' | 'sushi' | '2pi'
+  readonly uses:     'Aave' | 'Curve' | 'Sushi' | 'Pangolin' | '2pi'
+  readonly pool:     'aave' | 'curve' | 'sushi' | 'pangolin' | '2pi'
   readonly pid:      string
   readonly chainId:  number
   readonly borrow?:  { depth: number, percentage: number }
@@ -158,6 +158,8 @@ export default class Vault {
     switch (this.token.name) {
       case '2pi':
         return contract.deposit(amount)
+      case 'avax':
+        return contract.depositNative(this.pid, ref, { value: amount })
       case 'matic':
         return contract.depositMATIC(this.pid, ref, { value: amount })
       default:
@@ -173,6 +175,14 @@ export default class Vault {
 
     if (this.token.name === '2pi') {
       return contract.depositAll()
+    } else if (this.token.name === 'avax') {
+      const balance = (await this.balance()) || 0
+      const reserve = BigNumber.from(`${0.025e18}`)
+      const amount  = BigNumber.from(balance).sub(reserve)
+
+      if (amount.lte(0)) throw new Error('You need at least 0.025 AVAX')
+
+      return contract.depositNative(this.pid, ref, { value: amount })
     } else if (this.token.name === 'matic') {
       const balance = (await this.balance()) || 0
       const reserve = BigNumber.from(`${0.025e18}`)
@@ -247,6 +257,8 @@ export default class Vault {
   }
 
   private getWalletData(): Promise<VaultInfo> {
+    if (! this.canSign()) throw new Error('Missing signer')
+
     return getWalletData(this.twoPi, this)
   }
 }

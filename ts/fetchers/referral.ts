@@ -54,9 +54,9 @@ class Fetcher extends Batcher {
   }
 }
 
-const fetcher = new Fetcher()
-
 const getReferralData = async (twoPi: TwoPi): Promise<ReferralInfo> => {
+  const fetcher = Fetcher.getInstance(`referral-${twoPi.chainId}`)
+
   return await fetcher.getReferralData(twoPi)
 }
 

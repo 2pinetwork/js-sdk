@@ -25,27 +25,37 @@ npm i @2pi-network/js-sdk
 Here is a quick look at using the SDK.
 
 ```js
-const { Wallet }         = require('ethers')
-const { InfuraProvider } = require('@ethersproject/providers')
-const { TwoPi }          = require('@2pi-network/js-sdk')
+const { Wallet }          = require('ethers')
+const { JsonRpcProvider } = require('@ethersproject/providers')
+const { TwoPi }           = require('@2pi-network/js-sdk')
 
-// This is only required when used inside node.
-// Otherwise you can use a wallet via web3 as usual
 const walletPrivateKey = process.env.POLYGON_WALLET_PRIVATE_KEY
 
-// We use Infura here, but any RCP provider should work
-const projectId     = process.env.INFURA_PROJECT_ID
-const projectSecret = process.env.INFURA_PROJECT_SECRET
+if (! walletPrivateKey) {
+  throw new Error('You must provide a wallet private key via POLYGON_WALLET_PRIVATE_KEY env variable')
+}
 
 const chainId  = 80001 // 80001 is Polygon testnet, best known as Mumbai
-const provider = new InfuraProvider('maticmum', { projectId, projectSecret })
+const rpcUrl   = 'https://matic-mumbai.chainstacklabs.com/'
+const provider = new JsonRpcProvider(rpcUrl, chainId)
 const wallet   = new Wallet(walletPrivateKey, provider)
-const twoPi    = new TwoPi(chainId, provider, wallet)
 
-twoPi.getVaults().forEach(async vault => {
-  const apy = await vault.apy() || 0
+const main = async () => {
+  const twoPi        = await TwoPi.create(provider)
+  const logVaultApys = twoPi.getVaults().map(async vault => {
+    const apy = await vault.apy() || 0
 
-  console.log(`${vault.id}\tAPY ${(apy * 100).toFixed(2)}%`)
+    console.log(`${vault.id}\tAPY ${(apy * 100).toFixed(2)}%`)
+  })
+
+  await Promise.all(logVaultApys)
+}
+
+main().then(() => {
+  process.exit(0)
+}).catch(error => {
+  console.error(error)
+  process.exit(1)
 })
 ```
 
@@ -69,8 +79,8 @@ twoPi.getVaults().forEach(async vault => {
 
 This is the entry point of almost any interaction. You will be asked to provide 3 arguments:
 
-* The chain ID as an integer, for the time being the only supported value is 80001, which identifies Polygon Mumbai (test net).
-* The provider, can be any RCP that supports the selected network.
+* The chain ID as an integer, for the time being the only supported values are 43113 and 80001, which identifies Avalanche Fuji and Polygon Mumbai (both are test nets).
+* The provider, can be any RPC that supports the selected network.
 * The wallet to be used for every operation that requires it.
 
 ### TwoPi public attributes
@@ -84,7 +94,7 @@ On every `twoPi` instance you can access the following attributes:
 
 ### TwoPi public methods
 
-* `constructor(chainId, provider, signer)` refer to [TwoPi public attributes](#twopi-public-attributes) to get a description of each argument.
+* `static async create(provider, signer?)` returns a new instance, this is the recommended way of instance creation. Refer to [TwoPi public attributes](#twopi-public-attributes) to get a description of each argument.
 * `getVaults()` it returns an array of Vault instances, initialized with this instance for the selected network.
 * `piTokenPerBlock()` it returns the amount of 2PI tokens per block assigned to liquidity mining.
 * `totalWeighing()` it returns the sum of all the vault weighing, used to know the amount of tokens distributed to a given vault.
@@ -104,7 +114,7 @@ On every `vault` instance you can access the following attributes:
 * `twoPi`: instance of the main TwoPi object being used.
 * `id`: string with the vault unique identifier (in the form of network-token-pool, for example polygon-dai-aave).
 * `address`: string with the vault main contract address.
-* `token`: string identifying the token to be maximized.
+* `token`: [token](#token-instance) instance identifying the token to be maximized.
 * `earn`: string identifying what you'll be receiving as a reward.
 * `priceId`: string identifying which price will be queried to the oracle.
 * `oracle`: string identifying which oracle will be queried to obtain the token price.

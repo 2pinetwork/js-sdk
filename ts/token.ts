@@ -1,5 +1,5 @@
 import { Abi, tokenInfo } from './abis'
-import { BASE_SUSHI_ADD_URL } from './data/constants'
+import { BASE_PANGOLIN_ADD_URL, BASE_SUSHI_ADD_URL } from './data/constants'
 
 export default class Token {
   readonly name:    string
@@ -23,9 +23,12 @@ export default class Token {
   }
 
   addLiquidityUrl(): string {
-    const path = this.abiInfo().map(tokenInfo => tokenInfo.address).join('/')
+    const path    = this.abiInfo().map(tokenInfo => tokenInfo.address).join('/')
+    const baseUrl = this.chainId === 43113 ?
+      BASE_PANGOLIN_ADD_URL :
+      BASE_SUSHI_ADD_URL
 
-    return `${BASE_SUSHI_ADD_URL}/${path}`
+    return `${baseUrl}/${path}`
   }
 
   names(): Array<string> {

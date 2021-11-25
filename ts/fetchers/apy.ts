@@ -121,7 +121,7 @@ class Fetcher extends Batcher {
     twoPi.getVaults().filter(v => v.pool === 'sushi').forEach(vault => {
       this.data[vault.id] = { tradingFeeApy: 0 }
 
-      addresses[vaultTokenInfo(vault).address] = vault.id
+      addresses[vaultTokenInfo(vault).address.toLowerCase()] = vault.id
     })
 
     if (addresses.length) {
@@ -146,7 +146,7 @@ class Fetcher extends Batcher {
     twoPi.getVaults().filter(v => v.pool === 'pangolin').forEach(vault => {
       this.data[vault.id] = { tradingFeeApy: 0 }
 
-      addresses[vaultTokenInfo(vault).address] = vault.id
+      addresses[vaultTokenInfo(vault).address.toLowerCase()] = vault.id
     })
 
     if (addresses.length) {

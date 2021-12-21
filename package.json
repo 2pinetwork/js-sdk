@@ -3,7 +3,7 @@
   "version": "0.2.0-beta.26",
   "author": "2PI",
   "main": "./dist/index.js",
-  "homepage": "https://github.com/2pinetwork/sdk",
+  "homepage": "https://github.com/2pinetwork/js-sdk",
   "license": "MIT",
   "scripts": {
     "build": "tsc --module commonjs",
@@ -16,10 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/2pinetwork/sdk.git"
+    "url": "git+https://github.com/2pinetwork/js-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/2pinetwork/sdk/issues"
+    "url": "https://github.com/2pinetwork/js-sdk/issues"
   },
   "devDependencies": {
     "@types/node": "^16.11.10",

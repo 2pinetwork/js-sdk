@@ -1,5 +1,5 @@
 import { abi } from '../../shared/main/referral'
 
-const address = '0x1b9003bB160062eCAB945D560F5F5dA32Eafb491'
+const address = '0xE271Cd64E4E280CB6eDEECbc4CEcCC1556ea55de'
 
 export default { abi, address }

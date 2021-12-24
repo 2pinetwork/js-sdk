@@ -1,6 +1,6 @@
 import { abi } from '../../shared/main/archimedesNative'
 
-const address = '0x280816D08695aF15c57F2C3A84ec240a08DC78eb'
+const address = '0x7e0A20C7B11EC1EE2BCA23843486Fd60c07610c8'
 
 const aToken = {
   address: '0xD5B516FDbfb7264676Fd4901B9dD3F707db68733'

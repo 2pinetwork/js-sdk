@@ -154,15 +154,15 @@ const poolAbis: AbiLib = {
 
 const tokenAbis: AbiLib = {
   43113: {
-    '2pi':      fuji2piToken,
-    'avax':     fujiAvaxToken,
+    // '2pi':      fuji2piToken,
+    // 'avax':     fujiAvaxToken,
     'btc':      fujiBtcToken,
-    'dai':      fujiDaiToken,
-    'eth':      fujiEthToken,
-    'avax-2pi': fujiAvax2piLp,
-    'btc-2pi':  fujiBtc2piLp,
-    'eth-2pi':  fujiEth2piLp,
-    'dai-2pi':  fujiDai2piLp
+    // 'dai':      fujiDaiToken,
+    // 'eth':      fujiEthToken,
+    // 'avax-2pi': fujiAvax2piLp,
+    // 'btc-2pi':  fujiBtc2piLp,
+    // 'eth-2pi':  fujiEth2piLp,
+    // 'dai-2pi':  fujiDai2piLp
   },
   80001: {
     '2pi':       mumbai2piToken,
@@ -180,14 +180,14 @@ const tokenAbis: AbiLib = {
 
 const vaultAbis: AbiLib = {
   43113: {
-    '2pi-2pi':           fuji2pi,
+    // '2pi-2pi':           fuji2pi,
     'aave-btc':          fujiArchimedes,
-    'aave-eth':          fujiArchimedes,
-    'aave-avax':         fujiArchimedes,
-    'pangolin-avax-2pi': fujiArchimedes,
-    'pangolin-btc-2pi':  fujiArchimedes,
-    'pangolin-eth-2pi':  fujiArchimedes,
-    'pangolin-dai-2pi':  fujiArchimedes
+    // 'aave-eth':          fujiArchimedes,
+    // 'aave-avax':         fujiArchimedes,
+    // 'pangolin-avax-2pi': fujiArchimedes,
+    // 'pangolin-btc-2pi':  fujiArchimedes,
+    // 'pangolin-eth-2pi':  fujiArchimedes,
+    // 'pangolin-dai-2pi':  fujiArchimedes
   },
   80001: {
     '2pi-2pi':         mumbai2pi,
@@ -205,34 +205,34 @@ const vaultAbis: AbiLib = {
 
 const controllerAbis: AbiLib = {
   43113: {
-    'aave-avax': {
-      abi:     fujiControllerAbi,
-      address: fujiControllerAddresses['avalanche-avax-aave']
-    },
+    // 'aave-avax': {
+    //   abi:     fujiControllerAbi,
+    //   address: fujiControllerAddresses['avalanche-avax-aave']
+    // },
     'aave-btc': {
       abi:     fujiControllerAbi,
       address: fujiControllerAddresses['avalanche-btc-aave']
     },
-    'aave-eth': {
-      abi:     fujiControllerAbi,
-      address: fujiControllerAddresses['avalanche-eth-aave']
-    },
-    'pangolin-avax-2pi': {
-      abi:     fujiControllerAbi,
-      address: fujiControllerAddresses['avalanche-avax-2pi-pangolin']
-    },
-    'pangolin-btc-2pi': {
-      abi:     fujiControllerAbi,
-      address: fujiControllerAddresses['avalanche-btc-2pi-pangolin']
-    },
-    'pangolin-eth-2pi': {
-      abi:     fujiControllerAbi,
-      address: fujiControllerAddresses['avalanche-eth-2pi-pangolin']
-    },
-    'pangolin-dai-2pi': {
-      abi:     fujiControllerAbi,
-      address: fujiControllerAddresses['avalanche-dai-2pi-pangolin']
-    }
+    // 'aave-eth': {
+    //   abi:     fujiControllerAbi,
+    //   address: fujiControllerAddresses['avalanche-eth-aave']
+    // },
+    // 'pangolin-avax-2pi': {
+    //   abi:     fujiControllerAbi,
+    //   address: fujiControllerAddresses['avalanche-avax-2pi-pangolin']
+    // },
+    // 'pangolin-btc-2pi': {
+    //   abi:     fujiControllerAbi,
+    //   address: fujiControllerAddresses['avalanche-btc-2pi-pangolin']
+    // },
+    // 'pangolin-eth-2pi': {
+    //   abi:     fujiControllerAbi,
+    //   address: fujiControllerAddresses['avalanche-eth-2pi-pangolin']
+    // },
+    // 'pangolin-dai-2pi': {
+    //   abi:     fujiControllerAbi,
+    //   address: fujiControllerAddresses['avalanche-dai-2pi-pangolin']
+    // }
   },
   80001: {
     'aave-btc': {
@@ -276,34 +276,34 @@ const controllerAbis: AbiLib = {
 
 const strategyAbis: AbiLib = {
   43113: {
-    'aave-avax': {
-      abi:     fujiStrategyAbi,
-      address: fujiStrategyAddresses['avalanche-avax-aave']
-    },
+    // 'aave-avax': {
+    //   abi:     fujiStrategyAbi,
+    //   address: fujiStrategyAddresses['avalanche-avax-aave']
+    // },
     'aave-btc': {
       abi:     fujiStrategyAbi,
       address: fujiStrategyAddresses['avalanche-btc-aave']
     },
-    'aave-eth': {
-      abi:     fujiStrategyAbi,
-      address: fujiStrategyAddresses['avalanche-eth-aave']
-    },
-    'pangolin-avax-2pi': {
-      abi:     fujiStrategyAbi,
-      address: fujiStrategyAddresses['avalanche-avax-2pi-pangolin']
-    },
-    'pangolin-btc-2pi': {
-      abi:     fujiStrategyAbi,
-      address: fujiStrategyAddresses['avalanche-btc-2pi-pangolin']
-    },
-    'pangolin-eth-2pi': {
-      abi:     fujiStrategyAbi,
-      address: fujiStrategyAddresses['avalanche-eth-2pi-pangolin']
-    },
-    'pangolin-dai-2pi': {
-      abi:     fujiStrategyAbi,
-      address: fujiStrategyAddresses['avalanche-dai-2pi-pangolin']
-    }
+    // 'aave-eth': {
+    //   abi:     fujiStrategyAbi,
+    //   address: fujiStrategyAddresses['avalanche-eth-aave']
+    // },
+    // 'pangolin-avax-2pi': {
+    //   abi:     fujiStrategyAbi,
+    //   address: fujiStrategyAddresses['avalanche-avax-2pi-pangolin']
+    // },
+    // 'pangolin-btc-2pi': {
+    //   abi:     fujiStrategyAbi,
+    //   address: fujiStrategyAddresses['avalanche-btc-2pi-pangolin']
+    // },
+    // 'pangolin-eth-2pi': {
+    //   abi:     fujiStrategyAbi,
+    //   address: fujiStrategyAddresses['avalanche-eth-2pi-pangolin']
+    // },
+    // 'pangolin-dai-2pi': {
+    //   abi:     fujiStrategyAbi,
+    //   address: fujiStrategyAddresses['avalanche-dai-2pi-pangolin']
+    // }
   },
   80001: {
     'aave-btc': {

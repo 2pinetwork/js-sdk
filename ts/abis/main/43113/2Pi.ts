@@ -1,6 +1,6 @@
 import { abi } from '../../shared/main/2Pi'
 
-const address = '0x5Bb392af72BDD2BBa6d66D77c6B6a21e5EC2d41A'
+const address = '0x0D3C86237B700B0ec1F52fF79bE174b9d4f049ff'
 
 const aToken = {
   address: '0xD5B516FDbfb7264676Fd4901B9dD3F707db68733'

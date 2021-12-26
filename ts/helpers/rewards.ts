@@ -21,8 +21,7 @@ export const getRewardsApr = async (vault: Vault): Promise<number | undefined> =
   const twoPi           = vault.twoPi
   const twoPiVault      = twoPi.getVaults().find(v => v.token.name === '2pi') as Vault
 
-  console.log(twoPiVault)
-  if (!twoPiVault) return 0
+  if (! twoPiVault) return 0
 
   const blocksPerDay    = blocksPerDayFor(vault.chainId)
   const twoPiDecimals   = await twoPiVault.tokenDecimals()

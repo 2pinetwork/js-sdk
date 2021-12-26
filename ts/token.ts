@@ -24,7 +24,7 @@ export default class Token {
 
   addLiquidityUrl(): string {
     const path    = this.abiInfo().map(tokenInfo => tokenInfo.address).join('/')
-    const baseUrl = this.chainId === 43113 ?
+    const baseUrl = [43113, 43114].includes(this.chainId) ?
       BASE_PANGOLIN_ADD_URL :
       BASE_SUSHI_ADD_URL
 

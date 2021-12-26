@@ -11,6 +11,7 @@ const currency  = 'usd'
 const oracleUrl = 'https://api.coingecko.com/api/v3/simple/price'
 const graphUrls = {
   43113: 'https://api.thegraph.com/subgraphs/name/gwydce/fuji-pi',
+  43114: 'https://api.thegraph.com/subgraphs/name/gwydce/fuji-pi', // don't really matters now
   80001: 'https://api.thegraph.com/subgraphs/name/gwydce/mumbai-pi'
 }
 
@@ -26,7 +27,8 @@ const priceIds: { [token: string]: string }  = {
 }
 
 const extraApiPriceIds: { [chainId: number]: Array<string> } = {
-  43113: ['dai']
+  43113: ['dai'],
+  43114: ['dai']
 }
 
 class Fetcher extends Batcher {

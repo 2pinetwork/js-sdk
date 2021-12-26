@@ -7,6 +7,7 @@ const SECONDS_PER_DAY = 24 * 60 * 60
 
 const AVERAGE_BLOCK_MINE_TIME_IN_SECONDS: { [key: number]: number } = {
   43113: 2.0, // This is discouraged, but we have to "guess" and this is the closest value
+  43114: 2.0, // This is discouraged, but we have to "guess" and this is the closest value
   80001: 2.1
 }
 
@@ -18,8 +19,11 @@ export const getRewardsApr = async (vault: Vault): Promise<number | undefined> =
   if (vault.isPowerVault()) return 0
 
   const twoPi           = vault.twoPi
-  const blocksPerDay    = blocksPerDayFor(vault.chainId)
   const twoPiVault      = twoPi.getVaults().find(v => v.token.name === '2pi') as Vault
+
+  if (! twoPiVault) return 0
+
+  const blocksPerDay    = blocksPerDayFor(vault.chainId)
   const twoPiDecimals   = await twoPiVault.tokenDecimals()
   const twoPiPrice      = await getPrice(twoPiVault)
   const piTokenPerBlock = await twoPi.piTokenPerBlock()

@@ -37,6 +37,7 @@ export default class Batcher {
 
     // TODO: remove when included on ethers-multicall
     setMulticallAddress(43113, '0xD4FE9297023b845FdC94B3E4958C7Dd13Bd1A0af')
+    setMulticallAddress(43114, '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3')
   }
 
   static getInstance(key: string) {

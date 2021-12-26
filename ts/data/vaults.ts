@@ -147,7 +147,7 @@ const polygonVaults = (chainId: number): Array<VaultData> => {
   return vaults
 }
 
-const avalancheVaults = (chainId: number): Array<VaultData> => {
+const fujiVaults = (chainId: number): Array<VaultData> => {
   const vaults: Array<VaultData> = [
     {
       id:      'avalanche-2pi-maxi',
@@ -257,8 +257,28 @@ const avalancheVaults = (chainId: number): Array<VaultData> => {
   return vaults
 }
 
+const avalancheVaults = (chainId: number): Array<VaultData> => {
+  const vaults: Array<VaultData> = [
+    {
+      id:      'avalanche-dai-aave',
+      token:   'dai',
+      earn:    'DAI',
+      priceId: 'dai',
+      oracle:  'api',
+      uses:    'Aave',
+      pool:    'aave',
+      pid:     '0',
+      borrow:  { depth: 8, percentage: 0.73 },
+      chainId
+    }
+  ]
+
+  return vaults
+}
+
 const vaults: { [key: number]: Array<VaultData> } = {
-  43113: avalancheVaults(43113),
+  43113: fujiVaults(43113),
+  43114: avalancheVaults(43114),
   80001: polygonVaults(80001)
 }
 

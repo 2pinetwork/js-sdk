@@ -25,6 +25,7 @@ type VaultInfo = {
 const ammGraphUrls = {
   // 137:   'https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange',
   43113: 'https://api.thegraph.com/subgraphs/name/gwydce/pangolin-exchange-fuji',
+  43114: 'https://api.thegraph.com/subgraphs/name/pangolindex/exchange',
   80001: 'https://api.thegraph.com/subgraphs/name/gwydce/mumbai-sushi-exchange'
 }
 

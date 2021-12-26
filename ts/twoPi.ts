@@ -6,7 +6,7 @@ import getVaults from './data/vaults'
 import getArchimedesData, { ArchimedesInfo } from './fetchers/archimedes'
 import getReferralData, { ReferralInfo } from './fetchers/referral'
 
-type Chain = 43113 | 80001
+type Chain = 43113 | 43114 | 80001
 
 export default class TwoPi {
   readonly id:       string

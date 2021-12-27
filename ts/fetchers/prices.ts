@@ -27,8 +27,8 @@ const priceIds: { [token: string]: string }  = {
 }
 
 const extraApiPriceIds: { [chainId: number]: Array<string> } = {
-  43113: ['dai'],
-  43114: ['dai']
+  43113: ['dai', 'avalanche-2'],
+  43114: ['dai', 'avalanche-2']
 }
 
 class Fetcher extends Batcher {

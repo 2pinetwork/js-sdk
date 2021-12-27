@@ -34,30 +34,30 @@ const getVaultApy = (
   prices:              PricesInfo,
   depth:               number
 ): number => {
-  const { supplyBase, supplyMatic, borrowBase, borrowMatic } = getVaultData(
+  const { supplyBase, supplyNative, borrowBase, borrowNative } = getVaultData(
     vault, tokenDecimals, dataProvider, distributionManager, prices
   )
 
   const {
     leveragedSupplyBase,
     leveragedBorrowBase,
-    leveragedSupplyMatic,
-    leveragedBorrowMatic,
+    leveragedSupplyNative,
+    leveragedBorrowNative,
   } = getLeveragedApys(
     supplyBase,
     borrowBase,
-    supplyMatic,
-    borrowMatic,
+    supplyNative,
+    borrowNative,
     depth,
     vault.borrow?.percentage || 0
   )
 
-  const totalMatic      = leveragedSupplyMatic.plus(leveragedBorrowMatic)
-  const compoundedMatic = toCompoundRate(totalMatic.toNumber(), BASE_HPY)
+  const totalNative      = leveragedSupplyNative.plus(leveragedBorrowNative)
+  const compoundedNative = toCompoundRate(totalNative.toNumber(), BASE_HPY)
 
   return leveragedSupplyBase
     .minus(leveragedBorrowBase)
-    .plus(compoundedMatic)
+    .plus(compoundedNative)
     .times(1 - PERFORMANCE_FEE)
     .toNumber()
 }
@@ -87,40 +87,40 @@ const getVaultData = (
     .times(tokenPrice)
     .div(tokenDecimalsExp)
 
-  const { supplyMaticInUsd, borrowMaticInUsd } = getMaticPerYear(
+  const { supplyNativeInUsd, borrowNativeInUsd } = getNativePerYear(
     vault, distributionManager, prices
   )
 
-  const supplyMatic = supplyMaticInUsd.div(totalSupplyInUsd)
-  const borrowMatic = totalBorrowInUsd.isZero()
+  const supplyNative = supplyNativeInUsd.div(totalSupplyInUsd)
+  const borrowNative = totalBorrowInUsd.isZero()
     ? new BigNumber(0)
-    : borrowMaticInUsd.div(totalBorrowInUsd)
+    : borrowNativeInUsd.div(totalBorrowInUsd)
 
-  return { supplyBase, supplyMatic, borrowBase, borrowMatic }
+  return { supplyBase, supplyNative, borrowBase, borrowNative }
 }
 
 const getLeveragedApys = (
   supplyBase:    BigNumber,
   borrowBase:    BigNumber,
-  supplyMatic:   BigNumber,
-  borrowMatic:   BigNumber,
+  supplyNative:  BigNumber,
+  borrowNative:  BigNumber,
   depth:         number,
   borrowPercent: number
 ) => {
   const percentage = new BigNumber(borrowPercent)
 
   // Always the supply will be the original supply percentage
-  let leveragedSupplyBase  = new BigNumber(0)
-  let leveragedSupplyMatic = new BigNumber(0)
-  let leveragedBorrowBase  = new BigNumber(0)
-  let leveragedBorrowMatic = new BigNumber(0)
+  let leveragedSupplyBase   = new BigNumber(0)
+  let leveragedSupplyNative = new BigNumber(0)
+  let leveragedBorrowBase   = new BigNumber(0)
+  let leveragedBorrowNative = new BigNumber(0)
 
   for (let i = 0; i <= depth; i++) {
     leveragedSupplyBase = leveragedSupplyBase.plus(
       supplyBase.times(percentage.pow(i))
     )
-    leveragedSupplyMatic = leveragedSupplyMatic.plus(
-      supplyMatic.times(percentage.pow(i))
+    leveragedSupplyNative = leveragedSupplyNative.plus(
+      supplyNative.times(percentage.pow(i))
     )
   }
 
@@ -128,41 +128,49 @@ const getLeveragedApys = (
     leveragedBorrowBase = leveragedBorrowBase.plus(
       borrowBase.times(percentage.pow(i))
     )
-    leveragedBorrowMatic = leveragedBorrowMatic.plus(
-      borrowMatic.times(percentage.pow(i))
+    leveragedBorrowNative = leveragedBorrowNative.plus(
+      borrowNative.times(percentage.pow(i))
     )
   }
 
   return {
     leveragedSupplyBase,
     leveragedBorrowBase,
-    leveragedSupplyMatic,
-    leveragedBorrowMatic
+    leveragedSupplyNative,
+    leveragedBorrowNative
   }
 }
 
-const getMaticPerYear = (
+const getNativePrice = (vault: Vault, prices: PricesInfo): number => {
+  if ([43113, 43114].includes(vault.chainId)) {
+    return prices['avalanche-2'] || 0
+  } else {
+    return prices['matic-network'] || 0
+  }
+}
+
+const getNativePerYear = (
   vault:               Vault,
   distributionManager: DistributionInfo,
   prices:              PricesInfo
 ) => {
   const supplyRateString = distributionManager.supply.emissionPerSecond.toString()
   const borrowRateString = distributionManager.borrow.emissionPerSecond.toString()
-  const supplyMaticRate  = new BigNumber(supplyRateString)
-  const borrowMaticRate  = new BigNumber(borrowRateString)
-  const maticPrice       = prices['matic-network'] || 0
+  const supplyNativeRate = new BigNumber(supplyRateString)
+  const borrowNativeRate = new BigNumber(borrowRateString)
+  const nativePrice      = getNativePrice(vault, prices)
 
-  const supplyMaticInUsd = supplyMaticRate
+  const supplyNativeInUsd = supplyNativeRate
     .times(SECONDS_PER_YEAR)
-    .times(maticPrice)
+    .times(nativePrice)
     .div(COMMON_DECIMALS)
 
-  const borrowMaticInUsd = borrowMaticRate
+  const borrowNativeInUsd = borrowNativeRate
     .times(SECONDS_PER_YEAR)
-    .times(maticPrice)
+    .times(nativePrice)
     .div(COMMON_DECIMALS)
 
-  return { supplyMaticInUsd, borrowMaticInUsd }
+  return { supplyNativeInUsd, borrowNativeInUsd }
 }
 
 const aaveApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {

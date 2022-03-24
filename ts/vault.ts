@@ -19,8 +19,8 @@ export default class Vault {
   readonly earn:     string
   readonly priceId:  string
   readonly oracle:   'api' | 'lps' | 'graph'
-  readonly uses:     'Aave' | 'Curve' | 'Sushi' | 'Pangolin' | '2pi'
-  readonly pool:     'aave' | 'curve' | 'sushi' | 'pangolin' | '2pi'
+  readonly uses:     'Aave' | 'Curve' | 'mStable' | 'Sushi' | 'Pangolin' | '2pi'
+  readonly pool:     'aave' | 'curve' | 'mstable' | 'sushi' | 'pangolin' | '2pi'
   readonly pid:      string
   readonly chainId:  number
   readonly borrow?:  { depth: number, percentage: number }

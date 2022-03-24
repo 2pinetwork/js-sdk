@@ -20,6 +20,9 @@ import avaxAavePool from './abis/pools/43114/aave'
 // -- TOKENS --
 
 // Polygon testnet (Mumbai)
+import polygonUsdcToken from './abis/tokens/137/usdc'
+
+// Polygon testnet (Mumbai)
 import mumbai2piToken from './abis/tokens/80001/2Pi'
 import mumbaiBtcToken from './abis/tokens/80001/btc'
 import mumbaiDaiToken from './abis/tokens/80001/dai'
@@ -56,6 +59,10 @@ import fujiAvax2piLp from './abis/lps/43113/avax-2pi'
 
 // -- VAULTS --
 
+
+// Polygon (Matic)
+import polygonArchimedes from './abis/main/137/archimedes'
+
 // Polygon testnet (Mumbai)
 import mumbaiArchimedes from './abis/main/80001/archimedes'
 import mumbai2pi from './abis/main/80001/2Pi'
@@ -69,6 +76,9 @@ import avaxArchimedes from './abis/main/43114/archimedes'
 
 
 // -- REFERRAL --
+//
+// Polygon (Matic)
+import polygonReferral from './abis/main/137/referral'
 
 // Polygon testnet (Mumbai)
 import mumbaiReferral from './abis/main/80001/referral'
@@ -92,6 +102,12 @@ import fujiZap from './abis/main/43113/zap'
 
 // -- CONTROLLERS --
 
+// Polygon (Matic)
+import {
+  abi       as polygonControllerAbi,
+  addresses as polygonControllerAddresses
+} from './abis/main/137/controller'
+
 // Polygon testnet (Mumbai)
 import {
   abi       as mumbaiControllerAbi,
@@ -112,6 +128,12 @@ import {
 
 
 // -- STRATEGIES --
+
+// Polygon (Matic)
+import {
+  abi       as polygonStrategyAbi,
+  addresses as polygonStrategyAddresses
+} from './abis/main/137/strategy'
 
 // Polygon testnet (Mumbai)
 import {
@@ -147,12 +169,14 @@ type AbiLib = {
 // -- HELPERS --
 
 const archimedesAbis: AbiLib = {
+  137:   polygonArchimedes,
   43113: fujiArchimedes,
   43114: avaxArchimedes,
   80001: mumbaiArchimedes
 }
 
 const referralAbis: AbiLib = {
+  137:   polygonReferral,
   43113: fujiReferral,
   43114: avaxReferral,
   80001: mumbaiReferral
@@ -176,6 +200,9 @@ const poolAbis: AbiLib = {
 }
 
 const tokenAbis: AbiLib = {
+  137: {
+    'usdc': polygonUsdcToken
+  },
   43113: {
     '2pi':      fuji2piToken,
     'avax':     fujiAvaxToken,
@@ -205,6 +232,9 @@ const tokenAbis: AbiLib = {
 }
 
 const vaultAbis: AbiLib = {
+  137: {
+    'mstable-usdc': polygonArchimedes
+  },
   43113: {
     '2pi-2pi':           fuji2pi,
     'aave-btc':          fujiArchimedes,
@@ -233,6 +263,12 @@ const vaultAbis: AbiLib = {
 }
 
 const controllerAbis: AbiLib = {
+  137: {
+    'mstable-usdc': {
+      abi:     polygonControllerAbi,
+      address: polygonControllerAddresses['polygon-usdc-mstable']
+    }
+  },
   43113: {
     'aave-avax': {
       abi:     fujiControllerAbi,
@@ -310,6 +346,12 @@ const controllerAbis: AbiLib = {
 }
 
 const strategyAbis: AbiLib = {
+  137: {
+    'mstable-usdc': {
+      abi:     polygonStrategyAbi,
+      address: polygonStrategyAddresses['polygon-usdc-mstable']
+    }
+  },
   43113: {
     'aave-avax': {
       abi:     fujiStrategyAbi,

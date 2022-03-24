@@ -26,6 +26,10 @@ const getApy = async (twoPi: TwoPi, vault: Vault): Promise<number> => {
     case 'pangolin':
       return await pangolinApy(twoPi, vault)
       break
+    case 'mstable':
+      // TODO: implement properly
+      return Promise.resolve(0.1)
+      break
     case '2pi':
       return Promise.resolve(0.1)
       break

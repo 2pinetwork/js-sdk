@@ -4,14 +4,33 @@ export type VaultData = {
   earn:    string
   priceId: string
   oracle:  'api' | 'lps' | 'graph'
-  uses:    'Aave' | 'Curve' | 'Sushi' | 'Pangolin' | '2pi'
-  pool:    'aave' | 'curve' | 'sushi' | 'pangolin' | '2pi'
+  uses:    'Aave' | 'Curve' | 'mStable' | 'Sushi' | 'Pangolin' | '2pi'
+  pool:    'aave' | 'curve' | 'mstable' | 'sushi' | 'pangolin' | '2pi'
   pid:     string
   chainId: number
   borrow?: { depth: number, percentage: number }
 }
 
 const polygonVaults = (chainId: number): Array<VaultData> => {
+  const vaults: Array<VaultData> = [
+    {
+      id:      'polygon-usdc-mstable',
+      token:   'usdc',
+      earn:    'USDC',
+      priceId: 'usd-coin',
+      oracle:  'api',
+      uses:    'mStable',
+      pool:    'mstable',
+      pid:     '16',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    }
+  ]
+
+  return vaults
+}
+
+const mumbaiVaults = (chainId: number): Array<VaultData> => {
   const vaults: Array<VaultData> = [
     {
       id:      'polygon-2pi-maxi',
@@ -277,9 +296,10 @@ const avalancheVaults = (chainId: number): Array<VaultData> => {
 }
 
 const vaults: { [key: number]: Array<VaultData> } = {
+  137:   polygonVaults(137),
   43113: fujiVaults(43113),
   43114: avalancheVaults(43114),
-  80001: polygonVaults(80001)
+  80001: mumbaiVaults(80001)
 }
 
 const getVaults = (chainId: number): Array<VaultData> => {

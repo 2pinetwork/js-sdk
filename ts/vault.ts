@@ -140,16 +140,23 @@ export default class Vault {
     return this.token.name === '2pi' ? false : info?.paused
   }
 
-  approve(amount: BigNumberish): Promise<Transaction> {
+  approve(
+    amount:    BigNumberish,
+    overrides: Record<string, any>
+  ): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const contract = this.tokenContract()
     const spender  = vaultInfo(this).address
 
-    return contract.approve(spender, amount)
+    return contract.approve(spender, amount, overrides || {})
   }
 
-  deposit(amount: BigNumberish, referral: Referral): Promise<Transaction> {
+  deposit(
+    amount:    BigNumberish,
+    referral:  Referral,
+    overrides: Record<string, any>
+  ): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const ref      = referral || ZERO_ADDRESS
@@ -157,24 +164,33 @@ export default class Vault {
 
     switch (this.token.name) {
       case '2pi':
-        return contract.deposit(amount)
+        return contract.deposit(amount, overrides || {})
       case 'avax':
-        return contract.depositNative(this.pid, ref, { value: amount })
+        return contract.depositNative(this.pid, ref, {
+          value: amount,
+          ...(overrides || {})
+        })
       case 'matic':
-        return contract.depositMATIC(this.pid, ref, { value: amount })
+        return contract.depositMATIC(this.pid, ref, {
+          value: amount,
+          ...(overrides || {})
+        })
       default:
-        return contract.deposit(this.pid, amount, ref)
+        return contract.deposit(this.pid, amount, ref, overrides || {})
     }
   }
 
-  async depositAll(referral: Referral): Promise<Transaction> {
+  async depositAll(
+    referral:  Referral,
+    overrides: Record<string, any> | undefined
+  ): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const ref      = referral || ZERO_ADDRESS
     const contract = this.contract()
 
     if (this.token.name === '2pi') {
-      return contract.depositAll()
+      return contract.depositAll(overrides || {})
     } else if (this.token.name === 'avax') {
       const balance = (await this.balance()) || 0
       const reserve = BigNumber.from(`${0.025e18}`)
@@ -182,7 +198,10 @@ export default class Vault {
 
       if (amount.lte(0)) throw new Error('You need at least 0.025 AVAX')
 
-      return contract.depositNative(this.pid, ref, { value: amount })
+      return contract.depositNative(this.pid, ref, {
+        value: amount,
+        ...(overrides || {})
+      })
     } else if (this.token.name === 'matic') {
       const balance = (await this.balance()) || 0
       const reserve = BigNumber.from(`${0.025e18}`)
@@ -190,33 +209,39 @@ export default class Vault {
 
       if (amount.lte(0)) throw new Error('You need at least 0.025 MATIC')
 
-      return contract.depositMATIC(this.pid, ref, { value: amount })
+      return contract.depositMATIC(this.pid, ref, {
+        value: amount,
+        ...(overrides || {})
+      })
     }
 
-    return contract.depositAll(this.pid, ref)
+    return contract.depositAll(this.pid, ref, overrides || {})
   }
 
-  withdraw(amount: BigNumberish): Promise<Transaction> {
+  withdraw(
+    amount:    BigNumberish,
+    overrides: Record<string, any>
+  ): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const contract = this.contract()
 
     if (this.token.name === '2pi') {
-      return contract.withdraw(amount)
+      return contract.withdraw(amount, overrides || {})
     } else {
-      return contract.withdraw(this.pid, amount)
+      return contract.withdraw(this.pid, amount, overrides || {})
     }
   }
 
-  withdrawAll(): Promise<Transaction> {
+  withdrawAll(overrides: Record<string, any>): Promise<Transaction> {
     if (! this.canSign()) throw new Error('Missing signer')
 
     const contract = this.contract()
 
     if (this.token.name === '2pi') {
-      return contract.withdrawAll()
+      return contract.withdrawAll(overrides || {})
     } else {
-      return contract.withdrawAll(this.pid)
+      return contract.withdrawAll(this.pid, overrides || {})
     }
   }
 

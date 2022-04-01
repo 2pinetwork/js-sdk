@@ -233,7 +233,8 @@ const tokenAbis: AbiLib = {
 
 const vaultAbis: AbiLib = {
   137: {
-    'mstable-usdc': polygonArchimedes
+    'mstable-usdc':   polygonArchimedes,
+    'quickswap-usdc': polygonArchimedes
   },
   43113: {
     '2pi-2pi':           fuji2pi,
@@ -267,6 +268,10 @@ const controllerAbis: AbiLib = {
     'mstable-usdc': {
       abi:     polygonControllerAbi,
       address: polygonControllerAddresses['polygon-usdc-mstable']
+    },
+    'quickswap-usdc': {
+      abi:     polygonControllerAbi,
+      address: polygonControllerAddresses['polygon-usdc-quickswap']
     }
   },
   43113: {
@@ -350,6 +355,10 @@ const strategyAbis: AbiLib = {
     'mstable-usdc': {
       abi:     polygonStrategyAbi,
       address: polygonStrategyAddresses['polygon-usdc-mstable']
+    },
+    'quickswap-usdc': {
+      abi:     polygonStrategyAbi,
+      address: polygonStrategyAddresses['polygon-usdc-quickswap']
     }
   },
   43113: {

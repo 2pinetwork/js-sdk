@@ -4,8 +4,8 @@ export type VaultData = {
   earn:    string
   priceId: string
   oracle:  'api' | 'lps' | 'graph'
-  uses:    'Aave' | 'Curve' | 'mStable' | 'Sushi' | 'Pangolin' | '2pi'
-  pool:    'aave' | 'curve' | 'mstable' | 'sushi' | 'pangolin' | '2pi'
+  uses:    'Aave' | 'Curve' | 'mStable' | 'Sushi' | 'Pangolin' | 'QuickSwap' | '2pi'
+  pool:    'aave' | 'curve' | 'mstable' | 'sushi' | 'pangolin' | 'quickswap' | '2pi'
   pid:     string
   chainId: number
   borrow?: { depth: number, percentage: number }
@@ -13,6 +13,18 @@ export type VaultData = {
 
 const polygonVaults = (chainId: number): Array<VaultData> => {
   const vaults: Array<VaultData> = [
+    {
+      id:      'polygon-usdc-quickswap',
+      token:   'usdc',
+      earn:    'USDC',
+      priceId: 'usd-coin',
+      oracle:  'api',
+      uses:    'QuickSwap',
+      pool:    'quickswap',
+      pid:     '15',
+      borrow:  { depth: 0, percentage: 0 },
+      chainId
+    },
     {
       id:      'polygon-usdc-mstable',
       token:   'usdc',

@@ -82,8 +82,8 @@ class Fetcher extends Batcher {
   }
 
   constructor() {
-    // Refresh every 2 seconds
-    super(2 * 1000)
+    // Refresh every 0.1 seconds
+    super(0.1 * 1000)
 
     this.data = {}
   }

@@ -27,10 +27,10 @@ export const toBatchedCalls = (identifiable: Identifiable, calls: Array<[string,
 
 export default class Batcher {
   private promise:      Promise<void> | null
-  private refreshedAt:  Date | null
+  private refreshedAt:  number | null
   private refreshEvery: number
 
-  constructor(refreshEvery: number = 60 * 1000) {
+  constructor(refreshEvery: number = 0.1 * 1000) {
     this.promise      = null
     this.refreshedAt  = null
     this.refreshEvery = refreshEvery
@@ -53,7 +53,7 @@ export default class Batcher {
   }
 
   protected setRefreshedAt(date: Date): void {
-    this.refreshedAt = date
+    this.refreshedAt = date.getTime()
   }
 
   protected perform(...args: Array<any>): Promise<void> {
@@ -87,8 +87,7 @@ export default class Batcher {
 
   private maybeResetPromise() {
     if (this.refreshedAt) {
-      const now     = new Date()
-      const elapsed = now.getTime() - this.refreshedAt.getTime()
+      const elapsed = Date.now() - this.refreshedAt
 
       if (elapsed > this.refreshEvery) {
         this.promise = null
